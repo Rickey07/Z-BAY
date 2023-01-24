@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import {ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 import './App.css';
+import Header from './Components/Header/Header';
+
 
 function App() {
+  const appTheme = createTheme({
+    mainTheme:{
+      primaryColor:"#A232F0",
+      primaryColorHover:"#680C91"
+    },
+    components:{
+      MuiAppBar:{
+        styleOverrides:{
+          root:{
+            backgroundColor:"#A232F0"
+          }
+        }
+      }
+    }
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={appTheme}>
+        <Header/>
+      </ThemeProvider>
     </div>
   );
 }
