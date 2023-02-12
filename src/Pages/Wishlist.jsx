@@ -1,10 +1,10 @@
 import React from 'react'
-
+import WishlistContainer from '../Containers/WishlistContainer'
 const Wishlist = () => {
-
-
   return (
-    <div>Wishlist</div>
+    <>
+      <WishlistContainer/>
+    </>
   )
 }
 

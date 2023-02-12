@@ -1,8 +1,13 @@
 import React from 'react'
+import CartContainer from '../Containers/CartContainer'
 
 const Cart = () => {
+
   return (
-    <h1>Hello world</h1>
+    <>
+    <h5>Cart</h5>
+    <CartContainer/>
+    </>
   )
 }
 
