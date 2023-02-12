@@ -8,7 +8,10 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
+<<<<<<< HEAD
     "@reduxjs/toolkit": "^1.9.1",
+=======
+>>>>>>> f5f260ce8d40198e76bed07502c1491d1329f631
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
