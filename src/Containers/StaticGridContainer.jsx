@@ -32,7 +32,7 @@ const StaticGridContainer = (props) => {
   const theme = useTheme();
   return (
     <>
-      <Paper elevation={6} sx={{borderRadius:"8px"}}>
+      <Paper elevation={2} sx={{borderRadius:"8px"}}>
         <Grid container spacing={2}>
           <Grid item md={6} xs={12}>
             <Item color={theme}></Item>
