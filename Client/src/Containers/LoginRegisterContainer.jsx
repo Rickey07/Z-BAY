@@ -35,42 +35,114 @@ const LoginRegisterContainer = () => {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({email:false,password:false});
+  const [error, setError] = useState({
+    email: false,
+    password: false,
+    firstname: false,
+    lastname: false,
+  });
 
   // Methods
 
   // This will set the current Tab according to previous states
   const handleTab = () => {
-    currentTab !== "Login" ? setCurrentTab("Login") : setCurrentTab("Register");
+    if(currentTab!=="Login") {
+      setCurrentTab("Login");
+    } else{
+      setCurrentTab("Register");
+    }
+    setError({});
   };
 
   // This method will check set the state of the input
 
-  const onChange = (e) => {
-
-    // In This function we 're checking which Tab is activated then we're validating the email and password with help of validator functions.
-
-    if (currentTab === "Login") {
-      if (e.target.name === "email") {
-        if(validateEmail(e.target.value)) {
-          setLoginData({ ...loginData, [e.target.name]: e.target.value })
-          setError({...error,email:false})  
-        } else {
-          setError({...error,email:true})
+  const commonValidator = (event, tab) => {
+    switch (tab) {
+      case "Login":
+        switch (event.target.name) {
+          case "email":
+            if (validateEmail(event.target.value)) {
+              setLoginData({
+                ...loginData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, email: false });
+            } else {
+              setError({ ...error, email: true });
+            }
+            break;
+          case "password":
+            if (passwordValidator(event.target.value)) {
+              setLoginData({
+                ...loginData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, password: false });
+            } else {
+              setError({ ...error, password: true });
+            }
+            break;
+          default:
+            break;
         }
-      }
-      if (e.target.name === "password") {
-        if(passwordValidator(e.target.value)) {
-          setLoginData({ ...loginData, [e.target.name]: e.target.value })
-          setError({...error,password:false})
-        } 
-        else {
-          setError({...error,password:true});
+        break;
+      case "Register":
+        switch (event.target.name) {
+          case "email":
+            if (validateEmail(event.target.value)) {
+              setRegisterData({
+                ...registerData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, email: false });
+            } else {
+              setError({ ...error, email: true });
+            }
+            break;
+          case "password":
+            if (passwordValidator(event.target.value)) {
+              setRegisterData({
+                ...registerData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, password: false });
+            } else {
+              setError({ ...error, password: true });
+            }
+            break;
+          case "firstname":
+            if (event.target.value.length > 5) {
+              setRegisterData({
+                ...registerData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, firstname: false });
+            } else {
+              setError({ ...error, firstname: true });
+            }
+            break;
+          case "lastname":
+            if (event.target.value.length > 5) {
+              setRegisterData({
+                ...registerData,
+                [event.target.name]: event.target.value,
+              });
+              setError({ ...error, lastname: false });
+            } else {
+              setError({ ...error, lastname: true });
+            }
+            break;
+          default:
+            break;
         }
-      }
-    } else {
-      setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+        break;
+      default:
+        break;
     }
+  };
+
+  const onChange = (e) => {
+    commonValidator(e, currentTab);
   };
 
   // This method will submit the data
@@ -80,7 +152,7 @@ const LoginRegisterContainer = () => {
 
   return (
     <>
-      <ColorTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <ColorTabs currentTab={currentTab} setCurrentTab={setCurrentTab} setError={setError} />
       <Container component={"main"} maxWidth={"xs"} sx={{ padding: "2rem" }}>
         <Paper
           sx={{
@@ -116,7 +188,9 @@ const LoginRegisterContainer = () => {
                 return (
                   <SearchbarForFooter
                     required={true}
-                    error={label.name === "email"?error.email:error.password}
+                    error={
+                      label.name === "email" ? error.email : error.password
+                    }
                     errorText={
                       label.name === "email"
                         ? "Invalid Email Address"
@@ -140,6 +214,27 @@ const LoginRegisterContainer = () => {
                         required={true}
                         key={label.label + index}
                         width={true}
+                        errorText={
+                          label.name === "email"
+                            ? "Invalid Email Address"
+                            : label.name === "password"
+                            ? "Password should include 1 small case,1 capital letter,number and special character"
+                            : label.name === "firstname" ||
+                              label.name === "lastname"
+                            ? "These Fields Cannot be empty"
+                            : ""
+                        }
+                        error={
+                          label.name === "email"
+                            ? error.email
+                            : label.name === "password"
+                            ? error.password
+                            : label.name === "firstname"
+                            ? error.firstname
+                            : label.name === "lastname"
+                            ? error.lastname
+                            : false
+                        }
                         name={label.name}
                         label={label.label}
                         onChange={onChange}
