@@ -23,7 +23,8 @@ app.use(express.urlencoded({extended:true}));
 
 // connection to  database
 
-mongoose.set("strictQuery",true)
+mongoose.set("strictQuery",true);
+mongoose.set('toJSON',{virtuals:true}); 
 connectToDatabase();
 
 
