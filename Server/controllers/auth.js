@@ -22,7 +22,7 @@ exports.signUp = async (req, res) => {
         error: "User Already exists with this email",
         statusCode: 400,
         success: false,
-      });
+      });  
     const user = new User(req.body);
     const newUser = await user.save();
     if (!Object.values(newUser).length)
