@@ -71,17 +71,13 @@ exports.signIn = async (req, res) => {
           success: false,
         });
     }
-
+  
     // Create  Token
     const token = jwt.sign(
       { _id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" },
-      function (err) {
-        console.log(err);
-      }
+      { expiresIn: "24h" }
     );
-    console.log(token);
 
     // Put Token In Cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
