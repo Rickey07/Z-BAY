@@ -8,17 +8,25 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { default: mongoose } = require('mongoose');
-
-// Routes Import
-
-
+const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category')
 
 
 
+
+
+
+// App Common Middlewares
 app.use(cors());
 app.use(morgan());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
+
+
+// Routes 
+app.use('/api',userRoutes);
+app.use("/api/category",categoryRoutes)
+
 
 
 // connection to  database

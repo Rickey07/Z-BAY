@@ -23,7 +23,10 @@ exports.signUp = async (req, res) => {
         statusCode: 400,
         success: false,
       });
+    console.log(User.securePassword);
     const user = new User(req.body);
+    // Applying Virtual Setter to encryptThePassword
+    user.password = req.body.encry_password;
     const newUser = await user.save();
     if (!Object.values(newUser).length)
       return res.status(500).json({
@@ -50,8 +53,9 @@ exports.signIn = async (req, res) => {
   }
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-
+    console.log(email);
+    const user = await User.findOne({email: email}).exec();
+    console.log(user);
     // Check if the User Exits with given Email Id or Not
     if (!user) {
       return res.status(400).json({
@@ -63,23 +67,18 @@ exports.signIn = async (req, res) => {
 
     // Check  if the email and password is correct
     if (!user.authenticate(password)) {
-      return res
-        .status(401)
-        .json({
-          error: "Email and password doesnt't match",
-          statusCode: 401,
-          success: false,
-        });
+      return res.status(401).json({
+        error: "Email and password doesnt't match",
+        statusCode: 401,
+        success: false,
+      });
     }
 
     // Create  Token
     const token = jwt.sign(
       { _id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" },
-      function (err) {
-        console.log(err);
-      }
+      {algorithm:"HS256"},
     );
     console.log(token);
 
@@ -101,12 +100,11 @@ exports.signIn = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({
-        error: "Internal Server Error Occured",
-        statusCode: 500,
-        success: false,
-      });
+    return res.status(500).json({
+      error: "Internal Server Error Occured",
+      statusCode: 500,
+      success: false,
+    });
   }
 };
+
