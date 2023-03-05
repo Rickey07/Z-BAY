@@ -1,10 +1,16 @@
 const Category = require("../models/category");
 const { isSignedIn, isAdmin, isAuthenticated } = require("../Middlewares/auth");
 
+
 // Create Category
 exports.createCategory = async (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
   try {
-    const category = new Category(req.body);
+    const category = new Category({
+      category_name:req.body.category_name,
+      categoryImage:req.file.path
+    });
     const newCategory = await category.save();
     if (!Object.values(newCategory).length) {
       res.json({

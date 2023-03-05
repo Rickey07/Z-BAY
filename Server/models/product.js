@@ -18,9 +18,8 @@ const productSchema = new Schema({
   discountPercentage: {
     type: String,
   },
-  actualPrice: {
+  discountedPrice: {
     type: Number,
-    required: true,
   },
   quantity: {
     type: Number,
@@ -28,27 +27,27 @@ const productSchema = new Schema({
   },
   images: [
     {
-      type: Buffer,
-      contentType: String,
+      type: String,
     },
   ],
 });
 
 productSchema
-  .virtual("actualPrice")
-  .set(function (salePrice, discountPercentage) {
-    this.actualPrice = this.discountedPriceGenerator(
+  .virtual("Price")
+  .set(function (salePrice) {
+    this._discountedPercent = this.discountPercentage;
+    this.discountedPrice = this.discountedPriceGenerator(
       salePrice,
-      discountPercentage
+      this._discountedPercent
     );
   })
   .get(function () {
-    return this.actualPrice;
+    return this.discountedPrice;
   });
 
 productSchema.methods = {
   discountedPriceGenerator: function (salePrice, discountPercentage) {
-    return Number((salePrice / 100) * discountPercentage);
+    return salePrice - Number((Number(salePrice) / 100) * discountPercentage);
   },
 };
 

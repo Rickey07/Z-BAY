@@ -5,6 +5,9 @@ const categorySchema = new Schema({
         type:String,
         length:{max:32},
         required:true
+    },
+    categoryImage:{
+        type:String
     }
 })
 

@@ -9,7 +9,8 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { default: mongoose } = require('mongoose');
 const userRoutes = require('./routes/user');
-const categoryRoutes = require('./routes/category')
+const categoryRoutes = require('./routes/category');
+const productRoutes = require('./routes/product');
 
 
 
@@ -19,6 +20,7 @@ const categoryRoutes = require('./routes/category')
 // App Common Middlewares
 app.use(cors());
 app.use(morgan());
+app.use("/uploads",express.static('uploads'))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
 
@@ -26,6 +28,7 @@ app.use(express.urlencoded({extended:true}));
 // Routes 
 app.use('/api',userRoutes);
 app.use("/api/category",categoryRoutes)
+app.use("/api/product",productRoutes)
 
 
 
