@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const {createProduct}  = require("../controllers/product");
+const {createProduct,getProduct,getAllProduct,updateProduct, deleteProduct}  = require("../controllers/product");
 const { body } = require("express-validator");
+const {getProductById} = require('../Middlewares/product');
 const upload = require("../Utills/FileUploadHandler");
 
 
+router.param("productId",getProductById)
+
+// Create Product Route
 router.post(
   "/create",
 //   [
@@ -20,7 +24,20 @@ router.post(
   createProduct
 );
 
+// Get Single Product Route
 
+router.get("/:productId",getProduct)
 
+// Get All Products Route'
+
+router.get("/all/products",getAllProduct)  
+
+// Update Single  Product
+
+router.put("/update/:productId",updateProduct)
+
+// Delete Product
+
+router.delete("/delete/:productId",deleteProduct)
 
 module.exports = router
