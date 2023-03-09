@@ -9,7 +9,8 @@ const {
   deleteCategory,
 } = require("../controllers/category");
 // const multer = require("multer");
-const upload = require('../Utills/FileUploadHandler')
+const upload = require("../Utills/FileUploadHandler");
+const { isAuthenticated, isSignedIn, isAdmin } = require("../Middlewares/auth");
 
 // Params
 
@@ -17,7 +18,14 @@ router.param("categoryId", getCategoryById);
 
 // Create Category
 
-router.post("/create", upload.single("categoryImage"), createCategory);
+router.post(
+  "/create",
+  upload.single("categoryImage"),
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  createCategory
+);
 
 // Get All Categories
 
