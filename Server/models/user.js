@@ -15,8 +15,7 @@ const userSchema = new Schema({
     trim: true,
   },
   profilePic: {
-    type: Buffer,
-    ContentType: String,
+    type: String,
   },
   addresses: [
     {
