@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { signUp, signIn, signOut } = require("../controllers/auth");
+const {getUserById} = require('../Middlewares/user')
+const {getAllUsers,getUser,deleteUser,updateUser} = require('../controllers/user')
+const {isSignedIn, isAuthenticated, isAdmin} = require('../Middlewares/auth')
 const { body } = require("express-validator");
+
+
+router.param(":userId",getUserById)
 
 router.post(
   "/register",
@@ -33,6 +39,15 @@ router.post(
   ],
   signIn
 );
+
+
+router.put('/update/:userId',isSignedIn,isAuthenticated,updateUser)
+
+router.delete('/delete/:userId',isSignedIn,isAuthenticated,deleteUser)
+
+router.get('/getAll/:userId',isAdmin,getAllUsers)
+
+router.get("/user/:userId",getUser)
 
 router.get("/logout", signOut);
 

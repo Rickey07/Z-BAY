@@ -8,7 +8,7 @@ const connectToDatabase = () => {
     .then((data) => {
         console.log(`MongoDB Connected with server: ${data.connection.host}`)
     })
-    .catch((error) => console.log(error))
+    .catch((error) => console.log(error,"error is coming"))
 }
 
 
