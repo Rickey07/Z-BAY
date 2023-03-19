@@ -19,7 +19,6 @@ exports.getAllOrders = async () => {
 
 exports.placeOrder = async () => {
   try {
-    req.body.order = req.profile;
     const newOrder = new Order(req.body.order);
     const savedOrder = await newOrder.save();
     return res.status(200).json({
