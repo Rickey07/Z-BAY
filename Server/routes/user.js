@@ -43,7 +43,7 @@ router.post(
 
 router.put('/update/:userId',isSignedIn,isAuthenticated,updateUser)
 
-router.delete('/delete/:userId',isSignedIn,isAuthenticated,deleteUser)
+router.delete('/delete/:userId',isSignedIn,deleteUser)
 
 router.get('/getAll/:userId',isAdmin,getAllUsers)
 

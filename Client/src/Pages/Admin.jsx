@@ -1,11 +1,12 @@
 import { Typography,Box } from '@mui/material'
 import React,{useState} from 'react'
 import AdminSideBar from '../Components/SideBar/AdminSideBar'
-import UserListItem from '../Components/UsersList/userListComponents/UserListItem'
 import UsersList from '../Components/UsersList/UsersList'
 
 const Admin = () => {
   const [selectedLink,setSelectedLink] = useState("Dashboard")
+
+  const componentToBeShown = selectedLink === "Users" ? <UsersList/> : "No Data Found"; 
 
   return (
     <div>
@@ -14,10 +15,10 @@ const Admin = () => {
           <Typography variant='h4' component={"h4"}>
             {selectedLink}
           </Typography>
-          <UsersList/>
+          {componentToBeShown}
         </Box>
     </div>
   )
 }
 
-export default Admin
+export default Admin;

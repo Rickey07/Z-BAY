@@ -22,6 +22,7 @@ const UserListItem = ({
   firstName,
   profilePic,
   lastName,
+  _id
 }) => {
   const [isTargetChecked, setIsTargetChecked] = useState(false);
 
@@ -35,7 +36,7 @@ const UserListItem = ({
           isTargetChecked && (
             <>
               <Box component={"div"} sx={{ display: "flex", gap: "10px" }}>
-                <IconButton onClick={onDelete} edge="end" aria-label="delete">
+                <IconButton onClick={() => onDelete(_id)} edge="end" aria-label="delete">
                   <Delete />
                 </IconButton>
                 <IconButton>
