@@ -14,6 +14,8 @@ const RoutesContainer = () => {
           marginRight: "auto",
           marginLeft: "auto",
           width: "90%",
+          // position:"relative",
+          border:"1px solid red",
           backgroundImage: `${theme.mainTheme.mainBackgroundColor}`,
         }}
       >
