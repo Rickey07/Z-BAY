@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { Divider, Grid, Paper, TextField, Typography } from "@mui/material";
 import PrimaryButton from "../../Buttons/PrimaryButton";
 
 const CreateProduct = () => {
+
+  const [productsImages, setProductsImages] = useState([]);
+
+
   const borderStyle = {
     border: "2px solid red",
   };
@@ -18,7 +22,7 @@ const CreateProduct = () => {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        gap:"15px"
+        gap: "15px",
       },
       Heading: {
         color: "#7D879C",
@@ -26,16 +30,35 @@ const CreateProduct = () => {
         marginBottom: "4px",
       },
       DividerDiv: {
-        width:"20%"
+        width: "20%",
+      },
+      gallery: {
+        display: "flex",
+      },
+      galleryImage: {
+        height: "30px",
+        width: "30px",
       },
     },
   };
 
-  const FileUploader = ({handleClick,onDrop,onDragOver,handleFiles}) => {
+
+  const FileUploader = ({ handleClick, onDrop, onDragOver, handleFiles }) => {
     return (
       <>
-        <Box component={"div"} onDrop={onDrop} onDragOver={onDragOver}  sx={stylesProduct.fileUploaderStyles.outerDiv}>
-            <input type={"file"}  id={"uploadProductImage"} onChange={handleFiles}  multiple hidden></input>
+        <Box
+          component={"div"}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          sx={stylesProduct.fileUploaderStyles.outerDiv}
+        >
+          <input
+            type={"file"}
+            id={"uploadProductImage"}
+            onChange={handleFiles}
+            multiple
+            hidden
+          ></input>
           <Typography
             component={"h5"}
             sx={stylesProduct.fileUploaderStyles.Heading}
@@ -46,39 +69,51 @@ const CreateProduct = () => {
           <Box sx={stylesProduct.fileUploaderStyles.DividerDiv}>
             <Divider fullWidth> OR</Divider>
           </Box>
-          <PrimaryButton handleClick={handleClick} variant={"outlined"} text={"Select Files"}/>
+          <PrimaryButton
+            handleClick={handleClick}
+            variant={"outlined"}
+            text={"Select Files"}
+          />
         </Box>
       </>
     );
   };
 
-
   // Methods
 
   const openUploadBar = (e) => {
-    document.getElementById('uploadProductImage').click();
-  }
+    document.getElementById("uploadProductImage").click();
+  };
 
   const onDrop = (e) => {
     const dataTransfer = e.dataTransfer;
-    const  files = dataTransfer.files
-    const arrayofFiles =  Array.from(files);
-    manageFiles(arrayofFiles)
-    e.preventDefault()
-  }
+    const files = dataTransfer.files;
+    const arrayofFiles = Array.from(files);
+    manageFiles(arrayofFiles);
+    e.preventDefault();
+  };
 
   const onDragOver = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   const handleFiles = (e) => {
-   const arrayofFiles =  Array.from(e.target.files);
-   manageFiles(arrayofFiles)
-  }
+    const arrayofFiles = Array.from(e.target.files);
+    manageFiles(arrayofFiles);
+  };
 
-  const manageFiles = (files) => {
-    console.log(files)
-  }
+  const manageFiles = (recievedFiles) => {
+    const images = []
+     recievedFiles.forEach((dataImage) => {
+      let mainData = previewFile(dataImage);
+      images.push(mainData)
+    });
+    setProductsImages([...productsImages,...images]);
+  };
+
+  const previewFile = (file) => {
+    return {imageSrc:URL.createObjectURL(file),file}
+  };
 
   return (
     <Box component={"div"}>
@@ -103,7 +138,30 @@ const CreateProduct = () => {
                 />
               </Grid>
               <Grid item md={12}>
-                <FileUploader handleClick={openUploadBar} handleFiles={handleFiles} onDrop={onDrop} onDragOver={onDragOver}/>
+                <FileUploader
+                  handleClick={openUploadBar}
+                  handleFiles={handleFiles}
+                  onDrop={onDrop}
+                  onDragOver={onDragOver}
+                />
+              </Grid>
+              <Grid item md={12}>
+                <Box
+                  component={"div"}
+                  style={stylesProduct.fileUploaderStyles.gallery}
+                  id={"Gallery"}
+                >
+                  {productsImages.map((dataImage) => {
+                    return (
+                      <div key={dataImage?.file?.name}>
+                        <img
+                          src={dataImage?.imageSrc}
+                          alt={"Preview"}
+                        ></img>
+                      </div>
+                    );
+                  })}
+                </Box>
               </Grid>
             </Grid>
           </form>
