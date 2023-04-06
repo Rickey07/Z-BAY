@@ -4,7 +4,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 const fetchAllCategories = createAsyncThunk(
     'categories/getAllCategories',
     async (thunkAPI) => {
-        const res = await fetch('https://fakestoreapi.com/products/categories');
+        const res = await fetch('http://localhost:5000/api/category/all');
         const data = await res.json();
         console.log(data);
         return data;
@@ -20,6 +20,7 @@ const categoriesSlice = createSlice({
     reducers:{},
     extraReducers:{
         [fetchAllCategories.fulfilled]:(state,{payload}) => {
+            console.log(payload,state)
             state.categories = payload
         }
     }

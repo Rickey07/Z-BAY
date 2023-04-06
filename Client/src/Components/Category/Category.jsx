@@ -16,7 +16,7 @@ const Category = (prop) => {
           sx={{ width: "100%", height: "100%" }}
           variant={"rounded"}
         />
-        <Typography component="p">{prop.name}</Typography>
+        <Typography component="p">{prop.category_name}</Typography>
       </Box>
     </>
   );

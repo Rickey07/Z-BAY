@@ -11,7 +11,7 @@ const CategoriesContainer = () => {
         Browse All Products by Categories
       </Typography>
       <Stack direction="row" sx={{ marginTop: "2rem" }} spacing={3}>
-        {AllCategories.map((name, index) => {
+        {AllCategories?.categories?.map((name, index) => {
           return <Category name={name} key={index + name} />;
         })}
       </Stack>
