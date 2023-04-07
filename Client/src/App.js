@@ -2,13 +2,16 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
-import { store } from "./redux/store";
-import { Provider } from "react-redux";
 import Footer from "./Components/Footer/Footer";
 import "./App.css";
 import Header from "./Components/Header/Header";
+import Toast from "./Components/Toast/Toast";
+import { useSelector } from "react-redux";
 
 function App() {
+  const toastState = useSelector((state) => state?.global?.toastAlertState);
+
+  const { visible, message, messageType } = toastState;
   const appTheme = createTheme({
     mainTheme: {
       primaryColor: "#A232F0",
@@ -27,15 +30,15 @@ function App() {
           },
         },
       },
-      MuiListItem:{
-        styleOverrides:{
-          root:{
-            "&$selected":{
-              backgroundColor:"#101010" 
-            }
-          }
-        }
-      }
+      MuiListItem: {
+        styleOverrides: {
+          root: {
+            "&$selected": {
+              backgroundColor: "#101010",
+            },
+          },
+        },
+      },
     },
   });
 
@@ -43,17 +46,16 @@ function App() {
 
   return (
     <div className="App">
-      <Provider store={store}>
-        <Router>
-          <ThemeProvider theme={appTheme}>
-              <Header />
-              <RoutesContainer />
-              {
-                isAdmin && <Footer />
-              }
-          </ThemeProvider>
-        </Router>
-      </Provider>
+      <Router>
+        <ThemeProvider theme={appTheme}>
+          <Header />
+          {visible && (
+            <Toast open={visible} message={message} messageType={messageType} />
+          )}
+          <RoutesContainer />
+          {isAdmin && <Footer />}
+        </ThemeProvider>
+      </Router>
     </div>
   );
 }

@@ -1,22 +1,44 @@
-import React, { useState,useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import fetchAllCategories from "../../../redux/CategoriesSlice";
-import { Divider, Grid, Paper, TextField, Typography,FormControl,InputLabel,Select,MenuItem } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import PrimaryButton from "../../Buttons/PrimaryButton";
+import ActionButton from "../../Buttons/ActionButton";
+import createProduct from "../../../helpers/APICalls/createProduct";
+import { globalActions } from "../../../redux/global";
 
 const CreateProduct = () => {
   const [productsImages, setProductsImages] = useState([]);
   const AllCategories = useSelector((state) => state.category.categories);
-  const dispatch  = useDispatch();
-  console.log(AllCategories);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const intialProductState = {
+    name: "",
+    quantity: "",
+    saleprice: "",
+    category: "",
+    images: [],
+    discountPercentage: "",
+  }
+  const [productCreationState, setProductCreationState] = useState(intialProductState);
 
-   // Action Dispatch and API Calls and Effects
-   useEffect(() => {
+  // Action Dispatch and API Calls and Effects
+  useEffect(() => {
     dispatch(fetchAllCategories());
   }, []);
-
 
   const borderStyle = {
     border: "2px solid red",
@@ -169,36 +191,94 @@ const CreateProduct = () => {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value)
-  }
+    console.log(e.target.value);
+    setProductCreationState({
+      ...productCreationState,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      const productsData = { ...productCreationState };
+      const images = productsImages.map((file) => file.file);
+      console.log(images);
+      productsData["images"] = images;
+      for (const key in productsData) {
+        formData.append(key, productsData[key]);
+      }
+      const product = await createProduct(formData);
+      if (product.success) {
+        alert("Product has been created Successfully");
+        setProductCreationState(intialProductState);
+        setProductsImages([]);
+        dispatch(
+          globalActions.toastAlertStateToggler({
+            visible: true,
+            message: "Product SuccessFully Created!",
+            messageType: "success",
+          })
+        );
+      } else {
+        alert("Proudct Creation Failed");
+        dispatch(
+          globalActions.toastAlertStateToggler({
+            visible: true,
+            message: `Operation Failed with StatusCode ${product?.statusCode}!`,
+            messageType: "error",
+          })
+        );
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box component={"div"}>
       <Paper elevation={0} style={{ padding: "48px", marginLeft: "8%" }}>
-        <Box component={"div"} style={{ border: "1px solid  blue" }}>
+        <Box component={"div"}>
           <form encType="multipart/form-data">
-            <Grid container spacing={2} rowSpacing={3}>
+            <Grid
+              container
+              justifyContent={"flex-start"}
+              alignItems={"flex-start"}
+              spacing={2}
+              rowSpacing={3}
+            >
               <Grid item md={6}>
                 <TextField
                   variant="outlined"
                   label={"Name"}
+                  onChange={handleChange}
+                  value={productCreationState.name}
+                  name={"name"}
                   style={{ borderRadius: "16px" }}
                   fullWidth
                 />
               </Grid>
               <Grid item md={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    Select Category
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={age}
+                    value={productCreationState.category}
+                    name={"category"}
                     label="Age"
                     onChange={handleChange}
                   >
                     {AllCategories?.categories?.map((category) => {
-                        return <MenuItem key={category._id} value={category.category_name}>{category.category_name}</MenuItem>
-
+                      return (
+                        <MenuItem key={category._id} value={category._id}>
+                          {category.category_name}
+                        </MenuItem>
+                      );
                     })}
                   </Select>
                 </FormControl>
@@ -232,6 +312,9 @@ const CreateProduct = () => {
                 <TextField
                   variant="outlined"
                   label={"Discount %"}
+                  name={"discountPercentage"}
+                  value={productCreationState.discountPercentage}
+                  onChange={handleChange}
                   style={{ borderRadius: "16px" }}
                   fullWidth
                 />
@@ -241,6 +324,9 @@ const CreateProduct = () => {
                   variant="outlined"
                   label={"Stock"}
                   style={{ borderRadius: "16px" }}
+                  onChange={handleChange}
+                  value={productCreationState.quantity}
+                  name={"quantity"}
                   fullWidth
                 />
               </Grid>
@@ -248,8 +334,20 @@ const CreateProduct = () => {
                 <TextField
                   variant="outlined"
                   label={"Sale Price"}
+                  value={productCreationState.saleprice}
+                  onChange={handleChange}
+                  name={"saleprice"}
                   style={{ borderRadius: "16px" }}
                   fullWidth
+                />
+              </Grid>
+              <Grid item md={0} alignSelf={"flex-start"}>
+                <ActionButton
+                  Text={"Save Product"}
+                  isLoading={loading}
+                  handleClick={handleSubmit}
+                  Icon={<AddIcon />}
+                  buttonVariant={"contained"}
                 />
               </Grid>
             </Grid>

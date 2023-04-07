@@ -15,8 +15,12 @@ export default async function masterApi(
       headers: header,
       body: JSON.stringify(requestBody),
     };
+    const optionsForMultipart = {
+      method:requestMethod,
+      body:requestBody
+    }
     const response =
-      (await requestMethod) === "GET" ? fetch(url) : fetch(url, options);
+      (await requestMethod) === "GET" ? fetch(url) : fetch(url, optionsForMultipart);
     const resolvedPromise = (await response).json();
     return resolvedPromise;
   } catch (error) {
@@ -33,6 +37,9 @@ function createUrl(requestFor, anyId) {
     case "deleteUser":
       newUrl = newUrl + `/delete/${anyId}`;
       break;
+    case "createProduct":
+      newUrl = newUrl + `/product/create`;
+      break
     default:
       break;
   }
