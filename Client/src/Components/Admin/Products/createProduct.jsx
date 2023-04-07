@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
+import { FileUploader } from "../../FileUpload/FileUpload";
 import fetchAllCategories from "../../../redux/CategoriesSlice";
 import {
   Divider,
@@ -13,12 +14,13 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import PrimaryButton from "../../Buttons/PrimaryButton";
 import ActionButton from "../../Buttons/ActionButton";
 import createProduct from "../../../helpers/APICalls/createProduct";
+import PreviewImage from "../../FileUpload/PreviewImage";
 import { globalActions } from "../../../redux/global";
+import parseFiles from "../../../helpers/FileUploader/parseFiles";
 
 const CreateProduct = () => {
   const [productsImages, setProductsImages] = useState([]);
@@ -40,9 +42,6 @@ const CreateProduct = () => {
     dispatch(fetchAllCategories());
   }, []);
 
-  const borderStyle = {
-    border: "2px solid red",
-  };
 
   const stylesProduct = {
     fileUploaderStyles: {
@@ -86,66 +85,6 @@ const CreateProduct = () => {
     },
   };
 
-  const PreviewImage = ({ handleDelete, ImageUrl }) => {
-    return (
-      <>
-        <Box sx={stylesProduct.fileUploaderStyles.previewImage}>
-          <img
-            src={ImageUrl}
-            width={"100%"}
-            style={{ display: "block" }}
-            alt={ImageUrl}
-          />
-          <CloseIcon
-            sx={{
-              position: "absolute",
-              top: "0%",
-              right: "0%",
-              color: "#101010",
-              cursor: "pointer",
-            }}
-            onClick={() => handleDelete(ImageUrl)}
-          />
-        </Box>
-      </>
-    );
-  };
-
-  const FileUploader = ({ handleClick, onDrop, onDragOver, handleFiles }) => {
-    return (
-      <>
-        <Box
-          component={"div"}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          sx={stylesProduct.fileUploaderStyles.outerDiv}
-        >
-          <input
-            type={"file"}
-            id={"uploadProductImage"}
-            onChange={handleFiles}
-            multiple
-            hidden
-          ></input>
-          <Typography
-            component={"h5"}
-            sx={stylesProduct.fileUploaderStyles.Heading}
-            variant={"p"}
-          >
-            Drag & Drop product Image Here
-          </Typography>
-          <Box sx={stylesProduct.fileUploaderStyles.DividerDiv}>
-            <Divider fullWidth> OR</Divider>
-          </Box>
-          <PrimaryButton
-            handleClick={handleClick}
-            variant={"outlined"}
-            text={"Select Files"}
-          />
-        </Box>
-      </>
-    );
-  };
 
   // Methods
 
@@ -171,16 +110,8 @@ const CreateProduct = () => {
   };
 
   const manageFiles = (recievedFiles) => {
-    const images = [];
-    recievedFiles.forEach((dataImage) => {
-      let mainData = previewFile(dataImage);
-      images.push(mainData);
-    });
+   const images = parseFiles(recievedFiles)
     setProductsImages([...productsImages, ...images]);
-  };
-
-  const previewFile = (file) => {
-    return { imageSrc: URL.createObjectURL(file), file };
   };
 
   const deletePreviewImage = (id) => {
@@ -191,7 +122,6 @@ const CreateProduct = () => {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setProductCreationState({
       ...productCreationState,
       [e.target.name]: e.target.value,
@@ -204,14 +134,12 @@ const CreateProduct = () => {
       const formData = new FormData();
       const productsData = { ...productCreationState };
       const images = productsImages.map((file) => file.file);
-      console.log(images);
       productsData["images"] = images;
       for (const key in productsData) {
         formData.append(key, productsData[key]);
       }
       const product = await createProduct(formData);
       if (product.success) {
-        alert("Product has been created Successfully");
         setProductCreationState(intialProductState);
         setProductsImages([]);
         dispatch(
