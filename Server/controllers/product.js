@@ -82,7 +82,7 @@ exports.getAllProduct = async (req, res) => {
 exports.updateProduct = async (req,res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
-      {_id:req.product._id},
+      {_id:req.body._id},
       {$set:req.body},
       {new:true}
     )
@@ -104,7 +104,8 @@ exports.updateProduct = async (req,res) => {
 
 exports.deleteProduct = async (req,res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.product._id);
+    const deletedProduct = await Product.findByIdAndDelete(req.body._id);
+    console.log(deletedProduct)
     return res.status(200).json({
       message:"Product has been deleted Successfully",
       statusCode:200,

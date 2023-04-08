@@ -34,10 +34,10 @@ router.get("/all/products",getAllProduct)
 
 // Update Single  Product
 
-router.put("/update/:productId",updateProduct)
+router.put("/update/",updateProduct)
 
 // Delete Product
 
-router.delete("/delete/:productId",deleteProduct)
+router.delete("/delete",deleteProduct)
 
 module.exports = router
