@@ -19,8 +19,9 @@ export default async function masterApi(
       method:requestMethod,
       body:requestBody
     }
+    const optionsForAPICall = requestFor === "createProduct" ? optionsForMultipart : options
     const response =
-      (await requestMethod) === "GET" ? fetch(url) : fetch(url, optionsForMultipart);
+      (await requestMethod) === "GET" ? fetch(url) : fetch(url, optionsForAPICall);
     const resolvedPromise = (await response).json();
     return resolvedPromise;
   } catch (error) {
@@ -39,6 +40,12 @@ function createUrl(requestFor, anyId) {
       break;
     case "createProduct":
       newUrl = newUrl + `/product/create`;
+      break
+    case "deleteProduct":
+      newUrl = newUrl + `/product/delete`;
+      break
+    case "updateProduct":
+      newUrl = newUrl + `/product/update`;
       break
     default:
       break;

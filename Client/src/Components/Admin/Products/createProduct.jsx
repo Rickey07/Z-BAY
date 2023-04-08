@@ -134,9 +134,12 @@ const CreateProduct = () => {
       const formData = new FormData();
       const productsData = { ...productCreationState };
       const images = productsImages.map((file) => file.file);
-      productsData["images"] = images;
       for (const key in productsData) {
         formData.append(key, productsData[key]);
+      }
+      productsData["images"] = images;
+      for(let i=0; i<images.length; i++) {
+        formData.append("images",images[i])
       }
       const product = await createProduct(formData);
       if (product.success) {

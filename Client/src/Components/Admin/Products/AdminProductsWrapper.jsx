@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import CreateProduct from "./createProduct";
 import { Box, Paper } from "@mui/material";
 import NavTabs from "../../Tabs/Tabs";
+import AllProducts from "./AllProducts";
+
 
 const AdminProductsWrapper = () => {
   const tabsNavigationValues = ["All Products", "Create Product"];
@@ -11,8 +13,9 @@ const AdminProductsWrapper = () => {
     setActiveTab(newValue);
   };
 
+
   const renderedComponent =
-    activeTab === "Create Product" ? <CreateProduct /> : "All Products";
+    activeTab === "Create Product" ? <CreateProduct /> : <AllProducts/>
 
   return (
     <Box component={"div"}>
