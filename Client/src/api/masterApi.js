@@ -1,3 +1,5 @@
+const requestWithMultipartOptions = ["createProduct","createCategory"]
+
 export default async function masterApi(
   requestFor,
   requestMethod,
@@ -19,7 +21,7 @@ export default async function masterApi(
       method:requestMethod,
       body:requestBody
     }
-    const optionsForAPICall = requestFor === "createProduct" ? optionsForMultipart : options
+    const optionsForAPICall = requestWithMultipartOptions.includes(requestFor) ? optionsForMultipart : options
     const response =
       (await requestMethod) === "GET" ? fetch(url) : fetch(url, optionsForAPICall);
     const resolvedPromise = (await response).json();
@@ -40,13 +42,16 @@ function createUrl(requestFor, anyId) {
       break;
     case "createProduct":
       newUrl = newUrl + `/product/create`;
-      break
+      break;
     case "deleteProduct":
       newUrl = newUrl + `/product/delete`;
-      break
+      break;
     case "updateProduct":
       newUrl = newUrl + `/product/update`;
-      break
+      break;
+    case "createCategory":
+      newUrl = newUrl + `/category/create`;
+      break;
     default:
       break;
   }

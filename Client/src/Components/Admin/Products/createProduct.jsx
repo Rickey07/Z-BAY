@@ -4,11 +4,9 @@ import { Box } from "@mui/system";
 import { FileUploader } from "../../FileUpload/FileUpload";
 import fetchAllCategories from "../../../redux/CategoriesSlice";
 import {
-  Divider,
   Grid,
   Paper,
   TextField,
-  Typography,
   FormControl,
   InputLabel,
   Select,

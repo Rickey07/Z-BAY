@@ -1,5 +1,6 @@
 import { Typography,Box } from '@mui/material'
 import React,{useState} from 'react'
+import AdminCategoriesWrapper from '../Components/Admin/Categories/AdminCategoriesWrapper'
 import AdminProductsWrapper from '../Components/Admin/Products/AdminProductsWrapper'
 import AdminSideBar from '../Components/SideBar/AdminSideBar'
 import UsersList from '../Components/UsersList/UsersList'
@@ -7,7 +8,7 @@ import UsersList from '../Components/UsersList/UsersList'
 const Admin = () => {
   const [selectedLink,setSelectedLink] = useState("Dashboard")
 
-  const componentToBeShown = selectedLink === "Users" ? <UsersList/> : selectedLink === "Products" ? <AdminProductsWrapper/> :" No Data Found"
+  const componentToBeShown = selectedLink === "Users" ? <UsersList/> : selectedLink === "Products" ? <AdminProductsWrapper/> : selectedLink === "Categories"?  <AdminCategoriesWrapper/>: " No Data Found"
 
 
   return (
