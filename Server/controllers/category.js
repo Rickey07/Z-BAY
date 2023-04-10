@@ -90,7 +90,7 @@ exports.updateCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
   try {
     const deleteCategory = await Category.findByIdAndDelete({
-      _id: req.category._id
+      _id: req.body._id
     });
     if (!deleteCategory) {
       res.json({

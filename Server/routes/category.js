@@ -20,10 +20,10 @@ router.param("categoryId", getCategoryById);
 
 router.post(
   "/create",
-  upload.single("categoryImage"),
-  isSignedIn,
-  isAuthenticated,
-  isAdmin,
+  upload.single("image"),
+  // isSignedIn,
+  // isAuthenticated,
+  // isAdmin,
   createCategory
 );
 
@@ -41,6 +41,6 @@ router.put("/update/:categoryId", updateCategory);
 
 // Delete Category
 
-router.delete("/delete/:categoryId", deleteCategory);
+router.delete("/delete", deleteCategory);
 
 module.exports = router;

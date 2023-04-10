@@ -4,12 +4,12 @@ const {uuid} = require('uuidv4');
 const crypto = require("crypto");
 
 const userSchema = new Schema({
-  firstName: {
+  firstname: {
     type: String,
     required: true,
     trim: true,
   },
-  lastName: {
+  lastname: {
     type: String,
     required: true,
     trim: true,
@@ -53,7 +53,7 @@ const userSchema = new Schema({
 });
 
 userSchema.virtual("fullName").get(function () {
-  return this.firstName + this.lastName;
+  return this.firstname + this.lastname;
 });
 
 userSchema

@@ -19,11 +19,10 @@ exports.signUp = async (req, res) => {
   try {
     if (await User.findOne({ email: req.body.email }))
       return res.status(400).json({
-        error: "User Already exists with this email",
+        message: "User Already exists with this email",
         statusCode: 400,
         success: false,
       });
-    console.log(User.securePassword);
     const user = new User(req.body);
     // Applying Virtual Setter to encryptThePassword
     user.password = req.body.encry_password;
@@ -53,13 +52,14 @@ exports.signIn = async (req, res) => {
   }
   try {
     const { email, password } = req.body;
+    console.log(req.body)
     console.log(email);
-    const user = await User.findOne({email: email}).exec();
+    const user = await User.findOne({email: email})
     console.log(user);
     // Check if the User Exits with given Email Id or Not
     if (!user) {
       return res.status(400).json({
-        error: "User Account Not Found with Given Email Id",
+        message: "User Account Not Found with Given Email Id",
         statusCode: 400,
         success: false,
       });
@@ -68,7 +68,7 @@ exports.signIn = async (req, res) => {
     // Check  if the email and password is correct
     if (!user.authenticate(password)) {
       return res.status(401).json({
-        error: "Email and password doesnt't match",
+        message: "Email and password doesnt't match",
         statusCode: 401,
         success: false,
       });
@@ -95,6 +95,7 @@ exports.signIn = async (req, res) => {
         email: user.email,
         role,
       },
+      message:"Login Successful!",
       statusCode: 200,
       success: true,
     });

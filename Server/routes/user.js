@@ -12,10 +12,10 @@ router.param(":userId",getUserById)
 router.post(
   "/register",
   [
-    body("firstName", "First Name should be more than 6 characters").isLength({
+    body("firstname", "First Name should be more than 6 characters").isLength({
       min: 6,
     }),
-    body("lastName", "Last Name should be more than 4 characters").isLength({
+    body("lastname", "Last Name should be more than 4 characters").isLength({
       min: 4,
     }),
     body("email", "Correct Email Address is required").isEmail(),
