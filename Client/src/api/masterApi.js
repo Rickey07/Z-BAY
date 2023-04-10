@@ -1,4 +1,4 @@
-const requestWithMultipartOptions = ["createProduct","createCategory"]
+const requestWithMultipartOptions = ["createProduct", "createCategory"];
 
 export default async function masterApi(
   requestFor,
@@ -9,21 +9,26 @@ export default async function masterApi(
   try {
     const url = createUrl(requestFor, anyId);
     const header = {
-      "Content-Type":"application/json",
-      "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE3MjZiMzAyZTIwZTEwN2UxMDE4M2MiLCJpYXQiOjE2Nzk1MDY4MDl9.OKdqdE_m0AfnG6_Djp0ninohuTLOcqzuZyeFFkiFSa0"
-    }
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE3MjZiMzAyZTIwZTEwN2UxMDE4M2MiLCJpYXQiOjE2Nzk1MDY4MDl9.OKdqdE_m0AfnG6_Djp0ninohuTLOcqzuZyeFFkiFSa0",
+    };
     const options = {
       method: requestMethod,
       headers: header,
       body: JSON.stringify(requestBody),
     };
     const optionsForMultipart = {
-      method:requestMethod,
-      body:requestBody
-    }
-    const optionsForAPICall = requestWithMultipartOptions.includes(requestFor) ? optionsForMultipart : options
+      method: requestMethod,
+      body: requestBody,
+    };
+    const optionsForAPICall = requestWithMultipartOptions.includes(requestFor)
+      ? optionsForMultipart
+      : options;
     const response =
-      (await requestMethod) === "GET" ? fetch(url) : fetch(url, optionsForAPICall);
+      (await requestMethod) === "GET"
+        ? fetch(url)
+        : fetch(url, optionsForAPICall);
     const resolvedPromise = (await response).json();
     return resolvedPromise;
   } catch (error) {
@@ -52,6 +57,15 @@ function createUrl(requestFor, anyId) {
     case "createCategory":
       newUrl = newUrl + `/category/create`;
       break;
+    case "deleteCategory":
+      newUrl = newUrl + `/category/delete`;
+      break;
+    case "loginUser":
+      newUrl = newUrl + `/login`;
+      break
+    case  "registerUser":
+      newUrl = newUrl + `/register`;
+      break
     default:
       break;
   }

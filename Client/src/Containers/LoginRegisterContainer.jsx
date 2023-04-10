@@ -4,11 +4,16 @@ import { Avatar, Typography, Paper, Grid } from "@mui/material";
 import { Container, Box } from "@mui/system";
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
 import ColorTabs from "../Components/Buttons/Tabs";
 import SearchbarForFooter from "../Components/SearchBars/SearchbarForFooter";
 import { validateEmail } from "../Constants/Validators/emailValidator";
 import { passwordValidator } from "../Constants/Validators/passwordValidator";
+import LoginUser from "../helpers/APICalls/loginUser";
+import registerUser from "../helpers/APICalls/registerUser";
+import ActionButton from "../Components/Buttons/ActionButton";
+import { globalActions } from "../redux/global";
 
 const LoginRegisterContainer = () => {
   // This component will have  Login and Register Page
@@ -24,6 +29,9 @@ const LoginRegisterContainer = () => {
     { label: "Email Address", name: "email" },
     { label: "Password", name: "password" },
   ];
+
+  // Redux Imports
+  const dispatch = useDispatch();
 
   // States
 
@@ -41,14 +49,15 @@ const LoginRegisterContainer = () => {
     firstname: false,
     lastname: false,
   });
+  const [loading, setLoading] = useState(false);
 
   // Methods
 
   // This will set the current Tab according to previous states
   const handleTab = () => {
-    if(currentTab!=="Login") {
+    if (currentTab !== "Login") {
       setCurrentTab("Login");
-    } else{
+    } else {
       setCurrentTab("Register");
     }
     setError({});
@@ -146,13 +155,44 @@ const LoginRegisterContainer = () => {
   };
 
   // This method will submit the data
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const newRegisterData = { ...registerData };
+      if (currentTab !== "Login") {
+        delete newRegisterData["password"];
+        newRegisterData["encry_password"] = registerData.password;
+      }
+      const result =
+        currentTab === "Login"
+          ? await LoginUser(loginData)
+          : await registerUser(newRegisterData);
+      console.log(result)
+      const alertSuccessMessage = {
+        visible: true,
+        message: result.message,
+        messageType: "success",
+      };
+      if (result.success) {
+        dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
+      } else {
+        alertSuccessMessage.messageType = "error";
+        dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
     console.log(currentTab === "Login" ? loginData : registerData);
   };
 
   return (
     <>
-      <ColorTabs currentTab={currentTab} setCurrentTab={setCurrentTab} setError={setError} />
+      <ColorTabs
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        setError={setError}
+      />
       <Container component={"main"} maxWidth={"xs"} sx={{ padding: "2rem" }}>
         <Paper
           sx={{
@@ -248,6 +288,7 @@ const LoginRegisterContainer = () => {
             <PrimaryButton
               text={currentTab === "Login" ? "Login" : "Register"}
               buttonSize="Large"
+              isLoading={loading}
               handleClick={handleSubmit}
             />
           </Box>

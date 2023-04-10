@@ -12,15 +12,18 @@ import {
 } from "@mui/material";
 import Edit from "@mui/icons-material/Edit";
 import fetchAllCategories from "../../../redux/CategoriesSlice";
+import { globalActions } from "../../../redux/global";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import Done from "@mui/icons-material/Done";
 import Delete from "@mui/icons-material/Delete";
+import deleteCategory from "../../../helpers/APICalls/deleteCategory";
 import { useEffect } from "react";
 
 const AllCategories = () => {
   // Custom Variables
   const tableHeaders = ["Category", "Featured", "Actions"];
+  const alertMessage = {visible:true,message:"Successfully Deleted",messageType:"success"}
 
   // Redux Imports
   const dispatch = useDispatch();
@@ -115,7 +118,17 @@ const AllCategories = () => {
     );
   };
 
-  const onDelete = () => {};
+  const onDelete = async (id) => {
+    const result = await deleteCategory({_id:id});
+    if(result?.success) {
+      dispatch(globalActions.toastAlertStateToggler(alertMessage))
+      dispatch(fetchAllCategories());
+    } else {
+      alertMessage["message"] = `Operation Failed with statusCode ${result?.statusCode}`;
+      alertMessage['messageType'] = "error";
+      dispatch(globalActions.toastAlertStateToggler(alertMessage))
+    }
+  };
 
   const onUpdate = () => {};
   return (
