@@ -12,13 +12,18 @@ import { validateEmail } from "../Constants/Validators/emailValidator";
 import { passwordValidator } from "../Constants/Validators/passwordValidator";
 import LoginUser from "../helpers/APICalls/loginUser";
 import registerUser from "../helpers/APICalls/registerUser";
-import ActionButton from "../Components/Buttons/ActionButton";
 import { globalActions } from "../redux/global";
+import { useSignIn } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
 
 const LoginRegisterContainer = () => {
   // This component will have  Login and Register Page
-
+  //Additional Hooks
   const theme = useTheme();
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+
+  // Custom Variables
   const LoginFieldsData = [
     { label: "Email Address", name: "email" },
     { label: "Password", name: "password" },
@@ -167,7 +172,6 @@ const LoginRegisterContainer = () => {
         currentTab === "Login"
           ? await LoginUser(loginData)
           : await registerUser(newRegisterData);
-      console.log(result)
       const alertSuccessMessage = {
         visible: true,
         message: result.message,
@@ -175,8 +179,20 @@ const LoginRegisterContainer = () => {
       };
       if (result.success) {
         dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
+        if (result?.userDetails?.token) {
+          if (
+            signIn({
+              token: result?.userDetails?.token,
+              expiresIn: 4800,
+              tokenType: "Bearer",
+              authState: result?.userDetails,
+            })
+          ) {
+            navigate("/cart");
+          }
+        }
       } else {
-        alertSuccessMessage.messageType = "error";
+        alertSuccessMessage.messageType = "error";  
         dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
       }
       setLoading(false);
