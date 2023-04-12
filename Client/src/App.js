@@ -16,7 +16,7 @@ function App() {
     mainTheme: {
       primaryColor: "#A232F0",
       primaryColorHover: "#680C91",
-      mainBackgroundColor: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)",
+      mainBackgroundColor: "#F6F9FC",
       transitions: {
         growTransition: "color 0.5s 0s ease",
       },

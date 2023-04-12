@@ -9,9 +9,10 @@ import {
   Rating,
   IconButton,
   Paper,
+  Button,
 } from "@mui/material";
 import React from "react";
-import { FavoriteBorderRounded, Favorite } from "@mui/icons-material";
+import { FavoriteBorderRounded, Favorite,Visibility, Add, Remove } from "@mui/icons-material";
 import ProductButtton from "../Buttons/ProductButtton";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -20,11 +21,58 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 const Product = (prop) => {
   const theme = useTheme();
 
+  // Styles 
+
+  const productStyles = {
+    productImage:{
+      height:"100px",
+      width:"300px",
+      // objectFit:"cover"
+    },
+    productImageandActionsContainer:{
+      position:"relative",
+    },
+    productActions:{
+      position:"absolute",
+      right:"5px",
+      top:"0px",
+      display:"flex",
+      flexDirection:"column",
+      gap:"5px",
+      cursor:"pointer"
+    },
+    productInfoContainer:{
+      padding:"15px",
+      display:"flex",
+      alignItems:"flex-start",
+      justifyContent:"space-between"
+    },
+    childInfoContainer:{
+      display:"flex",
+      flexDirection:"column",
+      justifyContent:"flex-start",
+      alignItems:"flex-start",
+      gap:"12px"
+    },
+    productImageContainer:{
+      height:"200px",
+      width:"300px",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      cursor:"pointer"
+    },
+    mainProductContainer:{
+      borderRadius:'8px',
+    }
+  }
+
   // States
   const [quantityToBeShown, setQuantityToBeShown] = useState(false);
   const [counter, setCounter] = useState(1);
   const location = useLocation();
   const { pathname } = location;
+
 
   // Methods
 
@@ -43,190 +91,49 @@ const Product = (prop) => {
   };
 
   const QuantityAdder = () => {
+    const quantityAdder = {
+      mainBox:{
+        display:"flex",
+        flexDirection:"column",
+        gap:"4px"
+      }
+    }
     return (
       <>
-        <Box
-          sx={{
-            backgroundColor: theme.mainTheme.primaryColor,
-            border: `0.5px solid transparent`,
-            borderRadius: "8px",
-            display: "flex",
-            gap: "3px",
-            width: "90px",
-            justifyContent: "space-around",
-            height: "36px",
-            alignItems: "center",
-            color: "#fff",
-          }}
-        >
-          <Typography
-            component={"div"}
-            sx={{ cursor: "pointer" }}
-            onClick={handleRemove}
-            variant={"div"}
-          >
-            -
-          </Typography>
-          <Typography component={"div"} variant={"div"}>
-            {counter}
-          </Typography>
-          <Typography
-            component={"div"}
-            sx={{ cursor: "pointer" }}
-            onClick={handleAdd}
-            variant={"div"}
-          >
-            +
-          </Typography>
-        </Box>
+       <Box sx={quantityAdder.mainBox}>
+          <Button sx={{border:"1px solid red",width:"20px",minWidth:"25px",padding:"5px"}}>
+            <Remove fontSize="12px"/>
+          </Button>
+          <Typography component={"span"} variant={"span"}>1</Typography>
+          <Button sx={{border:"1px solid red",width:"20px",minWidth:"25px",padding:"5px"}}>
+            <Add fontSize="12px"/>
+          </Button>
+       </Box>
       </>
     );
   };
 
   return (
     <>
-      {location.pathname === "/Cart" ? (
-        <>
-          <Paper sx={{ p: 2,display:"flex",alignItems:"center" }}>
-            <Grid direction={"row"} columnGap={3} container>
-              <Grid item sx={{display:"flex",justifyContent:"center",alignItems:"center"}} xs={2}>
-                <Box>
-                  <img
-                    height={75}
-                    width={75}
-                    src={prop.image_url}
-                    alt={"Product_Image"}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={4}>
-                <Box sx={{display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column",gap:"15px"}}>
-                  <Typography component={"h4"} variant={"p"}>
-                      {prop.title}
-                  </Typography>
-                  <Typography component={"p"} variant={"p"}>
-                      {prop.price}
-                  </Typography>
-                  <QuantityAdder/>
-                </Box>
-              </Grid>
-              <Grid item xs={4} sx={{display:'flex',flexDirection:"column",gap:"30px"}}>
-                <PrimaryButton text={"Move to Wishlist"}/>
-                <PrimaryButton text={"Remove from Cart"}/>
-              </Grid>
-            </Grid>
-          </Paper>
-        </>
-      ) : (
-        <Grid item xs={2}>
-          <Card>
-            <Box sx={{ position: "relative" }}>
-              <Typography
-                component={"p"}
-                sx={{
-                  position: "absolute",
-                  left: 0,
-                  top: 2,
-                  backgroundColor: theme.mainTheme.primaryColor,
-                  borderRadius: "4px",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  color: "#fff",
-                }}
-                variant={"p"}
-              >
-                {prop.OffPercentage + "off"}
-              </Typography>
-              <IconButton
-                sx={{
-                  position: "absolute",
-                  right: 0,
-                  top: 0,
-                  backgroundColor: "#fff",
-                  opacity: 0.9,
-                }}
-              >
-                {prop.isInWishList ? (
-                  <Favorite
-                    sx={{
-                      color: `${theme.mainTheme.primaryColor}`,
-                    }}
-                  />
-                ) : (
-                  <FavoriteBorderRounded
-                    sx={{
-                      "&:hover": {
-                        color: `${theme.mainTheme.primaryColor}`,
-                      },
-                    }}
-                  />
-                )}
-              </IconButton>
-              <CardMedia
-                component={"img"}
-                height={75}
-                width={75}
-                image={prop.image_url}
-                alt={"Product_Image"}
-              />
+     <Paper component={"div"} style={productStyles.mainProductContainer} elevation={1}>
+        <Box component={"div"} sx={productStyles.productImageandActionsContainer}>
+            <Box component={"div"} sx={productStyles.productImageContainer}>
+             <img src={prop.image_url} style={productStyles?.productImage} alt={"product"}/>
             </Box>
-            <CardContent
-              sx={{
-                textAlign: "left",
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-              }}
-            >
-              <Typography component={"p"} variant={"p"}>
-                {prop.title}
-              </Typography>
-              <Typography component={"p"} variant={"p"}>
-                Quantity:-{prop.quantity}
-              </Typography>
-              <Typography
-                component={"p"}
-                sx={{
-                  borderRadius: "4px",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                }}
-                variant={"p"}
-              >
-                Category:-{prop.category}
-              </Typography>
-              <Rating
-                defaultValue={prop.rating.rate}
-                precision={0.5}
-                readOnly
-              ></Rating>
-            </CardContent>
-            <CardContent
-              component={"div"}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "15px",
-              }}
-            >
-              <Typography component={"p"} varian={"p"}>
-                Price:- {prop.price}
-              </Typography>
-              {prop.isInWishList ? (
-                <PrimaryButton text={"Move to cart"} buttonSize={"small"} />
-              ) : quantityToBeShown ? (
-                <QuantityAdder />
-              ) : (
-                <ProductButtton
-                  setQuantityToBeShown={setQuantityToBeShown}
-                  add={"add"}
-                />
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      )}
+            <Box component={"div"} sx={productStyles.productActions}>
+            <Visibility htmlColor="rgba(0, 0, 0, 0.26)"/>
+            <FavoriteBorderRounded htmlColor="rgba(0, 0, 0, 0.26)"/>
+            </Box>
+        </Box>
+        <Box component={"div"} sx={productStyles.productInfoContainer}>
+          <Box component={"div"} sx={productStyles.childInfoContainer}>
+              <Typography component={"h3"} fontSize={"14px"} color={"rgb(55, 63, 80)"} variant={"span"}>Police Gray EyeGlasses</Typography>
+              <Rating name="read-only" value={prop.rating} readOnly />
+              <Typography component={"h3"} fontSize={"14px"} color={"rgb(210, 63, 87)"} variant={"span"}>870</Typography>
+          </Box>
+          {<QuantityAdder/>}
+        </Box>
+     </Paper>
     </>
   );
 };
