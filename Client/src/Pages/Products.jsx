@@ -197,7 +197,7 @@ const Products = () => {
           <SidebarForFilter />
         </Grid>
         <Grid item md={10}>
-          <Grid container spacing={3}>
+          <Grid container spacing={8}>
             {productsData.map((product) => {
               return (
                 <Grid item md={4} xs={12} key={product.id}>

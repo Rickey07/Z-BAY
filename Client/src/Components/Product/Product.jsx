@@ -115,7 +115,7 @@ const Product = (prop) => {
 
   return (
     <>
-     <Paper component={"div"} style={productStyles.mainProductContainer} elevation={1}>
+     <Paper component={"div"} style={productStyles.mainProductContainer} elevation={2}>
         <Box component={"div"} sx={productStyles.productImageandActionsContainer}>
             <Box component={"div"} sx={productStyles.productImageContainer}>
              <img src={prop.image_url} style={productStyles?.productImage} alt={"product"}/>
