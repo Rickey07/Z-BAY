@@ -10,197 +10,95 @@ import {
 } from "@mui/material";
 import SidebarForFilter from "../Components/SideBar/SidebarForFilter.jsx";
 import MainSearchBar from "../Components/SearchBars/MainSearchBar.jsx";
-import { useState , useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import getAllProducts from "../redux/ProductsSlice.js";
+import { useState, useEffect } from "react";
+import getAllProducts from "../helpers/APICalls/getAllProducts.js";
+import { filterProducts } from "../helpers/Products/filterProducts.js";
 
 const Products = () => {
-  const productsData = [
-    {
-      id: 19,
-      title: "Opna Women's Short Sleeve Moisture",
-      price: 7.95,
-      OffPercentage: "55%",
-      description:
-        "100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort",
-      category: "Grocery",
-      image: "https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_.jpg",
-      rating: {
-        rate: 4.5,
-        count: 146,
-      },
-      quantity: "500g",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      isInWishList: true,
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-    {
-      id: 20,
-      title: "DANVOUY Womens T Shirt Casual Cotton Short",
-      price: 12.99,
-      OffPercentage: "35%",
-      description:
-        "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
-      category: "Clothes",
-      image: "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg",
-      rating: {
-        rate: 3.6,
-        count: 145,
-      },
-      quantity: "1",
-    },
-  ];
-
-  // Redux Global Imports
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products)
-  console.log(products);
 
   // States
-  const [filters,setFilters] = useState({product_name:"",categories:[],rating:"",sortBy:""})
+  const [filters, setFilters] = useState({
+    product_name: "",
+    categories: [],
+    rating: "",
+    sortBy: "asc",
+  });
+  const [dataToDisplay, setDataToDisplay] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Effects
   useEffect(() => {
-    dispatch(getAllProducts())
-  },[])
+    fetchAllProducts();
+  }, []);
 
-  // Methoods
+  useEffect(() => {
+    const data = filterProducts(filters,dataToDisplay);
+    console.log(data)
+  },[filters])
+
+  // Methods
+
+  const fetchAllProducts = async () => {
+    setLoading(true);
+    const response = await getAllProducts();
+    if (response.success) {
+      setDataToDisplay(response.products);
+    }
+    setLoading(false);
+  };
+
   const onSearch = (e) => {
-    setFilters({...filters,"product_name":e.target.value})
-  }
+    setFilters({ ...filters, product_name: e.target.value });
+  };
 
   const onSideBarFiltersChange = (e) => {
-    if(e.target.name === "category") {
+    if (e.target.name === "category") {
       setFilters((prev) => {
-        const copy = {...prev}
-        const {categories} = copy
-        console.log(categories);
-        const updatedArray = [...categories];
-        if(e.target.checked) {
-          updatedArray?.push(e.target.value)
+        const copy = JSON.parse(JSON.stringify(prev))
+        const { categories } = copy;
+        let updatedArray = [...categories]
+        if (e.target.checked) {
+          updatedArray?.push(e.target.value);
         } else {
-          updatedArray?.filter((value) => value!==e.target.value);
+          updatedArray = updatedArray.filter((value) => {
+            return value!==e.target.value
+          }) 
         }
         copy.categories = updatedArray
-        return copy
-      })
+        return copy;
+      });
     } else {
-      setFilters({...filters,[e.target.name]:e.target.value})
+      setFilters({ ...filters, [e.target.name]: e.target.value });
     }
-    console.log(filters)
-  }
+    console.log(filters);
+  };
 
   return (
     <>
       <div>Products</div>
-      <Box display={"flex"} padding={"50px"} flexDirection={"column"} gap={"2rem"}> 
-      <MainSearchBar onChange={onSearch} searchValue={filters.product_name}/>
-      <Grid container spacing={3}>
-        <Grid item md={2} xs={10}>
-          <SidebarForFilter onChange={onSideBarFiltersChange}/>
-        </Grid>
-        <Grid item md={10}>
-          <Grid container spacing={6}>
-            {products?.map((product) => {
-              return (
-                <Grid item md={4} xs={12} key={product.id}>
-                   <Product
-                  {...product}
-                />
-                 </Grid>
-              );
-            })}
+      <Box
+        display={"flex"}
+        padding={"50px"}
+        flexDirection={"column"}
+        gap={"2rem"}
+      >
+        <MainSearchBar onChange={onSearch} searchValue={filters.product_name} />
+        <Grid container spacing={3}>
+          <Grid item md={2} xs={10}>
+            <SidebarForFilter onChange={onSideBarFiltersChange} />
+          </Grid>
+          <Grid item md={10}>
+            <Grid container spacing={6}>
+              {(loading ? Array.from( new Array(6)) : dataToDisplay)?.map((product) => {
+                return (
+                  <Grid item md={4} xs={12} key={product?.id}>
+                    <Product {...product} isLoading={loading} />
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
       </Box>
     </>
   );
