@@ -9,6 +9,10 @@ import {
   InputBase,
 } from "@mui/material";
 import SidebarForFilter from "../Components/SideBar/SidebarForFilter.jsx";
+import MainSearchBar from "../Components/SearchBars/MainSearchBar.jsx";
+import { useState , useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import getAllProducts from "../redux/ProductsSlice.js";
 
 const Products = () => {
   const productsData = [
@@ -135,81 +139,61 @@ const Products = () => {
     },
   ];
 
-  const MainSearchBar = () => {
-    const mainSearchBarstyles = {
-      mainContainerWrapper: {
-        padding: "3px 50px",
-        borderRadius: "8px",
-      },
-      mainContainer: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      },
-      inputContainer: {
-        maxWidth:"700px",
-        width:"100%"
-      },
-      input: {
-        borderRadius: "16px",
-      },
-    };
+  // Redux Global Imports
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products)
+  console.log(products);
 
-    return (
-      <>
-        <Paper
-          component={"div"}
-          style={mainSearchBarstyles.mainContainerWrapper}
-          elevation={1}
-        >
-          <Box component={"div"} sx={mainSearchBarstyles.mainContainer}>
-            <Box component={"div"} sx={mainSearchBarstyles.inputContainer}>
-              {/* <TextField style={mainSearchBarstyles.input} fullWidth label="fullWidth" id="fullWidth" />  */}
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search For Products"
-                inputProps={{ "aria-label": "search google maps" }}
-                fullWidth
-                // style={{border:"1px solid red"}}
-              />
-            </Box>
-            <Box>
-              <Typography component={"h6"} variant="h6">
-                Searching For
-              </Typography>
-              <Typography component={"h6"} variant={"p"}>
-                48 Results Found
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
-      </>
-    );
-  };
+  // States
+  const [filters,setFilters] = useState({product_name:"",categories:[],rating:"",sortBy:""})
+
+  // Effects
+  useEffect(() => {
+    dispatch(getAllProducts())
+  },[])
+
+  // Methoods
+  const onSearch = (e) => {
+    setFilters({...filters,"product_name":e.target.value})
+  }
+
+  const onSideBarFiltersChange = (e) => {
+    if(e.target.name === "category") {
+      setFilters((prev) => {
+        const copy = {...prev}
+        const {categories} = copy
+        console.log(categories);
+        const updatedArray = [...categories];
+        if(e.target.checked) {
+          updatedArray?.push(e.target.value)
+        } else {
+          updatedArray?.filter((value) => value!==e.target.value);
+        }
+        copy.categories = updatedArray
+        return copy
+      })
+    } else {
+      setFilters({...filters,[e.target.name]:e.target.value})
+    }
+    console.log(filters)
+  }
 
   return (
     <>
       <div>Products</div>
       <Box display={"flex"} padding={"50px"} flexDirection={"column"} gap={"2rem"}> 
-      <MainSearchBar />
+      <MainSearchBar onChange={onSearch} searchValue={filters.product_name}/>
       <Grid container spacing={3}>
         <Grid item md={2} xs={10}>
-          <SidebarForFilter />
+          <SidebarForFilter onChange={onSideBarFiltersChange}/>
         </Grid>
         <Grid item md={10}>
-          <Grid container spacing={8}>
-            {productsData.map((product) => {
+          <Grid container spacing={6}>
+            {products?.map((product) => {
               return (
                 <Grid item md={4} xs={12} key={product.id}>
                    <Product
-                  title={product.title}
-                  price={product.price}
-                  quantity={product.quantity}
-                  category={product.category}
-                  image_url={product.image}
-                  OffPercentage={product.OffPercentage}
-                  rating={product.rating}
-                  isInWishList={product.isInWishList}
+                  {...product}
                 />
                  </Grid>
               );

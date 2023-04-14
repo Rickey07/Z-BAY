@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const SidebarForFilter = () => {
+const SidebarForFilter = ({ onChange }) => {
   const theme = useTheme();
   const categories = useSelector(
     (state) => state.category.categories.categories
@@ -37,7 +37,6 @@ const SidebarForFilter = () => {
       borderWidth: "0px 0px thin",
     },
   };
-  console.log(categories);
 
   return (
     <>
@@ -54,7 +53,7 @@ const SidebarForFilter = () => {
           >
             Categories
           </Typography>
-          <FormGroup>
+          <FormGroup onChange={onChange}>
             {categories?.map((category) => {
               return (
                 <FormControlLabel
@@ -62,6 +61,8 @@ const SidebarForFilter = () => {
                   control={<Checkbox />}
                   style={sideBarFilterStyles.sideBarFilterSubItem}
                   label={category?.category_name}
+                  value={category?.category_name}
+                  name={"category"}
                 />
               );
             })}
@@ -80,37 +81,62 @@ const SidebarForFilter = () => {
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="female"
-              name="radio-buttons-group"
+              name="sort_by"
+              onChange={onChange}
             >
               <FormControlLabel
-                value="LTH"
+                value="asc"
                 control={<Radio />}
                 sx={sideBarFilterStyles.sideBarFilterSubItem}
                 label="Low To High"
               />
-              <FormControlLabel value="HTL" control={<Radio />} sx={sideBarFilterStyles.sideBarFilterSubItem} label="High to Low" />
+              <FormControlLabel
+                value="desc"
+                control={<Radio />}
+                sx={sideBarFilterStyles.sideBarFilterSubItem}
+                label="High to Low"
+              />
             </RadioGroup>
           </FormControl>
-          <Divider style={sideBarFilterStyles.sideBarDivider}/>
+          <Divider style={sideBarFilterStyles.sideBarDivider} />
         </Box>
         <Box component={"div"}>
-          <Typography component={"h6"}
+          <Typography
+            component={"h6"}
             variant="p"
-            sx={{ textAlign: "start", fontSize: "18px" }}>Rating</Typography>
-                      <FormControl>
+            sx={{ textAlign: "start", fontSize: "18px" }}
+          >
+            Rating
+          </Typography>
+          <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="female"
-              name="radio-buttons-group"
+              name="rating"
+              onChange={onChange}
             >
-              
-              <FormControlLabel value="4andabove" control={<Radio />} label={<Rating value={4} readOnly/>} />
-              <FormControlLabel value="3andabove" control={<Radio />} label={<Rating value={3} readOnly/>} />
-              <FormControlLabel value="2andabove" control={<Radio />} label={<Rating value={2} readOnly/>} />
-              <FormControlLabel value="1andabove" control={<Radio />} label={<Rating value={1} readOnly/>} />
-
+              <FormControlLabel
+                value="4andabove"
+                control={<Radio />}
+                label={<Rating value={4} readOnly />}
+              />
+              <FormControlLabel
+                value="3andabove"
+                control={<Radio />}
+                label={<Rating value={3} readOnly />}
+              />
+              <FormControlLabel
+                value="2andabove"
+                control={<Radio />}
+                label={<Rating value={2} readOnly />}
+              />
+              <FormControlLabel
+                value="1andabove"
+                control={<Radio />}
+                label={<Rating value={1} readOnly />}
+              />
             </RadioGroup>
-          </FormControl>  
+          </FormControl>
         </Box>
       </Paper>
     </>

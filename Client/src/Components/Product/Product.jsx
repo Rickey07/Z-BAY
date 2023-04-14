@@ -18,16 +18,18 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import PrimaryButton from "../Buttons/PrimaryButton";
 
-const Product = (prop) => {
+const Product = ({ rating,Price,category,images,name}) => {
   const theme = useTheme();
 
-  // Styles 
 
+  // Styles 
   const productStyles = {
     productImage:{
-      height:"100px",
-      width:"300px",
-      // objectFit:"cover"
+      height:"100%",
+      width:"100%",
+      // objectFit:"cover",
+      display:"block",
+      margin:"0 auto"
     },
     productImageandActionsContainer:{
       position:"relative",
@@ -56,7 +58,7 @@ const Product = (prop) => {
     },
     productImageContainer:{
       height:"200px",
-      width:"300px",
+      width:"100%",
       display:"flex",
       justifyContent:"center",
       alignItems:"center",
@@ -64,8 +66,12 @@ const Product = (prop) => {
     },
     mainProductContainer:{
       borderRadius:'8px',
+      minWidth:"fit-content"
     }
   }
+
+  // Variables
+  const image_url = "http://localhost:5000/uploads/" + images[0]?.imageName
 
   // States
   const [quantityToBeShown, setQuantityToBeShown] = useState(false);
@@ -118,7 +124,7 @@ const Product = (prop) => {
      <Paper component={"div"} style={productStyles.mainProductContainer} elevation={2}>
         <Box component={"div"} sx={productStyles.productImageandActionsContainer}>
             <Box component={"div"} sx={productStyles.productImageContainer}>
-             <img src={prop.image_url} style={productStyles?.productImage} alt={"product"}/>
+             <img src={image_url} style={productStyles?.productImage} alt={"product"}/>
             </Box>
             <Box component={"div"} sx={productStyles.productActions}>
             <Visibility htmlColor="rgba(0, 0, 0, 0.26)"/>
@@ -127,9 +133,9 @@ const Product = (prop) => {
         </Box>
         <Box component={"div"} sx={productStyles.productInfoContainer}>
           <Box component={"div"} sx={productStyles.childInfoContainer}>
-              <Typography component={"h3"} fontSize={"14px"} color={"rgb(55, 63, 80)"} variant={"span"}>Police Gray EyeGlasses</Typography>
-              <Rating name="read-only" value={prop.rating} readOnly />
-              <Typography component={"h3"} fontSize={"14px"} color={"rgb(210, 63, 87)"} variant={"span"}>870</Typography>
+              <Typography component={"h3"} fontSize={"14px"} color={"rgb(55, 63, 80)"} variant={"span"}>{name}</Typography>
+              <Rating name="read-only" value={rating} readOnly />
+              <Typography component={"h3"} fontSize={"14px"} color={"rgb(210, 63, 87)"} variant={"span"}>₹{Price}</Typography>
           </Box>
           {<QuantityAdder/>}
         </Box>
