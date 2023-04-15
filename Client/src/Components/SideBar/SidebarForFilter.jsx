@@ -58,7 +58,7 @@ const SidebarForFilter = ({ onChange }) => {
               return (
                 <FormControlLabel
                   key={category?._id}
-                  control={<Checkbox />}
+                  control={<Checkbox defaultChecked={category?.category_name === "Shirts"}/>}
                   style={sideBarFilterStyles.sideBarFilterSubItem}
                   label={category?.category_name}
                   value={category?.category_name}

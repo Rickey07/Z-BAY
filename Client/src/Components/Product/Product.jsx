@@ -20,14 +20,24 @@ import {
   Remove,
 } from "@mui/icons-material";
 import ProductButtton from "../Buttons/ProductButtton";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import PrimaryButton from "../Buttons/PrimaryButton";
 import Shimmer from "../Shimmer/Shimmer";
+import { cartActions } from "../../redux/CartSlice";
+import { useDispatch,useSelector } from "react-redux";
 
-const Product = ({ rating, Price, category, images, name, isLoading }) => {
+const Product = ({
+  rating,
+  Price,
+  category,
+  images,
+  name,
+  isLoading,
+  id
+}) => {
   const theme = useTheme();
-
+ 
+  const navigate = useNavigate();
   // Styles
   const productStyles = {
     productImage: {
@@ -39,12 +49,14 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
     },
     productImageandActionsContainer: {
       position: "relative",
+      transition: "transform 0.15s ease-in-out",
+      "&:hover": { transform: "scale3d(1.02, 1.05, 1)" }
     },
     productActions: {
       position: "absolute",
       right: "5px",
       top: "0px",
-      display: "flex",
+      display: "none",
       flexDirection: "column",
       gap: "5px",
       cursor: "pointer",
@@ -73,36 +85,49 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
     mainProductContainer: {
       borderRadius: "8px",
       minWidth: "fit-content",
+      "&:hover .productActions": { display:"flex" }
+    },
+  };
+  const quantityAdder = {
+    mainBox: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "4px",
     },
   };
 
   // Variables
   const image_url =
     images && "http://localhost:5000/uploads/" + images[0]?.imageName;
+  
+  // These Product will be updated in cart
+  const productForUpdation = {
+    name,
+    Price,
+    id,
+    quantity:"",
+    image_url,
+    total:0
+  }
+
+  // Redux Imports
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const isProductInCart = cart?.cart.find((product) => product.id === id);
 
   // States
-  const [quantityToBeShown, setQuantityToBeShown] = useState(false);
-  const [counter, setCounter] = useState(1);
-  const location = useLocation();
-  const { pathname } = location;
 
   // Methods
 
-  const handleAdd = () => {
-    setCounter((current) => current + 1);
+  const handleAdd = (product) => {
+    dispatch(cartActions.addToCart(product))
   };
 
-  const handleRemove = () => {
-    setCounter((current) => {
-      return current === 0 ? current : current - 1;
-    });
-    if (counter === 1) {
-      setQuantityToBeShown(false);
-      setCounter(1);
-    }
+  const handleRemove = (product) => {
+    dispatch(cartActions.removeFromCart(product))
   };
 
-  const QuantityAdder = () => {
+  const QuantityAdder = ({ handleAdd, handleRemove, product }) => {
     const quantityAdder = {
       mainBox: {
         display: "flex",
@@ -120,6 +145,7 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
               minWidth: "25px",
               padding: "5px",
             }}
+            onClick={() => handleRemove(product)}
           >
             <Remove fontSize="12px" />
           </Button>
@@ -133,6 +159,7 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
               minWidth: "25px",
               padding: "5px",
             }}
+            onClick={() => handleAdd(product)}
           >
             <Add fontSize="12px" />
           </Button>
@@ -145,17 +172,22 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
     <>
       {isLoading ? (
         <Box component={"div"}>
-          <Shimmer shape={"rounded"} animation={"wave"} height={200} width={300} />
+          <Shimmer
+            shape={"rounded"}
+            animation={"wave"}
+            height={200}
+            width={300}
+          />
           <Box>
-          <Shimmer shape={"text"} width={150}/>
-          <Shimmer shape={"circular"} height={50} width={50}/>
-          <Shimmer shape={"text"} width={300}/>
+            <Shimmer shape={"text"} width={150} />
+            <Shimmer shape={"circular"} height={50} width={50} />
+            <Shimmer shape={"text"} width={300} />
           </Box>
         </Box>
       ) : (
         <Paper
           component={"div"}
-          style={productStyles.mainProductContainer}
+          sx={productStyles.mainProductContainer}
           elevation={2}
         >
           <Box
@@ -169,8 +201,8 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
                 alt={"product"}
               />
             </Box>
-            <Box component={"div"} sx={productStyles.productActions}>
-              <Visibility htmlColor="rgba(0, 0, 0, 0.26)" />
+            <Box component={"div"} className={"productActions"} sx={productStyles.productActions}>
+              <Visibility htmlColor="rgba(0, 0, 0, 0.26)"  onClick={() => navigate(`/products?search=${id}`)}/>
               <FavoriteBorderRounded htmlColor="rgba(0, 0, 0, 0.26)" />
             </Box>
           </Box>
@@ -194,7 +226,38 @@ const Product = ({ rating, Price, category, images, name, isLoading }) => {
                 ₹{Price}
               </Typography>
             </Box>
-            {<QuantityAdder />}
+            <Box sx={quantityAdder.mainBox}>
+              {/* {isProductInCart && */}
+              <>
+                <Button
+                sx={{
+                  border: "1px solid red",
+                  width: "20px",
+                  minWidth: "25px",
+                  visibility:`${isProductInCart?"visible":"hidden"}`,
+                  padding: "5px",
+                }}
+                onClick={() => handleRemove(productForUpdation)}
+              >
+                <Remove fontSize="12px" />
+              </Button>
+              <Typography style={{visibility:`${isProductInCart?"visible":"hidden"}`,textAlign:"center"}} component={"span"} variant={"span"}>
+               {isProductInCart?.quantity}
+              </Typography>
+              </>
+             
+              <Button
+                sx={{
+                  border: "1px solid red",
+                  width: "20px",
+                  minWidth: "25px",
+                  padding: "5px",
+                }}
+                onClick={() => handleAdd(productForUpdation)}
+              >
+                <Add fontSize="12px" />
+              </Button>
+            </Box>
           </Box>
         </Paper>
       )}

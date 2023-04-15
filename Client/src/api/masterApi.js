@@ -67,7 +67,11 @@ function createUrl(requestFor, anyId) {
       newUrl = newUrl + `/register`;
       break
     case "getAllProducts":
-      newUrl = newUrl + `/product/all/products`
+      newUrl = newUrl + `/product/all/products`;
+      break
+    case "getProduct":
+      newUrl = newUrl + `/product/${anyId}`;
+      break;
     default:
       break;
   }

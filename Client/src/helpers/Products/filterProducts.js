@@ -11,8 +11,7 @@ export const filterProducts = (filters, products) => {
       return filters?.categories?.includes(product?.category?.category_name);
     })
     ?.sort((a, b) => {
-      return filters.sortBy === "asc" ? a?.Price - b?.Price : b?.Price - a?.Price;
+      return filters?.sort_by === "asc" ? a?.Price - b?.Price : b?.Price - a?.Price;
     });
-  console.log(filteredProducts);
-  return [];
+  return filteredProducts
 };
