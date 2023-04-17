@@ -1,5 +1,4 @@
-import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import Footer from "./Components/Footer/Footer";
@@ -12,13 +11,19 @@ function App() {
   const toastState = useSelector((state) => state?.global?.toastAlertState);
 
   const { visible, message, messageType } = toastState;
-  const appTheme = createTheme({
+  const theme = createTheme({
     mainTheme: {
       primaryColor: "#A232F0",
       primaryColorHover: "#680C91",
       mainBackgroundColor: "#F6F9FC",
       transitions: {
         growTransition: "color 0.5s 0s ease",
+      },
+      primaryLight:"#101010"
+    },
+    palette:{
+      primary:{
+        main:"#d23f57",
       },
     },
     components: {
@@ -47,7 +52,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <ThemeProvider theme={appTheme}>
+        <ThemeProvider theme={theme}>
           <Header />
           {visible && (
             <Toast open={visible} message={message} messageType={messageType} />

@@ -21,6 +21,7 @@ const cartSlice = createSlice({
         });
       } else {
         payload.quantity = 1;
+        payload.total = payload.quantity * payload.Price
         updatedCart.push(payload);
       }
       state.cart = updatedCart;
@@ -47,6 +48,10 @@ const cartSlice = createSlice({
       state.cart = updatedCart;
       state.total = updatedCart.length > 0 && updatedCart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
     },
+    removeSingleItem(state,{payload}) {
+      state.cart = state.cart.filter((cartItem) => cartItem.id !==  payload.id)
+      state.total = state.cart.length > 0 && state.cart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
+    }
   },
 });
 

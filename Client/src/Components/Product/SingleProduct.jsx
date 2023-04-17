@@ -105,7 +105,7 @@ const SingleProduct = ({ searchId }) => {
     name: product?.name,
     Price: product?.price,
     id: product?.id,
-    quantity: "",
+    quantity: 0,
     image_url: currentMainProductImage,
     total: 0,
   };

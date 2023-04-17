@@ -10,6 +10,7 @@ import {
   IconButton,
   Button,
   useMediaQuery,
+  Badge,
 } from "@mui/material";
 import {
   Shop2Outlined,
@@ -20,15 +21,28 @@ import {
   Close,
 } from "@mui/icons-material";
 import SideBar from "../SideBar/SideBar";
-// import {SideBar} from '../index';
+import {useSelector} from 'react-redux'
+import SideBarForCart from "../SideBar/SideBarForCart";
 
 const Header = () => {
-  const [mobileMenu, setMobileMenu] = useState(false);
   const theme = useTheme();
   const FONT_SIZE_NAVBAR_ICONS = "30px";
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const cart = useSelector((state) => state.cart.cart)
+
+  // States
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [isCartOpen,setIsCartOpen] = useState(false);
 
   // Methods
+
+  const openSideCart = () => {
+    setIsCartOpen(true)
+  }
+
+  const closeSideCart = () => {
+    setIsCartOpen(false)
+  }
 
   const handleOpen = () => {
     setMobileMenu(!mobileMenu);
@@ -119,18 +133,20 @@ const Header = () => {
                     }}
                   />
                 </Link>
-                <Link
+                {/* <Link
                   to={"/Cart"}
                   style={{ textDecoration: "none", color: "#fff" }}
-                >
+                > */}
+                <Badge badgeContent={cart?.length} color={"primary"} onClick={openSideCart}> 
                   <ShoppingCart
                     sx={{
-                      mr: 4,
+                      
                       fontSize: FONT_SIZE_NAVBAR_ICONS,
                       cursor: "pointer",
                     }}
                   />
-                </Link>
+                </Badge>
+                {/* </Link> */}
                 <Link
                   to={"/Login"}
                   style={{ textDecoration: "none", color: "#fff" }}
@@ -155,6 +171,7 @@ const Header = () => {
         </Container>
       </AppBar>
       {mobileMenu && <SideBar />}
+      {isCartOpen && <SideBarForCart handleClose={closeSideCart} isOpen={isCartOpen}/>}
     </>
   );
 };
