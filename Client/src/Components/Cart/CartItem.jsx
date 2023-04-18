@@ -126,8 +126,8 @@ const CartItem = ({ cartDetails, sideBar }) => {
       ) : (
         <Paper component={"div"} elevation={1} sx={{mb:4,p:2,position:"relative"}}>
           <Box component={"div"}>
-            <Close sx={{position:"absolute",right:"15px",cursor:"pointer",top:"15px"}}/>
-            <Box component={"div"} display={"flex"} gap={"15px"}>
+            <Close sx={{position:"absolute",right:"15px",cursor:"pointer",top:"15px"}} onClick={handleRemove}/>
+            <Box component={"div"} display={"flex"} flexWrap={"wrap"} gap={"15px"}>
               <Avatar
                 src={cartDetails?.image_url}
                 sx={{ width: 100, height: 100 }}
@@ -148,6 +148,7 @@ const CartItem = ({ cartDetails, sideBar }) => {
                     sx={{ border: `1px solid ${theme.palette.primary.dark}`,borderRadius:"8px"}}
                     size={"small"}
                     color={"primary"}
+                    onClick={handleDecrease}
                   >
                     <Remove fontSize="14px"/>
                   </IconButton>
@@ -155,6 +156,7 @@ const CartItem = ({ cartDetails, sideBar }) => {
                   <IconButton
                     sx={{ border: `1px solid ${theme.palette.primary.dark}`,borderRadius:"8px" }}
                     size={"small"}
+                    onClick={handleAdd}
                     color={"primary"}
                   >
                     <Add fontSize="14px"/>

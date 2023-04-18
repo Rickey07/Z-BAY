@@ -8,6 +8,7 @@ const PrimaryButton = (prop) => {
       variant={prop.variant ? prop.variant : "contained"}
       color={prop.buttonColor ? prop.buttonColor : "primary"}
       size={prop.buttonSize ? prop.buttonSize : "small"}
+      fullWidth={prop.fullWidth}
       onClick={prop.handleClick}
       disabled={prop.isLoading}
     >
