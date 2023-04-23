@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    cart: [],
+    cart: JSON.parse(localStorage.getItem("products")) ?? [],
     total: 0,
   },
   reducers: {
@@ -26,6 +26,7 @@ const cartSlice = createSlice({
       }
       state.cart = updatedCart;
       state.total = updatedCart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
+      localStorage.setItem("products",JSON.stringify(updatedCart))
     },
     removeFromCart(state, { payload }) {
       let updatedCart = state.cart;
@@ -47,10 +48,13 @@ const cartSlice = createSlice({
       }
       state.cart = updatedCart;
       state.total = updatedCart.length > 0 && updatedCart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
+      localStorage.setItem("products",JSON.stringify(updatedCart))
     },
     removeSingleItem(state,{payload}) {
       state.cart = state.cart.filter((cartItem) => cartItem.id !==  payload.id)
       state.total = state.cart.length > 0 && state.cart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
+      localStorage.setItem("products",JSON.stringify(state.cart))
+
     }
   },
 });

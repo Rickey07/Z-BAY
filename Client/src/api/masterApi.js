@@ -72,6 +72,12 @@ function createUrl(requestFor, anyId) {
     case "getProduct":
       newUrl = newUrl + `/product/${anyId}`;
       break;
+    case "newAddress":
+      newUrl = newUrl + `/address/new`;
+      break;
+    case "allAddress":
+      newUrl = newUrl + `/address/all/${anyId}`
+      break;
     default:
       break;
   }
