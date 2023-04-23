@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const User = require("../models/user");
 
 exports.getAllOrders = async () => {
   try {
@@ -17,16 +18,18 @@ exports.getAllOrders = async () => {
   }
 };
 
-exports.placeOrder = async () => {
+exports.placeOrder = async (req,res) => {
   try {
     const newOrder = new Order(req.body.order);
     const savedOrder = await newOrder.save();
+    const updatedOrderInUserAccount = await User.findByIdAndUpdate({_id:req.body.order.user},{$push:{purchases:savedOrder._id}},{new:true})
     return res.status(200).json({
       order: savedOrder,
       statusCode: 200,
       success: false,
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       error: "Internal Server Error Occured",
       success: false,

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const {ObjectId} = Schema
 const {uuid} = require('uuidv4');
 const crypto = require("crypto");
 
@@ -17,19 +18,16 @@ const userSchema = new Schema({
   profilePic: {
     type: String,
   },
-  addresses: [
+  addresses: [{
+      type: ObjectId,
+      ref: "Address",
+  }],
+  purchases: [
     {
-      addressType: String,
-      PinCode: Number,
-      city: String,
-      landMark: String,
-      name: String,
-    },
+      type:ObjectId,
+      ref:"Order"
+    }
   ],
-  purchases: {
-    type: Array,
-    default: [],
-  },
   salt: String,
   encry_password: {
     type: String,

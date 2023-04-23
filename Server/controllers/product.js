@@ -59,10 +59,11 @@ exports.getAllProduct = async (req, res) => {
   try {
     const allProducts = await Product.find({}).populate({path:"category",select:"category_name"});
     if (allProducts.length === 0) {
-      return res.status(500).json({
-        error: "Internal Server Error Occured",
-        success: false,
-        statusCode: 500,
+      return res.status(200).json({
+        error: "No Items Found",
+        success: true,
+        statusCode: 200,
+        products:allProducts
       });
     }
     return res.status(200).json({

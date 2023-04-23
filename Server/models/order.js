@@ -3,10 +3,23 @@ const {Schema}  = mongoose
 const {ObjectId} = Schema
 const orderSchema = new Schema({
     products:{
-        type:Array
+        type:Array,
+        default:[]
+    },
+    fullname:{
+        required:true,
+        type:String
+    },
+    email:{
+        required:true,
+        type:String
     },
     transaction_id:{
         type:String
+    },
+    address:{
+        type:ObjectId,
+        ref:'Address'
     },
     order_id:{
         type:String

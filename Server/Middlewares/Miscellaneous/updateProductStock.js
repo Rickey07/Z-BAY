@@ -4,7 +4,7 @@ module.exports =  updateProductStock  = async (req,res,next) => {
     const operations = req.body.order.products.map((product) => {
         return {
             updateOne:{
-                filter:{_id:product._id},
+                filter:{_id:product.id},
                 update:{$inc:{quantity:-product.quantity}}
             }
         }
@@ -19,6 +19,5 @@ module.exports =  updateProductStock  = async (req,res,next) => {
             })
         }
         next()
-    })
-    
+    }) 
 }

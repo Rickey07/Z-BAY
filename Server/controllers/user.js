@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const allUsers = await User.find({});
+    const allUsers = await User.find({}).populate("addresses");
     if (allUsers.length === 0) {
       return res.json({
         error: "No Users Found In DB",

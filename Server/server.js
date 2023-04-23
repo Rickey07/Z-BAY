@@ -11,8 +11,8 @@ const { default: mongoose } = require('mongoose');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
-const orderRoutes = require('./routes/order')
-
+const orderRoutes = require('./routes/order');
+const addressRoutes = require('./routes/address');
 
 
 
@@ -29,7 +29,8 @@ app.use(express.urlencoded({extended:true}));
 app.use('/api',userRoutes);
 app.use("/api/category",categoryRoutes)
 app.use("/api/product",productRoutes)
-app.use("/api/order",orderRoutes)
+app.use("/api/orders",orderRoutes)
+app.use("/api/address",addressRoutes)
 
 
 
