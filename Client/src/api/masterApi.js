@@ -78,6 +78,12 @@ function createUrl(requestFor, anyId) {
     case "allAddress":
       newUrl = newUrl + `/address/all/${anyId}`
       break;
+    case "updateAddress":
+      newUrl = newUrl + `/address/edit`;
+      break;
+    case "deleteAddress":
+      newUrl = newUrl + '/address/delete';
+      break
     default:
       break;
   }

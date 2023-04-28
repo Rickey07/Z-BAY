@@ -6,9 +6,9 @@ import { useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useEffect } from "react";
 import newAddress from "../../helpers/APICalls/newAddress";
+import updateAddress from "../../helpers/APICalls/updateAddress";
 
-const NewAddressForm = ({ handleCancel ,formValues}) => {
-    console.log("re-render",formValues)
+const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedAddress , fireAPIonAddressActions}) => {
   // Validation Schema
   const validationSchema = Yup.object({
     fullName: Yup.string()
@@ -31,8 +31,10 @@ const NewAddressForm = ({ handleCancel ,formValues}) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const result = await createAddress(values);
-      } catch (error) {}
+        const result = await newAddressRequest(values);
+      } catch (error) {
+        alert(error)
+      }
     },
   });
   const {
@@ -55,13 +57,15 @@ const NewAddressForm = ({ handleCancel ,formValues}) => {
 
   // Method
 
-  async function createAddress(data) {
+  async function newAddressRequest(data) {
     try {
       setLoading(true);
       data["userId"] = _id;
-      const result = await newAddress(data);
+      const dataForUpdates = {id:currentSelectedAddress,updatedDetails:data}
+      const result = forUpdate ? await updateAddress(dataForUpdates) :  await newAddress(data);
       if (result.success) {
         alert("Address has been created Successfully");
+        fireAPIonAddressActions()
       }
       setLoading(false);
     } catch (error) {

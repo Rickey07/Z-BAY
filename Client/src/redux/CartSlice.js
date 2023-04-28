@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import discountGenerator from "../helpers/Common/discountGenerator";
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cart: JSON.parse(localStorage.getItem("products")) ?? [],
-    total: 0,
+    total: JSON.parse(localStorage.getItem("total")) ?? [],
+    voucherApplied: {
+      discount: JSON.parse(localStorage.getItem("voucher") ?? 0),
+    },
   },
   reducers: {
     addToCart(state, { payload }) {
@@ -21,12 +25,27 @@ const cartSlice = createSlice({
         });
       } else {
         payload.quantity = 1;
-        payload.total = payload.quantity * payload.Price
+        payload.total = payload.quantity * payload.Price;
         updatedCart.push(payload);
       }
       state.cart = updatedCart;
-      state.total = updatedCart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
-      localStorage.setItem("products",JSON.stringify(updatedCart))
+      state.total = updatedCart
+        .map((cartItem) => cartItem.total)
+        ?.reduce((a, b) => a + b);
+      if (state.voucherApplied.discount !== 0) {
+        const { totalDiscount, totalAfterDiscount } = discountGenerator(
+          state.total,
+          20
+        );
+        state.total = totalAfterDiscount;
+        state.voucherApplied = { discount: totalDiscount };
+        localStorage.setItem(
+          "voucher",
+          JSON.stringify(state.voucherApplied.discount)
+        );
+      }
+      localStorage.setItem("products", JSON.stringify(updatedCart));
+      localStorage.setItem("total", JSON.stringify(state.total));
     },
     removeFromCart(state, { payload }) {
       let updatedCart = state.cart;
@@ -47,15 +66,54 @@ const cartSlice = createSlice({
         });
       }
       state.cart = updatedCart;
-      state.total = updatedCart.length > 0 && updatedCart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
-      localStorage.setItem("products",JSON.stringify(updatedCart))
+      state.total =
+        updatedCart.length > 0 &&
+        updatedCart.map((cartItem) => cartItem.total)?.reduce((a, b) => a + b);
+      if (state.voucherApplied.discount !== 0) {
+        const { totalDiscount, totalAfterDiscount } = discountGenerator(
+          state.total,
+          20
+        );
+        state.total = totalAfterDiscount;
+        state.voucherApplied = { discount: totalDiscount };
+        localStorage.setItem(
+          "voucher",
+          JSON.stringify(state.voucherApplied.discount)
+        );
+      }
+      localStorage.setItem("products", JSON.stringify(updatedCart));
+      localStorage.setItem("total", JSON.stringify(state.total));
     },
-    removeSingleItem(state,{payload}) {
-      state.cart = state.cart.filter((cartItem) => cartItem.id !==  payload.id)
-      state.total = state.cart.length > 0 && state.cart.map((cartItem) => cartItem.total)?.reduce((a,b) => a+b)
-      localStorage.setItem("products",JSON.stringify(state.cart))
-
-    }
+    removeSingleItem(state, { payload }) {
+      state.cart = state.cart.filter((cartItem) => cartItem.id !== payload.id);
+      state.total =
+        state.cart.length > 0 &&
+        state.cart.map((cartItem) => cartItem.total)?.reduce((a, b) => a + b);
+      if (state.voucherApplied.discount !== 0) {
+        const { totalDiscount, totalAfterDiscount } = discountGenerator(
+          state.total,
+          20
+        );
+        state.total = totalAfterDiscount;
+        state.voucherApplied = { discount: totalDiscount };
+        localStorage.setItem(
+          "voucher",
+          JSON.stringify(state.voucherApplied.discount)
+        );
+      }
+      localStorage.setItem("products", JSON.stringify(state.cart));
+      localStorage.setItem("total", JSON.stringify(state.total));
+    },
+    applyVoucher(state, { payload }) {
+      const total = (payload / 100) * state.total;
+      state.total = state.total - total;
+      state.voucherApplied = { discount: total };
+      localStorage.setItem("total", JSON.stringify(state.total));
+      localStorage.setItem(
+        "voucher",
+        JSON.stringify(state.voucherApplied.discount)
+      );
+    },
   },
 });
 

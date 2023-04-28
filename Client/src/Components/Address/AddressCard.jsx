@@ -26,7 +26,7 @@ const AddressCard = ({
           <IconButton size="small" onClick={() => handleEdit(_id)}>
             <Edit fontSize="8px"/>
           </IconButton>
-          <IconButton size="small" onClick={handleDelete}>
+          <IconButton size="small" onClick={() => handleDelete(_id)}>
             <Delete fontSize="8px"/>
           </IconButton>
         </Box>

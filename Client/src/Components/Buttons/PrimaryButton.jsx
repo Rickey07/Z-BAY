@@ -10,7 +10,7 @@ const PrimaryButton = (prop) => {
       size={prop.buttonSize ? prop.buttonSize : "small"}
       fullWidth={prop.fullWidth}
       onClick={prop.handleClick}
-      disabled={prop.isLoading}
+      disabled={prop.isLoading || prop.disabled}
     >
       {prop.isLoading ? <CircularProgress size={15} /> : prop.Icon}
       {prop.isLoading ? prop.text + "..." : prop.text}

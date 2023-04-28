@@ -12,6 +12,9 @@ export const filterProducts = (filters, products) => {
     })
     ?.sort((a, b) => {
       return filters?.sort_by === "asc" ? a?.Price - b?.Price : b?.Price - a?.Price;
-    });
+    })
+    .filter((product) => {
+      return product.name.toLowerCase().includes(filters.product_name.toLowerCase())
+    })
   return filteredProducts
 };
