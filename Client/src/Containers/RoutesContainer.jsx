@@ -3,6 +3,7 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Products, Cart, Wishlist, Login, Home } from "../Pages";
 import Admin from "../Pages/Admin";
+import Dashboard from "../Pages/Dashboard";
 import {RequireAuth} from 'react-auth-kit'
  
 const RoutesContainer = () => {
@@ -16,6 +17,7 @@ const RoutesContainer = () => {
     "/Cart":<Cart/>,
     "/wishlist":<Wishlist/>,
     "/Login":<Login/>,
+    "/dashboard/*":<Dashboard/>,
     "/admin":<Admin/>
   }
   const routes = []
@@ -25,7 +27,7 @@ const RoutesContainer = () => {
     ) : (
         <RequireAuth loginPath="/Login">{routesMapper[pathUrl]}</RequireAuth>
     )
-    routes.push(<Route path={pathUrl} element={component}/>)
+    routes.push(<Route path={pathUrl} element={component}/>)  
   }) 
 
   // Fallback Route

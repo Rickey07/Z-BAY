@@ -4,7 +4,6 @@ import { Box, Button, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { useState } from "react";
 import { useAuthUser } from "react-auth-kit";
-import { useEffect } from "react";
 import newAddress from "../../helpers/APICalls/newAddress";
 import updateAddress from "../../helpers/APICalls/updateAddress";
 
@@ -63,6 +62,7 @@ const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedA
       data["userId"] = _id;
       const dataForUpdates = {id:currentSelectedAddress,updatedDetails:data}
       const result = forUpdate ? await updateAddress(dataForUpdates) :  await newAddress(data);
+      console.log(result);
       if (result.success) {
         alert("Address has been created Successfully");
         fireAPIonAddressActions()

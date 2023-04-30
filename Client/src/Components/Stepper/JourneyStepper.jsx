@@ -21,6 +21,7 @@ const JourneyStepper = ({steps,getActiveStep}) => {
     getActiveStep(steps[index])
   };
 
+
   return (
     <div>
       <Stepper activeStep={activeStep}>

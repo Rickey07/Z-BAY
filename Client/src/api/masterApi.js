@@ -83,6 +83,9 @@ function createUrl(requestFor, anyId) {
       break;
     case "deleteAddress":
       newUrl = newUrl + '/address/delete';
+      break;
+    case "payment":
+      newUrl = newUrl + `/checkout/create-payment-intent`;
       break
     default:
       break;

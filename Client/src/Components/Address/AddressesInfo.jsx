@@ -1,16 +1,18 @@
 import React from "react";
 import { Paper, Typography, Box, Grid } from "@mui/material";
 import PrimaryButton from "../Buttons/PrimaryButton";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import deleteAddress from "../../helpers/APICalls/deleteAddress";
 import getAllAddress from "../../helpers/APICalls/getAllAddress";
 import AddressCard from "./AddressCard";
 import NewAddressForm from "./NewAddressForm";
 import { useAuthUser } from "react-auth-kit";
+import { useSelector } from "react-redux";
 
-const AddressesInfo = () => {
-
-    // States
+const AddressesInfo = ({ getActiveStep }) => {
+  // Redux Imports
+  const { cart } = useSelector((state) => state.cart);
+  // States
   const [isNewAddressFormVisible, setIsNewAddressFormVisible] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [selectedId, setSelectedId] = useState("");
@@ -32,8 +34,10 @@ const AddressesInfo = () => {
   const auth = useAuthUser();
   const { _id } = auth();
 
+  // Variables
+  const proceedToPayemntButtonDisable = cart.length === 0;
 
-  // Effects 
+  // Effects
   useEffect(() => {
     getAddresses();
   }, [addressUpdated]);
@@ -75,6 +79,9 @@ const AddressesInfo = () => {
     }
   };
 
+  const handlePayment = () => {
+    getActiveStep("Place Order");
+  };
 
   // API Calls
 
@@ -141,7 +148,9 @@ const AddressesInfo = () => {
             variant={"contained"}
             color={"primary"}
             fullWidth={true}
+            disabled={proceedToPayemntButtonDisable || selectedId === ""}
             text={"Proceed To Payment"}
+            handleClick={handlePayment}
           />
         </Box>
       )}

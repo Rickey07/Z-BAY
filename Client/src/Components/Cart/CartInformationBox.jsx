@@ -54,13 +54,6 @@ const CartInformationBox = () => {
       {total}
     </Typography>
     <VoucherBox />
-    {/* <Box component={"div"} display={"flex"} justifyContent={"space-between"}>
-        <Typography component={"span"}>Total</Typography>
-        <Typography component={"span"}>₹{total}</Typography>
-      </Box>
-      <Divider sx={{mt:2}}/>
-      <TextField variant="outlined" label={"Voucher"} sx={{mt:4,mb:2}} size="small" fullWidth/>
-      <PrimaryButton variant={"outlined"} color={"primary"} fullWidth={true} text={"Apply Voucher"} /> */}
   </Paper>
   )
 }

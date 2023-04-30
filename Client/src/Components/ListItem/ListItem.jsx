@@ -4,7 +4,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useTheme,
 } from "@mui/material";
 
 const ListItemNav = ({ text, image, routeUrl, selectedLink, handleClick }) => {

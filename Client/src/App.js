@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme,ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import Footer from "./Components/Footer/Footer";
@@ -18,13 +18,17 @@ function App() {
       mainBackgroundColor: "#F6F9FC",
       transitions: {
         growTransition: "color 0.5s 0s ease",
-      },
-      primaryLight:"#101010"
+      },  
+      primaryLight:"#101010",
+      smallTextColor:"rgb(125, 135, 156)"
     },
     palette:{
       primary:{
         main:"#d23f57",
       },
+      secondary:{
+        main:"#101010"
+      }
     },
     components: {
       MuiAppBar: {
