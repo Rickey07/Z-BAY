@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "@emotion/react";
 import {
   FormControl,
   FormControlLabel,
@@ -13,11 +12,14 @@ import {
   Typography,
   Rating,
   Divider,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const SidebarForFilter = ({ onChange }) => {
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('md'))
   const categories = useSelector(
     (state) => state.category.categories.categories
   );
@@ -27,6 +29,7 @@ const SidebarForFilter = ({ onChange }) => {
       padding: "15px",
       display: "flex",
       flexDirection: "column",
+      marginTop:mobile&&6,
       gap: "10px",
     },
     sideBarFilterSubItem: {
@@ -42,7 +45,7 @@ const SidebarForFilter = ({ onChange }) => {
     <>
       <Paper
         component={"div"}
-        style={sideBarFilterStyles.mainPaperBox}
+        sx={sideBarFilterStyles.mainPaperBox}
         elevation={1}
       >
         <Box component={"div"}>

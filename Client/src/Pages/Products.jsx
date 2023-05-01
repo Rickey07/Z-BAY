@@ -1,6 +1,6 @@
 import React from "react";
 import Product from "../Components/Product/Product.jsx";
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid, Drawer, useTheme, useMediaQuery } from "@mui/material";
 import SidebarForFilter from "../Components/SideBar/SidebarForFilter.jsx";
 import MainSearchBar from "../Components/SearchBars/MainSearchBar.jsx";
 import { useState, useEffect } from "react";
@@ -10,6 +10,10 @@ import { useSearchParams } from "react-router-dom";
 import SingleProduct from "../Components/Product/SingleProduct.jsx";
 
 const Products = () => {
+  // Responsiveness
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
+
   // States
   const [filters, setFilters] = useState({
     product_name: "",
@@ -22,16 +26,17 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { search } = Object.fromEntries([...searchParams]);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   // Effects
   useEffect(() => {
-    if(!search) {
+    if (!search) {
       fetchAllProducts();
     }
   }, []);
 
   useEffect(() => {
-    if(!search) {
+    if (!search) {
       const data = filterProducts(filters, products);
       setDataToDisplay([...data]);
     }
@@ -74,6 +79,14 @@ const Products = () => {
     console.log(filters);
   };
 
+  const openMobileMenu = () => {
+    setMobileMenu(!mobileMenu);
+  };
+
+  const handleClose = () => {
+    setMobileMenu(false);
+  };
+
   return (
     <>
       <div>Products</div>
@@ -83,19 +96,31 @@ const Products = () => {
         flexDirection={"column"}
         gap={"2rem"}
       >
+        {/* Check if mobile Menu is open or not  */}
+        {mobileMenu && mobile && (
+          <Drawer anchor="left" open={mobileMenu} onClose={handleClose} keepMounted>
+            {<SidebarForFilter onChange={onSideBarFiltersChange} />}
+          </Drawer>
+        )}
+        {/* // Show only 1 Product when search through Params  */}
         {search ? (
-          <SingleProduct searchId={search}/>
+          <SingleProduct searchId={search} />
         ) : (
           <>
             <MainSearchBar
               onChange={onSearch}
-              searchValue={filters.product_name}
+              searchValue={filters?.product_name}
+              resultsFoundValue={dataToDisplay?.length}
+              handleMobileMenu={openMobileMenu}
             />
             <Grid container spacing={3}>
-              <Grid item md={2} xs={10}>
-                <SidebarForFilter onChange={onSideBarFiltersChange} />
-              </Grid>
-              <Grid item md={10}>
+              {!mobile && (
+                <Grid item md={2} xs={10}>
+                  <SidebarForFilter onChange={onSideBarFiltersChange} />
+                </Grid>
+              )}
+
+              <Grid item md={10} xs={12}>
                 <Grid container spacing={6}>
                   {(loading ? Array.from(new Array(6)) : dataToDisplay)?.map(
                     (product) => {
