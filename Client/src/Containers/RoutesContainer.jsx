@@ -1,10 +1,10 @@
-import { useTheme } from "@emotion/react";
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Products, Cart, Wishlist, Login, Home } from "../Pages";
 import Admin from "../Pages/Admin";
 import Dashboard from "../Pages/Dashboard";
 import {RequireAuth} from 'react-auth-kit'
+import { useTheme } from "@mui/material";
  
 const RoutesContainer = () => {
   const theme = useTheme();
@@ -44,7 +44,7 @@ const RoutesContainer = () => {
           width: "90%",
           // position:"relative",
           border:"1px solid red",
-          backgroundImage: `${theme.mainTheme.mainBackgroundColor}`,
+          backgroundColor: `${theme.palette.secondary.main}`,
         }}
       >
         <Routes>

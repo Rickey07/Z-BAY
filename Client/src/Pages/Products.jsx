@@ -92,7 +92,7 @@ const Products = () => {
       <div>Products</div>
       <Box
         display={"flex"}
-        padding={"50px"}
+        sx={{p:mobile?1:3}}
         flexDirection={"column"}
         gap={"2rem"}
       >
@@ -113,7 +113,7 @@ const Products = () => {
               resultsFoundValue={dataToDisplay?.length}
               handleMobileMenu={openMobileMenu}
             />
-            <Grid container spacing={3}>
+            <Grid container spacing={mobile?1:3}>
               {!mobile && (
                 <Grid item md={2} xs={10}>
                   <SidebarForFilter onChange={onSideBarFiltersChange} />
@@ -121,7 +121,7 @@ const Products = () => {
               )}
 
               <Grid item md={10} xs={12}>
-                <Grid container spacing={6}>
+                <Grid container spacing={mobile?3:6}>
                   {(loading ? Array.from(new Array(6)) : dataToDisplay)?.map(
                     (product) => {
                       return (

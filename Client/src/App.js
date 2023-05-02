@@ -27,14 +27,14 @@ function App() {
         main:"#d23f57",
       },
       secondary:{
-        main:"#101010"
+        main:"#F3F5F9"
       }
     },
     components: {
       MuiAppBar: {
         styleOverrides: {
           root: {
-            backgroundColor: "#A232F0",
+            // backgroundColor: "#A232F0",
             zIndex: 1500,
           },
         },
