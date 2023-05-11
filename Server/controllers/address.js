@@ -7,6 +7,7 @@ exports.createAddress = async (req, res) => {
     const isAddressPresent = await Address.find({
       addressType: req.body.addressType,
     });
+    console.log(isAddressPresent)
     if (Object.keys(isAddressPresent).length > 0) {
       return res
         .status(400)

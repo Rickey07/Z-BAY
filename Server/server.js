@@ -13,6 +13,7 @@ const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
 const addressRoutes = require('./routes/address');
+const paymentRoutes = require('./routes/payment');
 
 
 
@@ -31,6 +32,7 @@ app.use("/api/category",categoryRoutes)
 app.use("/api/product",productRoutes)
 app.use("/api/orders",orderRoutes)
 app.use("/api/address",addressRoutes)
+app.use("/api/checkout",paymentRoutes)
 
 
 
