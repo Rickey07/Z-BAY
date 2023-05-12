@@ -1,8 +1,9 @@
-import { Typography, Grid, Box, Card } from "@mui/material";
+import { Typography, Grid, Box, Card, Paper } from "@mui/material";
 import React from "react";
 import payment from "../assets/Images/payment.jpg";
 import delivery from "../assets/Images/delivery.jpg";
 import wishlist from "../assets/Images/wishlist.jpg";
+import { LocalShippingOutlined } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 
 const FeaturesContainer = () => {
@@ -22,58 +23,6 @@ const FeaturesContainer = () => {
     },
   ];
 
-  const Feature = ({ children }) => {
-    return (
-      <>
-        <Grid
-          key={children.name}
-          item
-          md={4}
-          sx={{
-            height: "300px",
-          }}
-          xs={12}
-        >
-          <Card
-            sx={{
-              background: `linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)`,
-              // padding: "10px",
-              boxShadow: `${theme.mainTheme.primaryColor}`,
-              cursor: "pointer",
-            }}
-          >
-            <Box
-              sx={{
-                background: `${theme.mainTheme.mainBackgroundColor}`,
-                borderRadius: "8px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                // gap: "20px",
-              }}
-            >
-              <Typography component={"h2"}>{children.featureName}</Typography>
-              <img
-                src={children.image}
-                style={{ height: "200px", width: "300px", borderRadius: "8px" }}
-              />
-              <Typography
-                component={"p"}
-                sx={{
-                  color: theme.mainTheme.primaryColor,
-                  width: "fit-content",
-                }}
-              >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                neque ratione cupiditate ut,...
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
-      </>
-    );
-  };
 
   return (
     <>
@@ -88,11 +37,36 @@ const FeaturesContainer = () => {
       >
         What Z-BAY Offers
       </Typography>
-      <Grid spacing={2} mdoffset={2} container>
-        {featureData.map((feature) => {
-          return <Feature children={feature} />;
-        })}
-      </Grid>
+      <Paper elevation={5} sx={{p:4,display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"30px"}}>
+        <Box sx={{display:"flex",gap:"16px",alignItems:"center",borderRight:"1px solid black"}}>
+          <LocalShippingOutlined/>
+          <Box sx={{display:"flex",flexDirection:"column"}}>
+            <Typography component={"p"} variant={"p"}>Fast Delivery</Typography>
+            <Typography component={"small"} variant={"small"}>Start From $10</Typography>
+          </Box>
+        </Box>
+        <Box sx={{display:"flex",gap:"16px",alignItems:"center",borderRight:"1px solid black"}}>
+          <LocalShippingOutlined/>
+          <Box sx={{display:"flex",flexDirection:"column"}}>
+            <Typography component={"p"} variant={"p"}>Fast Delivery</Typography>
+            <Typography component={"small"} variant={"small"}>Start From $10</Typography>
+          </Box>
+        </Box>
+        <Box sx={{display:"flex",gap:"16px",alignItems:"center",borderRight:"1px solid black"}}>
+          <LocalShippingOutlined/>
+          <Box sx={{display:"flex",flexDirection:"column"}}>
+            <Typography component={"p"} variant={"p"}>Fast Delivery</Typography>
+            <Typography component={"small"} variant={"small"}>Start From $10</Typography>
+          </Box>
+        </Box>
+        <Box sx={{display:"flex",gap:"16px",alignItems:"center",borderRight:"1px solid black"}}>
+          <LocalShippingOutlined/>
+          <Box sx={{display:"flex",flexDirection:"column"}}>
+            <Typography component={"p"} variant={"p"}>Fast Delivery</Typography>
+            <Typography component={"small"} variant={"small"}>Start From $10</Typography>
+          </Box>
+        </Box>
+      </Paper>
     </>
   );
 };
