@@ -62,6 +62,7 @@ function App() {
             <Toast open={visible} message={message} messageType={messageType} />
           )}
           <RoutesContainer />
+          
           {isAdmin && <Footer />}
         </ThemeProvider>
       </Router>

@@ -17,7 +17,7 @@ const RoutesContainer = () => {
     "/Cart":<Cart/>,
     "/wishlist":<Wishlist/>,
     "/Login":<Login/>,
-    "/dashboard/*":<Dashboard/>,
+    "/dashboard/*":<Dashboard/>,  
     "/admin":<Admin/>
   }
   const routes = []

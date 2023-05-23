@@ -87,6 +87,9 @@ function createUrl(requestFor, anyId) {
     case "payment":
       newUrl = newUrl + `/checkout/create-payment-intent`;
       break
+    case "newOrder":
+      newUrl = newUrl + `/orders/new`;
+      break;
     default:
       break;
   }

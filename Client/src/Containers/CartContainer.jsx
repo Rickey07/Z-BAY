@@ -45,7 +45,7 @@ const CartContainer = () => {
    if(total!==0 && cart.length!==0) {
     createPaymentIntent();
    }
-  }, []);
+  }, [activeComponent]);
 
   async function createPaymentIntent () {
     const result = await createPayment({total})

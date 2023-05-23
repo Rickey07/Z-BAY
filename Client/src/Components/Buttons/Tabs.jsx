@@ -21,8 +21,8 @@ export default function ColorTabs(prop) {
       <Tabs
         value={prop.currentTab}
         onChange={handleChange}
-        textColor="secondary"
-        indicatorColor="secondary"
+        textColor="primary"
+        indicatorColor="secondary"  
         aria-label="secondary tabs example"
       >
         <Tab value="Login" label="Login" />
