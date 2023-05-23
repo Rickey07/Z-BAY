@@ -6,14 +6,6 @@ const orderSchema = new Schema({
         type:Array,
         default:[]
     },
-    fullname:{
-        required:true,
-        type:String
-    },
-    email:{
-        required:true,
-        type:String
-    },
     transaction_id:{
         type:String
     },

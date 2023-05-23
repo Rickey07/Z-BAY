@@ -27,10 +27,11 @@ exports.createAddress = async (req, res) => {
 exports.updateAddress = async (req, res) => {
   try {
     const updatedAddress = await Address.findByIdAndUpdate(
-      req.body.id,
+      req.body.updatedDetails.id,
       req.body.updatedDetails,
       { new: true }
     );
+    console.log(updatedAddress)
     return res
       .status(200)
       .json({
