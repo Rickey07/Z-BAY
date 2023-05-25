@@ -7,11 +7,13 @@ import getAllAddress from "../../helpers/APICalls/getAllAddress";
 import AddressCard from "./AddressCard";
 import NewAddressForm from "./NewAddressForm";
 import { useAuthUser } from "react-auth-kit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../../redux/CartSlice";
 
 const AddressesInfo = ({ getActiveStep }) => {
   // Redux Imports
   const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   // States
   const [isNewAddressFormVisible, setIsNewAddressFormVisible] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -54,6 +56,7 @@ const AddressesInfo = ({ getActiveStep }) => {
 
   const changeSelectedId = (id) => {
     setSelectedId(id);
+    dispatch(cartActions.changeAddress(id))
   };
 
   const fireAPIonAddressActions = () => {

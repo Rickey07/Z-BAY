@@ -5,11 +5,21 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import placeOrder from "../../helpers/APICalls/placeOrder";
+import {useSelector,useDispatch} from 'react-redux'
+import { useAuthUser } from "react-auth-kit";
+import { cartActions } from "../../redux/CartSlice";
+import {toast} from 'react-toastify'
+
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const auth = useAuthUser();
+  const { _id } = auth()
+  
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,22 +66,42 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
-      },
-    });
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
+    // Save Order Details in DB and Update
+    const dataForNewOrder = {
+      order:{
+        products:cart?.cart,
+        amount:cart?.total,
+        transaction_id:Math.random()*532,
+        address:cart.address, // This will be address Id
+        order_id:Math.random()*399,
+        status:"Recieved",
+        user:_id
+      }
+    }
+    console.log(dataForNewOrder)
+    const result = await placeOrder(dataForNewOrder)
+    if(result?.statusCode === 200) {
+      dispatch(cartActions.clearCart());
+      toast.success("Your Order has been Placed Successfully!")
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          // Make sure to change this to your payment completion page
+          return_url: "http://localhost:3000",
+        },
+      });
+      // This point will only be reached if there is an immediate error when
+      // confirming the payment. Otherwise, your customer will be redirected to
+      // your `return_url`. For some payment methods like iDEAL, your customer will
+      // be redirected to an intermediate site first to authorize the payment, then
+      // redirected to the `return_url`.
+      if (error.type === "card_error" || error.type === "validation_error") {
+        setMessage(error.message);
+      } else {
+        setMessage("An unexpected error occurred.");  
+      }
     } else {
-      setMessage("An unexpected error occurred.");  
+      toast.warn("Some Error Occurred while Placing your order!")
     }
 
     setIsLoading(false);

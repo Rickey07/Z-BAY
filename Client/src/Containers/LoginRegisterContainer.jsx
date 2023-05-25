@@ -15,6 +15,7 @@ import registerUser from "../helpers/APICalls/registerUser";
 import { globalActions } from "../redux/global";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginRegisterContainer = () => {
   // This component will have  Login and Register Page
@@ -178,7 +179,7 @@ const LoginRegisterContainer = () => {
         messageType: "success",
       };
       if (result.success) {
-        dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
+       toast.success(result?.message)
         if (result?.userDetails?.token) {
           if (
             signIn({
@@ -192,8 +193,7 @@ const LoginRegisterContainer = () => {
           }
         }
       } else {
-        alertSuccessMessage.messageType = "error";  
-        dispatch(globalActions.toastAlertStateToggler(alertSuccessMessage));
+        toast.error(result.message)
       }
       setLoading(false);
     } catch (error) {

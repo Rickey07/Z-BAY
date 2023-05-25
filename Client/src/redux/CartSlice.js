@@ -6,6 +6,7 @@ const cartSlice = createSlice({
   initialState: {
     cart: JSON.parse(localStorage.getItem("products")) ?? [],
     total: JSON.parse(localStorage.getItem("total")) ?? [],
+    address:"",
     voucherApplied: {
       discount: JSON.parse(localStorage.getItem("voucher") ?? 0),
     },
@@ -114,6 +115,16 @@ const cartSlice = createSlice({
         JSON.stringify(state.voucherApplied.discount)
       );
     },
+    changeAddress(state,{payload}) {
+      state.address = payload
+    },
+    clearCart(state,{payload}) {
+      state.cart = [];
+      state.total = 0
+      state.address = ""
+      state.voucherApplied.discount = 0;
+      localStorage.clear();
+    }
   },
 });
 

@@ -1,4 +1,4 @@
-import { createTheme,ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import Footer from "./Components/Footer/Footer";
@@ -6,6 +6,8 @@ import "./App.css";
 import Header from "./Components/Header/Header";
 import Toast from "./Components/Toast/Toast";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const toastState = useSelector((state) => state?.global?.toastAlertState);
@@ -18,17 +20,17 @@ function App() {
       mainBackgroundColor: "#F6F9FC",
       transitions: {
         growTransition: "color 0.5s 0s ease",
-      },  
-      primaryLight:"#101010",
-      smallTextColor:"rgb(125, 135, 156)"
-    },
-    palette:{
-      primary:{
-        main:"#d23f57",
       },
-      secondary:{
-        main:"#F3F5F9"
-      }
+      primaryLight: "#101010",
+      smallTextColor: "rgb(125, 135, 156)",
+    },
+    palette: {
+      primary: {
+        main: "#d23f57",
+      },
+      secondary: {
+        main: "#F3F5F9",
+      },
     },
     components: {
       MuiAppBar: {
@@ -55,6 +57,18 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Router>
         <ThemeProvider theme={theme}>
           <Header />
@@ -62,7 +76,7 @@ function App() {
             <Toast open={visible} message={message} messageType={messageType} />
           )}
           <RoutesContainer />
-          
+
           {isAdmin && <Footer />}
         </ThemeProvider>
       </Router>

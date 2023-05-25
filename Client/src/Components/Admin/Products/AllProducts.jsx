@@ -21,6 +21,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { deleteProduct } from "../../../helpers/APICalls/deleteProduct";
 import updateProduct from "../../../helpers/APICalls/updateProduct";
+import { toast } from "react-toastify";
 
 const AllProducts = () => {
   // Custom Variables
@@ -177,19 +178,18 @@ const AllProducts = () => {
     const deletedProduct = await deleteProduct(id);
     if (deletedProduct.success) {
       dispatch(productActions.removeProduct(id));
-      dispatch(globalActions.toastAlertStateToggler(successAlertMessage));
+      toast.success("Deleted Successfully!")
     } else {
-      dispatch(globalActions.toastAlertStateToggler(failureAlertMessage));
+      toast.error("Some Unknown Error Occured!")
     }
   };
 
   const onUpdate = async (data) => {
     const updatedProduct = await updateProduct(data);
     if (updatedProduct.success) {
-      successAlertMessage["message"] = "Product has been updated successfully!";
-      dispatch(globalActions.toastAlertStateToggler(successAlertMessage));
+      toast.success("Proouct has been updated Successfully!")
     } else {
-      dispatch(globalActions.toastAlertStateToggler(failureAlertMessage));
+      toast.error("Some Unknown Error Occurred while Updating ")
     }
   };
   return (

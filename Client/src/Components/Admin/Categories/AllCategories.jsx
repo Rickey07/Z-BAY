@@ -18,6 +18,7 @@ import { useState } from "react";
 import Done from "@mui/icons-material/Done";
 import Delete from "@mui/icons-material/Delete";
 import deleteCategory from "../../../helpers/APICalls/deleteCategory";
+import {toast} from 'react-toastify'
 import { useEffect } from "react";
 
 const AllCategories = () => {
@@ -121,12 +122,10 @@ const AllCategories = () => {
   const onDelete = async (id) => {
     const result = await deleteCategory({_id:id});
     if(result?.success) {
-      dispatch(globalActions.toastAlertStateToggler(alertMessage))
+      toast.success("Deleted Successfully!")
       dispatch(fetchAllCategories());
     } else {
-      alertMessage["message"] = `Operation Failed with statusCode ${result?.statusCode}`;
-      alertMessage['messageType'] = "error";
-      dispatch(globalActions.toastAlertStateToggler(alertMessage))
+      toast.error(`Operation Failed with statusCode ${result?.statusCode}`)
     }
   };
 
