@@ -2,11 +2,10 @@ import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import OrderItem from "./OrderItem";
 
-const OrderWrapper = () => {
+const OrderWrapper = ({purchases}) => {
   // Media Query
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
-  const arrayWrapper = ["Links", "Hummer", "Hii"];
 
   return (
     <div>
@@ -29,8 +28,8 @@ const OrderWrapper = () => {
         </Paper>
       )}
 
-      {arrayWrapper.map((index) => {
-        return <OrderItem key={index} />;
+      {purchases && purchases?.map((purchase) => {
+        return <OrderItem key={purchase?._id} {...purchase}/>;
       })}
     </div>
   );

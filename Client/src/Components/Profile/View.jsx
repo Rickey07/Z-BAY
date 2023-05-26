@@ -7,17 +7,18 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import MainModal from "../Modal/MainModal";
 import Edit from "./Edit";
-const View = ({ isVisible, handleClose }) => {
+
+const View = ({ isVisible, handleClose,firstname,lastname,orders,email }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
-
   const userDetails = {
-    firstName: "Prabadhya",
-    lastName: "Upadhyay",
-    email: "Rickeyrickey747@gmail.com",
+    firstName: firstname,
+    lastName: lastname,
+    email: email,
     phoneNo: "8770898508",
   };
 
@@ -60,20 +61,20 @@ const View = ({ isVisible, handleClose }) => {
                 }}
               >
                 <Typography component={"h5"} variant={"span"}>
-                  Prabadhya Upadhyay
+                 { `${firstname} ${lastname}`}
                 </Typography>
                 <Typography component={"h5"} variant={"span"}>
-                  Rickeyrickey747@gmail.com
+                  {email}
                 </Typography>
               </Box>
             </Box>
           </Paper>
         </Grid>
         <Grid item md={2} xs={6}>
-          <DataToShowCard text={"All Orders"} data={12} />
+          <DataToShowCard text={"All Orders"} data={orders} />
         </Grid>
         <Grid item md={2} xs={6}>
-          <DataToShowCard text={"Awaiting Payments"} data={"03"} />
+          <DataToShowCard text={"Awaiting Payments"} data={"-"} />
         </Grid>
         <Grid item md={2} xs={12}>
           <DataToShowCard text={"Awaiting Delivery"} data={"00"} />
@@ -102,7 +103,7 @@ const View = ({ isVisible, handleClose }) => {
           >
             First Name
           </Typography>
-          <Typography component={"span"}>Prabadhya</Typography>
+          <Typography component={"span"}>{firstname}</Typography>
         </Box>
         <Box
           component={"div"}
@@ -115,7 +116,7 @@ const View = ({ isVisible, handleClose }) => {
           >
             Last Name
           </Typography>
-          <Typography component={"span"}>Upadhyay</Typography>
+          <Typography component={"span"}>{lastname}</Typography>
         </Box>
         <Box
           component={"div"}
@@ -128,7 +129,7 @@ const View = ({ isVisible, handleClose }) => {
           >
             Email
           </Typography>
-          <Typography component={"span"}>Rickeyrickey747@gmail.com</Typography>
+          <Typography component={"span"}>{email}</Typography>
         </Box>
         <Box
           component={"div"}

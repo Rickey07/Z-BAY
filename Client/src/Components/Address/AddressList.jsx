@@ -7,6 +7,8 @@ import deleteAddress from "../../helpers/APICalls/deleteAddress";
 import { useAuthUser } from "react-auth-kit";
 import { useState } from "react";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+import MainLoader from "../Loaders/MainLoader";
 
 const AddressList = ({ isVisible, handleClose, setIsVisible,newAddressChange }) => {
   const initialFormValues = {
@@ -25,6 +27,7 @@ const AddressList = ({ isVisible, handleClose, setIsVisible,newAddressChange }) 
   const [addresses, setAddresses] = useState([]);
   const [formDetails, setFormDetails] = useState(initialFormValues);
   const [apiFired, setApiFired] = useState(false);
+  const [loader,setLoader] = useState(false);
 
   const auth = useAuthUser();
   const { _id } = auth();
@@ -68,18 +71,23 @@ const AddressList = ({ isVisible, handleClose, setIsVisible,newAddressChange }) 
 
   async function getAddresses() {
     try {
+      setLoader(true)
       const result = await getAllAddress(_id);
       if (result?.success) {
         setAddresses(result?.result);
       } else {
-        alert("Some Error Occured");
+        toast.error("Some Unknown Error Occured")
       }
+      setLoader(false)
     } catch (error) {
       console.log(error);
+      toast.error("Some Unknown Error Occured")
+      setLoader(false)
     }
   }
   return (
     <div>
+      <MainLoader visible={loader}/>
       {addresses &&
         addresses.map((address) => {
           return (

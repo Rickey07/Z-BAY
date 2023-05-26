@@ -14,14 +14,17 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React,{useEffect} from "react";
+import {toast} from 'react-toastify'
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
 import View from "../Components/Profile/View";
 import OrderWrapper from "../Components/Orders/OrderWrapper";
 import { useState } from "react";
 import AddressList from "../Components/Address/AddressList";
-import { useCallback } from "react";
+import { useAuthUser } from "react-auth-kit";
+import getUserDetails from "../helpers/APICalls/getUserDetails";
+import MainLoader from "../Components/Loaders/MainLoader";
 
 const Dashboard = () => {
   // Default Configurations
@@ -46,6 +49,12 @@ const Dashboard = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [newAddressChange, setNewAddressChange] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loader,setLoader] = useState(false);
+  const [userDetailsData,setUserDetailsData] = useState({purchases:"",firstname:"",lastname:"",email:"",addresses:""})
+  const {purchases,firstname,lastname,email,addresses} = userDetailsData
+  const userInfo = {orders:purchases.length,firstname,lastname,email}
+  const auth = useAuthUser();
+  const {_id} = auth();
 
   // Methods
 
@@ -68,8 +77,30 @@ const Dashboard = () => {
     setIsVisible(false);
   };
 
+  const getUserData = async () => {
+    try {
+      setLoader(true)
+      const result = await getUserDetails(_id);
+      if(result?.statusCode===200) {
+        setUserDetailsData(result?.user)
+        console.log(result?.user?.purchases)
+      } else {
+        toast.error("Some unknown Error Occured")
+      }
+      setLoader(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+  },[])
+
+
   return (
     <div>
+      <MainLoader visible={loader}/>
       {mobile && mobileMenuOpen && (
         <Drawer anchor="left" open={mobileMenuOpen} onClose={closeMobileMenuDrawer}>
           <Box component={"div"} sx={{pl:4,marginTop:10,pr:4}}>
@@ -209,10 +240,10 @@ const Dashboard = () => {
             )}
           </Box>
           <Routes>
-            <Route path="/orders" element={<OrderWrapper />} />
+            <Route path="/orders" element={<OrderWrapper purchases={purchases}/>} />
             <Route
               path="/profile"
-              element={<View isVisible={isVisible} handleClose={handleClose} />}
+              element={<View isVisible={isVisible} handleClose={handleClose} {...userInfo}/>}
             />
             <Route
               path="/address"
