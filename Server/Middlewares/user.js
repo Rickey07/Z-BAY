@@ -2,7 +2,10 @@ const User = require("../models/user");
 
 exports.getUserById = async (req, res, next, id) => {
   try {
-    const user = await User.findOne({ _id: id }).populate("addresses")
+    const user = await User.findOne({ _id: id }).populate("addresses").populate({path:"purchases",populate:{
+      path:"address",
+      model:"Address"
+    }})
     if (!Object.keys(user).length) {
       res.json({
         error: "User Not Found",

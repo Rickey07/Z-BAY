@@ -41,7 +41,7 @@ router.post(
 );
 
 
-router.put('/update/:userId',isSignedIn,isAuthenticated,updateUser)
+router.put('/update/:userId',isSignedIn,updateUser)
 
 router.delete('/delete/:userId',isSignedIn,deleteUser)
 
