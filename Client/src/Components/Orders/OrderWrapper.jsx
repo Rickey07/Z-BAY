@@ -1,15 +1,18 @@
 import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import OrderItem from "./OrderItem";
 
 const OrderWrapper = ({purchases}) => {
   // Media Query
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
+  const location = useLocation();
+  console.log(location.pathname)
 
   return (
     <div>
-      {!mobile && (
+      {location.pathname==="/dashboard/orders" && !mobile && (
         <Paper
           component={"div"}
           elevation={0}
@@ -28,9 +31,10 @@ const OrderWrapper = ({purchases}) => {
         </Paper>
       )}
 
-      {purchases && purchases?.map((purchase) => {
+      {location.pathname === "/dashboard/orders" && purchases && purchases?.map((purchase) => {
         return <OrderItem key={purchase?._id} {...purchase}/>;
       })}
+      <Outlet/>
     </div>
   );
 };

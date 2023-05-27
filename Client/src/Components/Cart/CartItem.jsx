@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux/CartSlice";
 import { Add, Close, Remove } from "@mui/icons-material";
 
-const CartItem = ({ cartDetails, sideBar }) => {
+const CartItem = ({ cartDetails, sideBar,hideButton }) => {
   const styles = {
     cartItemsStyle: {
       display: "flex",
@@ -126,7 +126,10 @@ const CartItem = ({ cartDetails, sideBar }) => {
       ) : (
         <Paper component={"div"} elevation={1} sx={{mb:4,p:2,position:"relative"}}>
           <Box component={"div"}>
-            <Close sx={{position:"absolute",right:"15px",cursor:"pointer",top:"15px"}} onClick={handleRemove}/>
+            {
+              !hideButton && <Close sx={{position:"absolute",right:"15px",cursor:"pointer",top:"15px"}} onClick={handleRemove}/>
+
+            }
             <Box component={"div"} display={"flex"} flexWrap={"wrap"} gap={"15px"}>
               <Avatar
                 src={cartDetails?.image_url}
@@ -143,7 +146,8 @@ const CartItem = ({ cartDetails, sideBar }) => {
                 <Typography component={"small"} variant={"small"}>
                   ₹{cartDetails?.total}
                 </Typography>
-                <Box component={"div"} display={"flex"} gap={"10px"} alignItems={"center"}>
+                {
+                  !hideButton && <Box component={"div"} display={"flex"} gap={"10px"} alignItems={"center"}>
                   <IconButton
                     sx={{ border: `1px solid ${theme.palette.primary.dark}`,borderRadius:"8px"}}
                     size={"small"}
@@ -162,6 +166,8 @@ const CartItem = ({ cartDetails, sideBar }) => {
                     <Add fontSize="14px"/>
                   </IconButton>
                 </Box>
+                }
+                
               </Box>
             </Box>
           </Box>

@@ -10,7 +10,7 @@ const OrderItem = ({handleClick,order_id,amount,createdAt,status,id}) => {
 
   return (
     <div>
-      <Link to={"#"} style={{textDecoration:"none"}}>
+      <Link to={`/dashboard/orders/${id}`} style={{textDecoration:"none"}}>
         <Paper
           component={"div"}
           elevation={1}

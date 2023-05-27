@@ -1,13 +1,16 @@
 import { Avatar, Button, Grid, Paper, TextField } from "@mui/material";
 import React from "react";
-import PrimaryButton from "../Buttons/PrimaryButton";
 import { Formik, useFormik } from "formik";
+import { globalActions } from "../../redux/global";
 import * as Yup from "yup";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-const Edit = ({ formValues }) => {
+const Edit = ({ formValues,handleSubmit }) => {
   // States
   const [userDetails, setUserDetails] = useState([]);
+  const [loading,setLoading] = useState(false)
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     firstName: Yup.string("First Name is required").required(
@@ -30,7 +33,7 @@ const Edit = ({ formValues }) => {
     },
   });
 
-  const { firstName, email, lastName, phoneNo } = formik.values;
+  const { firstname, email, lastname, phoneNo } = formik.values;
 
   return (
     <div>
@@ -48,12 +51,12 @@ const Edit = ({ formValues }) => {
               variant="outlined"
               size="small"
               label={"First Name"}
-              name={"firstName"}
+              name={"firstname"}
               error={formik.touched.firstName && Boolean(formik.errors.firstName)}
               helperText={formik.touched.firstName && formik.errors.firstName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={firstName}
+              value={firstname}
             />
           </Grid>
           <Grid item md={6} xs={12}>
@@ -61,12 +64,12 @@ const Edit = ({ formValues }) => {
               variant="outlined"
               size="small"
               label={"Last Name"}
-              name={"lastName"}
+              name={"lastname"}
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
               helperText={formik.touched.lastName && formik.errors.lastName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={lastName}
+              value={lastname}
             />
           </Grid>
         </Grid>
@@ -98,7 +101,7 @@ const Edit = ({ formValues }) => {
             />
           </Grid>
         </Grid>
-        <Button variant="contained" type="submit" color="primary">
+        <Button variant="contained" type="submit" color="primary" onClick={() => handleSubmit(formik.values)}>
           Save Changes
         </Button>
       </Paper>

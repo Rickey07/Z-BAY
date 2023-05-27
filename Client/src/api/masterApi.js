@@ -93,6 +93,9 @@ function createUrl(requestFor, anyId) {
     case "newOrder":
       newUrl = newUrl + `/orders/new`;
       break;
+    case "updateUser":
+      newUrl = newUrl + `/update/${anyId}`;
+      break;
     default:
       break;
   }

@@ -28,7 +28,7 @@ const CartContainer = () => {
 
   // Redux Imports
 
-  const { cart , total } = useSelector((state) => state.cart);
+  const { cart , total , voucherApplied } = useSelector((state) => state.cart);
 
   // States
   const [activeComponent, setActiveComponent] = useState("Cart");
@@ -90,7 +90,7 @@ const CartContainer = () => {
           )}
         </Grid>
         <Grid item md={4} xs={12}>
-          <CartInformationBox />
+          <CartInformationBox cart={cart} total={total} voucherApplied={voucherApplied}/>
         </Grid>
       </Grid>
     </div>

@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const toastState = useSelector((state) => state?.global?.toastAlertState);
-
+ 
   const { visible, message, messageType } = toastState;
   const theme = createTheme({
     mainTheme: {

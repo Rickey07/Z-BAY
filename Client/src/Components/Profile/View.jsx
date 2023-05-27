@@ -7,20 +7,42 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
+import { useAuthUser } from "react-auth-kit";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import updateUser from "../../helpers/APICalls/updateUser";
+import { globalActions } from "../../redux/global";
 import MainModal from "../Modal/MainModal";
 import Edit from "./Edit";
 
 const View = ({ isVisible, handleClose,firstname,lastname,orders,email }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const auth = useAuthUser();
+  const {_id} = auth();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
   const userDetails = {
-    firstName: firstname,
-    lastName: lastname,
+    firstname: firstname,
+    lastname: lastname,
     email: email,
     phoneNo: "8770898508",
   };
+
+  const UpdateUserDetails = async (data) => {
+     data["id"] = _id
+    try {
+      const result = await updateUser(data)
+      if(result?.statusCode === 200) {
+        dispatch(globalActions?.refreshUser())  
+      } else {
+        toast.error("Unknown Error Occured while Updating Address")
+      }
+    } catch (error) {
+      toast.error("Some Unknown Error Occured")
+    }
+    handleClose();
+  }
 
   const DataToShowCard = ({ text, data }) => {
     return (
@@ -162,7 +184,7 @@ const View = ({ isVisible, handleClose,firstname,lastname,orders,email }) => {
         <MainModal
           isVisible={isVisible}
           handleClose={handleClose}
-          ModalBody={<Edit formValues={userDetails} />}
+          ModalBody={<Edit formValues={userDetails} handleSubmit={UpdateUserDetails}/>}
         />
       )}
     </div>

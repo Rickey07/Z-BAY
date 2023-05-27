@@ -4,11 +4,12 @@ import { Products, Cart, Wishlist, Login, Home } from "../Pages";
 import Admin from "../Pages/Admin";
 import Dashboard from "../Pages/Dashboard";
 import {RequireAuth} from 'react-auth-kit'
-import { useTheme } from "@mui/material";
+import { useTheme , useMediaQuery } from "@mui/material";
+import BottomBar from "../Components/Appbars/BottomBar";
  
 const RoutesContainer = () => {
   const theme = useTheme();
-
+  const mobile = useMediaQuery(theme.breakpoints.down("md"))
   const routesWithNoLogin = ["/","/Login","/products"]
 
   const routesMapper = {
@@ -47,6 +48,7 @@ const RoutesContainer = () => {
           backgroundColor: `${theme.palette.secondary.main}`,
         }}
       >
+        {mobile && <BottomBar/>}
         <Routes>
           {routes}
         </Routes>

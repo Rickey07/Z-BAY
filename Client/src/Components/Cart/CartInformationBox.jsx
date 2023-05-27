@@ -4,9 +4,9 @@ import VoucherBox from './VoucherBox';
 import { useSelector } from 'react-redux';
 import { FixedVariables } from '../../Constants/Configurations/FixedVariables';
 
-const CartInformationBox = () => {
+const CartInformationBox = ({cart,total,voucherApplied,hideButtons}) => {
 
-    const {cart,total,voucherApplied} = useSelector((state) => state.cart)
+    // const {cart,total,voucherApplied} = useSelector((state) => state.cart)
     const {Shipping_on_every_item} = FixedVariables
 
   return (
@@ -53,7 +53,10 @@ const CartInformationBox = () => {
     <Typography variant="p" component={"p"} textAlign={"right"}>
       {total}
     </Typography>
-    <VoucherBox />
+    {
+      !hideButtons && <VoucherBox />
+
+    }
   </Paper>
   )
 }

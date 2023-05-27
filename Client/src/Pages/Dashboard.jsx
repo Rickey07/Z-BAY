@@ -15,6 +15,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React,{useEffect} from "react";
+import {useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
@@ -25,6 +26,7 @@ import AddressList from "../Components/Address/AddressList";
 import { useAuthUser } from "react-auth-kit";
 import getUserDetails from "../helpers/APICalls/getUserDetails";
 import MainLoader from "../Components/Loaders/MainLoader";
+import OrderSummary from "../Components/Orders/OrderSummary";
 
 const Dashboard = () => {
   // Default Configurations
@@ -44,6 +46,10 @@ const Dashboard = () => {
     : location.pathname.includes("profile")
     ? "My Profile"
     : "My Addresses";
+
+  // Redux Imports
+  const refreshUser = useSelector((state) => state.global.refereshUserDetails)
+  console.log("prabadhya",refreshUser)
 
   // States
   const [isVisible, setIsVisible] = useState(false);
@@ -83,7 +89,7 @@ const Dashboard = () => {
       const result = await getUserDetails(_id);
       if(result?.statusCode===200) {
         setUserDetailsData(result?.user)
-        console.log(result?.user?.purchases)
+        console.log(result?.user,"prabadhya")
       } else {
         toast.error("Some unknown Error Occured")
       }
@@ -95,7 +101,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUserData();
-  },[])
+  },[refreshUser])
 
 
   return (
@@ -240,7 +246,9 @@ const Dashboard = () => {
             )}
           </Box>
           <Routes>
-            <Route path="/orders" element={<OrderWrapper purchases={purchases}/>} />
+            <Route path="/orders" element={<OrderWrapper purchases={purchases}/>} >
+              <Route path=":orderId" element={<OrderSummary purchases={purchases}/>}/>
+            </Route>
             <Route
               path="/profile"
               element={<View isVisible={isVisible} handleClose={handleClose} {...userInfo}/>}

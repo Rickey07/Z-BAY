@@ -7,13 +7,16 @@ const globalSlice = createSlice({
             visible:false,
             message:"",
             messageType:""
-        }
+        },
+        refereshUserDetails:false
     },
     reducers:{
         toastAlertStateToggler:(state,{payload}) => {
             state.toastAlertState = payload
+        },
+        refreshUser:(state,{payload}) => {
+            state.refereshUserDetails = !state.refereshUserDetails
         }
-
     }
 })
 

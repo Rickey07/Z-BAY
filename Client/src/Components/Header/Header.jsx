@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   Toolbar,
@@ -11,6 +11,8 @@ import {
   useMediaQuery,
   useTheme,
   Badge,
+  MenuItem,
+  Menu as MenuBar
 } from "@mui/material";
 import {
   Shop2Outlined,
@@ -19,20 +21,27 @@ import {
   Inventory2,
   Menu,
   Close,
+  AccountCircle,
 } from "@mui/icons-material";
 import SideBar from "../SideBar/SideBar";
 import { useSelector } from "react-redux";
 import SideBarForCart from "../SideBar/SideBarForCart";
+import { useIsAuthenticated,useSignOut } from "react-auth-kit";
 
 const Header = () => {
   const theme = useTheme();
   const FONT_SIZE_NAVBAR_ICONS = "30px";
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const cart = useSelector((state) => state.cart.cart);
-
+  const isAuthenticated = useIsAuthenticated();
+  const authState = isAuthenticated();
+  const signOut = useSignOut();
+  const navigate = useNavigate();
+;
   // States
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   // Methods
 
@@ -46,6 +55,27 @@ const Header = () => {
 
   const handleOpen = () => {
     setMobileMenu(!mobileMenu);
+  };
+
+  const handleLogout = () => {
+    signOut();
+  }
+
+  const handleNavigate = () => {
+    navigate("/dashboard/profile")
+  }
+
+  // const handleChange = (event) => {
+  //   setAuth(event.target.checked);
+  // };
+
+  const handleMenu = (event) => {
+    console.log(event.currentTarget, "prabadhya");
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -197,24 +227,67 @@ const Header = () => {
                   </IconButton>
                 </Badge>
                 {/* </Link> */}
-                <Link
-                  to={"/Login"}
-                  style={{ textDecoration: "none", color: "#fff" }}
-                >
-                  <IconButton aria-label="user-account/login" component="label">
+                {!authState ? (
+                  <Link
+                    to={"/Login"}
+                    // style={{ textDecoration: "none", color: "#fff" }}
+                  >
                     <Button
                       variant="outlined"
+                      color="primary"
                       sx={{
-                        mr: 4,
+                        ml: 3,
                         color: "#fff",
                         border: "1px solid #fff",
+                        backgroundColor: `${theme.palette.primary.main}`,
                         cursor: "pointer",
+                        "&:hover": {
+                          backgroundColor: "red",
+                        },
                       }}
                     >
                       Login
                     </Button>
-                  </IconButton>
-                </Link>
+                  </Link>
+                ) : (
+                  <div style={{ marginLeft: "10px" }}>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+                      color="primary"
+                      sx={{
+                        
+                        borderRadius: "50%",
+                        border: 0,
+                        backgroundColor: theme.palette.secondary.main,
+                      }}
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <MenuBar
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorEl)}
+                      sx={{zIndex:2000,mt:"45px"}}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleNavigate}>Profile</MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </MenuBar>
+                  </div>
+                )}
               </Box>
             )}
           </Toolbar>
