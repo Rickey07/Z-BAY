@@ -6,6 +6,10 @@ import { useDispatch } from "react-redux";
 import fetchAllCategories from "../redux/CategoriesSlice";
 import ProductsCarouselSlider from "../Containers/ProductsCarouselSlider";
 import FeaturesContainer from "../Containers/FeaturesContainer";
+import MenFashion from "../assets/Images/MenFashion.jpeg";
+import WomenFashion from "../assets/Images/womenFashion.jpeg";
+import Banner from "../assets/Images/banner2.jpg";
+import { Box, Grid, Typography } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -273,7 +277,7 @@ const Home = () => {
       id: 20,
       title: "DANVOUY Womens T Shirt Casual Cotton Short",
       price: 12.99,
-      quantity:"1",
+      quantity: "1",
       description:
         "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
       category: "women's clothing",
@@ -286,11 +290,175 @@ const Home = () => {
   ];
 
   return (
-    <div sx={{marginTop:"1rem"}}>
+    <div sx={{ marginTop: "1rem" }}>
       <StaticGridContainer />
       <CategoriesContainer />
-      <ProductsCarouselSlider slides={slides}/>
-      <FeaturesContainer/>
+      <ProductsCarouselSlider slides={slides} />
+      <FeaturesContainer />
+      <Box component={"section"}>
+        <Typography
+          component={"h5"}
+          variant={"h5"}
+          sx={{ fontWeight: "bold", textAlign: "center" }}
+        >
+          Exciting Offers
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            <Box
+              component={"div"}
+              sx={{ position: "relative", height: "100%", width: "100%" }}
+            >
+              <img
+                alt="sale_offer_men"
+                src={MenFashion}
+                style={{
+                  borderRadius: "16px",
+                  objectFit: "cover",
+                  height: "100%",
+                  width: "100%",
+                  maxHeight: "350px",
+                }}
+              ></img>
+              <Box
+                component={"div"}
+                sx={{
+                  color: "#fff",
+                  position: "absolute",
+                  left: "30px",
+                  bottom: "70px",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <Typography component={"h6"} variant={"h6"} fontWeight={"bold"}>
+                  For Men's
+                </Typography>
+                <Typography
+                  component={"small"}
+                  variant={"small"}
+                  fontWeight={"light"}
+                >
+                  Starting at 400
+                </Typography>
+                <Box
+                  component={"div"}
+                  sx={{
+                    height: "10px",
+                    backgroundColor: "#fff",
+                    width: "50px",
+                  }}
+                ></Box>
+                <Typography component={"span"} variant={"span"}>
+                  {" "}
+                  Shop Now
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item md={4}>
+            <Box
+              component={"div"}
+              sx={{ position: "relative", height: "100%", width: "100%" }}
+            >
+              <img
+                alt="Banner Sale"
+                src={Banner}
+                style={{
+                  borderRadius: "16px",
+                  objectFit: "cover",
+                  height: "100%",
+                  width: "100%",
+                  maxHeight: "350px",
+                }}
+              ></img>
+              <Box
+                component={"div"}
+                sx={{
+                  color: "#fff",
+                  position: "absolute",
+                  left: "30px",
+                  bottom: "70px",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                 <Typography
+                  component={"small"}
+                  variant={"small"}
+                  fontWeight={"light"}
+                >
+                  Up to 20% off
+                </Typography>
+                <Typography component={"h6"} variant={"h6"} fontWeight={"bold"}>
+                  Black Friday
+                </Typography>
+                <Typography component={"h3"} variant={"h3"} fontWeight={"bold"}>
+                  Sale
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item md={4}>
+            <Box
+              component={"div"}
+              sx={{ position: "relative", height: "100%", width: "100%" }}
+            >
+              <img
+                alt="sale_offer_men"
+                src={WomenFashion}
+                style={{
+                  borderRadius: "16px",
+                  objectFit: "cover",
+                  height: "100%",
+                  width: "100%",
+                  maxHeight: "350px",
+                }}
+              ></img>
+              <Box
+                component={"div"}
+                sx={{
+                  color: "#fff",
+                  position: "absolute",
+                  right: "30px",
+                  bottom: "70px",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <Typography component={"h6"} variant={"h6"} fontWeight={"bold"}>
+                  For Women's
+                </Typography>
+                <Typography
+                  component={"small"}
+                  variant={"small"}
+                  fontWeight={"light"}
+                >
+                  Starting at 300
+                </Typography>
+                <Box
+                  component={"div"}
+                  sx={{
+                    height: "10px",
+                    backgroundColor: "#fff",
+                    width: "50px",
+                  }}
+                ></Box>
+                <Typography component={"span"} variant={"span"}>
+                  {" "}
+                  Shop Now
+                </Typography>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 };
