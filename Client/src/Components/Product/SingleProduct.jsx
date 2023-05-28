@@ -94,8 +94,8 @@ const SingleProduct = ({ searchId }) => {
 
   // States
   const [product, setProduct] = useState({});
-  const { images, id } = product;
-  console.log(images);
+  const { images, id,category } = product;
+  console.log(images,category);
   const [currentMainProductImage, setcurrentMainProductImage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -103,7 +103,7 @@ const SingleProduct = ({ searchId }) => {
   const image_url = "http://localhost:5000/uploads/";
   const productForUpdation = {
     name: product?.name,
-    Price: product?.price,
+    Price: product?.Price,
     id: product?.id,
     quantity: 0,
     image_url: currentMainProductImage,
@@ -135,6 +135,7 @@ const SingleProduct = ({ searchId }) => {
     setcurrentMainProductImage(image);
   };
   const handleAdd = () => {
+    console.log(productForUpdation,"prabadhya")
     dispatch(cartActions?.addToCart(productForUpdation))
   };
 

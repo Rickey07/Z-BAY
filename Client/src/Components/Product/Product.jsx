@@ -18,13 +18,16 @@ import {
   Visibility,
   Add,
   Remove,
+  ShoppingBag,
 } from "@mui/icons-material";
 import ProductButtton from "../Buttons/ProductButtton";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Shimmer from "../Shimmer/Shimmer";
 import { cartActions } from "../../redux/CartSlice";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../Buttons/PrimaryButton";
+import { toast } from "react-toastify";
 
 const Product = ({
   rating,
@@ -33,10 +36,11 @@ const Product = ({
   images,
   name,
   isLoading,
-  id
+  id,
+  forCarousel,
 }) => {
   const theme = useTheme();
- 
+
   const navigate = useNavigate();
   // Styles
   const productStyles = {
@@ -50,7 +54,7 @@ const Product = ({
     productImageandActionsContainer: {
       position: "relative",
       transition: "transform 0.15s ease-in-out",
-      "&:hover": { transform: "scale3d(1.02, 1.05, 1)" }
+      "&:hover": { transform: "scale3d(1.02, 1.05, 1)" },
     },
     productActions: {
       position: "absolute",
@@ -85,7 +89,7 @@ const Product = ({
     mainProductContainer: {
       borderRadius: "8px",
       minWidth: "fit-content",
-      "&:hover .productActions": { display:"flex" }
+      "&:hover .productActions": { display: "flex" },
     },
   };
   const quantityAdder = {
@@ -99,16 +103,16 @@ const Product = ({
   // Variables
   const image_url =
     images && "http://localhost:5000/uploads/" + images[0]?.imageName;
-  
+
   // These Product will be updated in cart
   const productForUpdation = {
     name,
     Price,
     id,
-    quantity:"",
+    quantity: "",
     image_url,
-    total:0
-  }
+    total: 0,
+  };
 
   // Redux Imports
   const dispatch = useDispatch();
@@ -120,52 +124,13 @@ const Product = ({
   // Methods
 
   const handleAdd = (product) => {
-    dispatch(cartActions.addToCart(product))
+    dispatch(cartActions.addToCart(product));
+    toast.success("Product added to cart")
   };
 
   const handleRemove = (product) => {
-    dispatch(cartActions.removeFromCart(product))
-  };
-
-  const QuantityAdder = ({ handleAdd, handleRemove, product }) => {
-    const quantityAdder = {
-      mainBox: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-      },
-    };
-    return (
-      <>
-        <Box sx={quantityAdder.mainBox}>
-          <Button
-            sx={{
-              border: "1px solid red",
-              width: "20px",
-              minWidth: "25px",
-              padding: "5px",
-            }}
-            onClick={() => handleRemove(product)}
-          >
-            <Remove fontSize="12px" />
-          </Button>
-          <Typography component={"span"} variant={"span"}>
-            1
-          </Typography>
-          <Button
-            sx={{
-              border: "1px solid red",
-              width: "20px",
-              minWidth: "25px",
-              padding: "5px",
-            }}
-            onClick={() => handleAdd(product)}
-          >
-            <Add fontSize="12px" />
-          </Button>
-        </Box>
-      </>
-    );
+    dispatch(cartActions.removeFromCart(product));
+    toast.success("Product Removed From cart")
   };
 
   return (
@@ -184,6 +149,69 @@ const Product = ({
             <Shimmer shape={"text"} width={300} />
           </Box>
         </Box>
+      ) : forCarousel ? (
+        <>
+          <Box
+            component={"div"}
+            sx={{ display: "flex", flexDirection: "column",position:"relative" }}
+          >
+            <Box
+              component={"div"}
+              sx={{
+                maxHeight: "300px",
+                backgroundColor: "#E3E9EF",
+                paddingTop: 3,
+                "&:hover .productActions": { display: "block" },
+                transition: "transform 0.15s ease-in-out",
+                "&:hover": { transform: "scale3d(1.02, 1.05, 1)" },
+              }}
+            >
+              <Link to={"#"} style={{ display: "block",textDecoration:"none" }}>
+                <img
+                  src={image_url}
+                  height={150}
+                  width={150}
+                  alt={name}
+                  style={{
+                    display: "block",
+                    margin: "0 auto",
+                    marginBottom: "5px",
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{
+                   display:"flex",
+                  alignItems:"center"
+                  }}
+                  onClick={() => isProductInCart? handleRemove(productForUpdation) : handleAdd(productForUpdation)}
+                >
+                 <Typography component={"p"} variant={"p"} sx={{
+                   display:"flex",
+                  alignItems:"center"
+                  }}>{isProductInCart ? "Remove from cart" : "Add to cart"} <ShoppingBag/></Typography>
+                </Button>
+              </Link>
+              <Box
+              component={"div"}
+              className={"productActions"}
+              sx={{display:"none",position:"absolute",top:5,right:10,cursor:"pointer"}}
+            >
+              <Visibility
+                htmlColor="rgba(0, 0, 0, 0.26)"
+                onClick={() => navigate(`/products?search=${id}`)}
+              />
+              </Box>
+            </Box>
+            <Box sx={{display:"flex",flexDirection:"column",gap:"5px",justifyContent:"center",alignItems:"center",mt:2}}>
+                    <Typography component={"small"} variant={"small"}>{category?.category_name}</Typography>
+                    <Typography component={"p"} variant={"p"}>{name}</Typography>
+                    <Typography component={"p"} fontSize={"16px"} fontWeight={"bolder"} variant={"p"}>₹{`${Price}`}</Typography>
+              </Box>
+          </Box>
+        </>
       ) : (
         <Paper
           component={"div"}
@@ -201,8 +229,15 @@ const Product = ({
                 alt={"product"}
               />
             </Box>
-            <Box component={"div"} className={"productActions"} sx={productStyles.productActions}>
-              <Visibility htmlColor="rgba(0, 0, 0, 0.26)"  onClick={() => navigate(`/products?search=${id}`)}/>
+            <Box
+              component={"div"}
+              className={"productActions"}
+              sx={productStyles.productActions}
+            >
+              <Visibility
+                htmlColor="rgba(0, 0, 0, 0.26)"
+                onClick={() => navigate(`/products?search=${id}`)}
+              />
               <FavoriteBorderRounded htmlColor="rgba(0, 0, 0, 0.26)" />
             </Box>
           </Box>
@@ -230,22 +265,29 @@ const Product = ({
               {/* {isProductInCart && */}
               <>
                 <Button
-                sx={{
-                  border: "1px solid red",
-                  width: "20px",
-                  minWidth: "25px",
-                  visibility:`${isProductInCart?"visible":"hidden"}`,
-                  padding: "5px",
-                }}
-                onClick={() => handleRemove(productForUpdation)}
-              >
-                <Remove fontSize="12px" />
-              </Button>
-              <Typography style={{visibility:`${isProductInCart?"visible":"hidden"}`,textAlign:"center"}} component={"span"} variant={"span"}>
-               {isProductInCart?.quantity}
-              </Typography>
+                  sx={{
+                    border: "1px solid red",
+                    width: "20px",
+                    minWidth: "25px",
+                    visibility: `${isProductInCart ? "visible" : "hidden"}`,
+                    padding: "5px",
+                  }}
+                  onClick={() => handleRemove(productForUpdation)}
+                >
+                  <Remove fontSize="12px" />
+                </Button>
+                <Typography
+                  style={{
+                    visibility: `${isProductInCart ? "visible" : "hidden"}`,
+                    textAlign: "center",
+                  }}
+                  component={"span"}
+                  variant={"span"}
+                >
+                  {isProductInCart?.quantity}
+                </Typography>
               </>
-             
+
               <Button
                 sx={{
                   border: "1px solid red",

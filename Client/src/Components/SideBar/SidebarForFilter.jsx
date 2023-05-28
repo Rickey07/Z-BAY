@@ -20,8 +20,8 @@ import { useSelector } from "react-redux";
 const SidebarForFilter = ({ onChange }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('md'))
-  const categories = useSelector(
-    (state) => state.category.categories.categories
+  const {categories,selectedCategory} = useSelector(
+    (state) => state.category
   );
 
   const sideBarFilterStyles = {
@@ -61,7 +61,7 @@ const SidebarForFilter = ({ onChange }) => {
               return (
                 <FormControlLabel
                   key={category?._id}
-                  control={<Checkbox defaultChecked={category?.category_name === "Shirts"}/>}
+                  control={<Checkbox defaultChecked={(category?.category_name === selectedCategory[0]) || (category?.category_name === "Shirts")}/>}
                   style={sideBarFilterStyles.sideBarFilterSubItem}
                   label={category?.category_name}
                   value={category?.category_name}

@@ -8,16 +8,19 @@ import getAllProducts from "../helpers/APICalls/getAllProducts.js";
 import { filterProducts } from "../helpers/Products/filterProducts.js";
 import { useSearchParams } from "react-router-dom";
 import SingleProduct from "../Components/Product/SingleProduct.jsx";
+import { useSelector } from "react-redux";
 
 const Products = () => {
   // Responsiveness
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  // Redux Imports
+  const {selectedCategory,categories} = useSelector((state) => state.category);
   // States
   const [filters, setFilters] = useState({
     product_name: "",
-    categories: ["Shirts"],
+    categories: selectedCategory.length ? selectedCategory : ["Shirts"],  
     rating: "",
     sort_by: "asc",
   });
@@ -97,11 +100,11 @@ const Products = () => {
         gap={"2rem"}
       >
         {/* Check if mobile Menu is open or not  */}
-        {mobileMenu && mobile && (
-          <Drawer anchor="left" open={mobileMenu} onClose={handleClose} keepMounted>
-            {<SidebarForFilter onChange={onSideBarFiltersChange} />}
+        {/* {mobileMenu && mobile && ( */}
+          <Drawer anchor="left" open={mobileMenu && mobile} onClose={handleClose} keepMounted>
+            <SidebarForFilter onChange={onSideBarFiltersChange} />
           </Drawer>
-        )}
+        {/* )} */}
         {/* // Show only 1 Product when search through Params  */}
         {search ? (
           <SingleProduct searchId={search} />

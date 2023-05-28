@@ -14,17 +14,24 @@ const fetchAllCategories = createAsyncThunk(
 const categoriesSlice = createSlice({
     name:"categories",
     initialState:{
-        categories:[]
+        categories:[],
+        selectedCategory:[]
     },
-    reducers:{},
+    reducers:{
+        setSelectedCategory:(state,{payload}) => {
+            state.selectedCategory = payload
+        }
+    },
     extraReducers:{
         [fetchAllCategories.fulfilled]:(state,{payload}) => {
             console.log(payload)
-            state.categories = payload
+            state.categories = payload.categories
         }
     }
 })
 
 export default fetchAllCategories;
+
+export const categoryActions = categoriesSlice.actions
 
 export const categoryReducer = categoriesSlice.reducer

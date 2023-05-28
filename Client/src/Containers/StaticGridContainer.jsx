@@ -1,51 +1,78 @@
 import React from "react";
-import { Grid, Box, Paper, Typography, useTheme } from "@mui/material";
-import HomePageHero1 from "../assets/Images/HomePageHero1.jpg";
-
-const Item = (props) => (
-  <Box sx={{ display: "flex", flexDirection: "column" }}>
-    <Typography
-      sx={{
-        fontFamily: "Manrope",
-        fontStyle: "normal",
-        fontWeight: "800",
-        fontSize: "40px",
-        color: "purple",
-        width:"100%",
-        lineHeight: "75px",
-      }}
-      component="p"
-    >
-      Transforming the future of e-commerce with the help of New Emerging
-      Technologies
-    </Typography>
-    <Typography sx={{}} component="p">
-      Z-Bay connects with your needs followed by Yet bed any for travelling
-      assistance indulgence unpleasing. Not thoughts all exercise blessing.
-      Indulgence way everything joy alteration boisterous the attachment. Party
-      we years to order allow asked of.
-    </Typography>
-  </Box>
-);
+import { Grid, Box, Paper, Typography, useTheme, Button } from "@mui/material";
+import ShoppingBagImage from "../../src/assets/Images/ShoppingBagImage.png";
+import ShoesImage from '../assets/Images/ShoesImage.png'
+import CarouselWrapper from "../Components/CaraouselProduct/CarouselProduct";
 
 const StaticGridContainer = (props) => {
   const theme = useTheme();
+  const dummyData = ["Slide1", "Slide2"];
+  const items = dummyData?.map((product,index) => {
+    return (
+      <Grid container alignItems={"center"} key={product} justifyContent={"center"}>
+        <Grid
+          item
+          md={5}
+          xs={12}
+          display={"flex"}
+          flexDirection={"column"}
+          gap={4}
+        >
+          <Typography component={"h1"} variant={"h1"}>
+            Fashionable Collection
+          </Typography>
+          <Typography component={"p"} variant={"p"}>
+            Get Free Shipping on all orders over 99
+          </Typography>
+          <Button
+            sx={{
+              backgroundColor: "#101010",
+              color: "white",
+              "&:hover": { backgroundColor: "#101010" },
+            }}
+          >
+            Shop Now
+          </Button>
+        </Grid>
+        <Grid item md={7} xs={12} display={"flex"} justifyContent={"center"}>
+          <img
+            alt="heroSection"
+            src={index===0?ShoppingBagImage:ShoesImage}
+            style={{
+              maxHeight: "400px",
+              maxWidth: "100%",
+              marginRight: "auto",
+              marginLeft: "auto",
+            }}
+          ></img>
+        </Grid>
+      </Grid>
+    );
+  });
+
+  const responsiveOptions = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  }
+
   return (
     <>
-      <Paper elevation={2} sx={{borderRadius:"8px"}}>
-        <Grid container spacing={2}>
-          <Grid item md={6} xs={12}>
-            <Item color={theme}></Item>
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <img
-              src={HomePageHero1}
-              className="landing-page-image-1"
-              loading="lazy"
-            ></img>
-          </Grid>
-        </Grid>
-      </Paper>
+      {/* <Box> */}
+      { items && <CarouselWrapper items={items} responsiveOptions={responsiveOptions}/>}
+      {/* </Box> */}
     </>
   );
 };

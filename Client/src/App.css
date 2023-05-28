@@ -1,4 +1,6 @@
-
+.App {
+  font-family: 'Source Sans Pro', sans-serif;
+}
 
 .App-logo {
   height: 40vmin;
@@ -29,6 +31,11 @@
 .landing-page-image-1 {
   height: 100%;
   width: 100%;
+}
+
+.carousel-item-padding-40-px {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 @keyframes App-logo-spin {

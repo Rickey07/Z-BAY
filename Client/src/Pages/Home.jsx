@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import StaticGridContainer from "../Containers/StaticGridContainer";
 import Category from "../Components/Category/Category";
 import CategoriesContainer from "../Containers/CategoriesContainer";

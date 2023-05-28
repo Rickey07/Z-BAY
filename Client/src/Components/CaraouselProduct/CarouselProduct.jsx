@@ -1,35 +1,24 @@
-import React from 'react'
-import { Box } from '@mui/system'
-import { Card,CardHeader,IconButton,CardMedia, CardContent, Typography } from '@mui/material'
-import {FavoriteBorderRounded } from '@mui/icons-material'
-import { useTheme } from '@emotion/react'
+import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
-const CarouselProduct = (prop) => {
-  const theme = useTheme();
-
+const CarouselWrapper = ({ items, options,responsiveOptions }) => {
+  const responsive = responsiveOptions && responsiveOptions
   return (
-    <Card
-    variant='outlined'
-    sx={{borderRadius:"7px"}}
-    >
-      <CardHeader action={
-        <IconButton>
-          <FavoriteBorderRounded sx={{"&:hover":{
-            color:`${theme.mainTheme.primaryColor}`
-          }}}/>
-        </IconButton>
-      }>
-      </CardHeader>
-      <CardMedia>
-        <img src={prop.img} style={{width:"150px",height:"150px"}}/>
-      </CardMedia>
-      <CardContent>
-        <Typography component={"p"}>
-            {prop.name}
-        </Typography>
-      </CardContent>
-    </Card>
-  )
-}
+    <div>
+      <Carousel
+        swipeable={true}
+        showDots={true}
+        renderDotsOutside={true}
+        arrows={true}
+        itemClass="carousel-item-padding-40-px"
+        infinite={true}
+        responsive={responsive}
+      >
+        {items}
+      </Carousel>
+    </div>
+  );
+};
 
-export default CarouselProduct
+export default CarouselWrapper;
