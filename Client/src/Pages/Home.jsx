@@ -9,10 +9,11 @@ import FeaturesContainer from "../Containers/FeaturesContainer";
 import MenFashion from "../assets/Images/MenFashion.jpeg";
 import WomenFashion from "../assets/Images/womenFashion.jpeg";
 import Banner from "../assets/Images/banner2.jpg";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const theme = useTheme()
 
   // Action Dispatch and API Calls and Effects
   useEffect(() => {
@@ -292,9 +293,15 @@ const Home = () => {
   return (
     <div sx={{ marginTop: "1rem" }}>
       <StaticGridContainer />
-      <CategoriesContainer />
+      <Container maxWidth={"lg"} sx={{backgroundColor:theme.palette.secondary.main}}>
+        <CategoriesContainer />
+      </Container>
+      <Container fixed>
       <ProductsCarouselSlider slides={slides} />
+      </Container>
+      <Container fixed>
       <FeaturesContainer />
+      </Container>
       <Box component={"section"}>
         <Typography
           component={"h5"}

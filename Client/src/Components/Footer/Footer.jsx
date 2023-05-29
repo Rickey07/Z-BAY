@@ -6,6 +6,8 @@ import appleStoreIcon from "../../assets/Icons/appleStore.svg";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+
+  // Footer
   return (
     <div>
       <Box sx={{ backgroundColor: "#222935" }} component={"footer"}>
