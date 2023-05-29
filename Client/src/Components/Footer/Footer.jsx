@@ -1,132 +1,284 @@
+import { Facebook, GitHub, LinkedIn, ShoppingBagOutlined,Twitter } from "@mui/icons-material";
+import { Box, Container, Grid, Typography, Avatar } from "@mui/material";
 import React from "react";
-import CTABanner from "./CTABanner";
-import { Box } from "@mui/system";
-import { Grid, Typography } from "@mui/material";
-import { useTheme } from "@emotion/react";
-import { Facebook, Twitter, Instagram } from "@mui/icons-material";
-import SearchbarForFooter from "../SearchBars/SearchbarForFooter";
-import PrimaryButton from "../Buttons/PrimaryButton";
+import googlePlayIcon from "../../assets/Icons/googlePlay.svg";
+import appleStoreIcon from "../../assets/Icons/appleStore.svg";
+import { Link } from "react-router-dom";
 
-const Footer = (prop) => {
-  const theme = useTheme();
-
-  const FooterStyles = {
-    backgroundColor: `${theme.mainTheme.primaryColor}`,
-  };
-
-  const footerContentStyles = {};
-
-  const headings = [
-    "Z-Bay",
-    "Subscribe to get important Update",
-    "Follow Us",
-    "Call Us",
-  ];
-
-  // Footer Social Media Links section
-
-  const socialLinksWithIconsData = [
-    { icon: <Instagram />, link: "#" },
-    { icon: <Twitter />, link: "#" },
-    { icon: <Facebook />, link: "#" },
-  ];
-
-  const SocialMediaMenu = () => {
-    return (
-      <>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "50px",
-            flexWrap:"wrap"
-          }}
-        >
-          {socialLinksWithIconsData.map((link) => {
-            return (
-              <>
-                <a
-                  href={link.link}
+const Footer = () => {
+  return (
+    <div>
+      <Box sx={{ backgroundColor: "#222935" }} component={"footer"}>
+        <Container fixed>
+          <Box component={"div"} sx={{ py: "80px", overflow: "hidden" }}>
+            <Grid container spacing={4}>
+              <Grid
+                item
+                md={3}
+                lg={3}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              >
+                <Link
+                  to={"#"}
                   style={{
                     textDecoration: "none",
-                    color: "#fff",
-                    padding: "10px",
-                    border: "1px solid #fff",
-                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px ",
                   }}
                 >
-                  {link.icon}
-                </a>
-              </>
-            );
-          })}
-        </Box>
-      </>
-    );
-  };
-
-  const FooterContent = () => {
-    <></>;
-  };
-
-  // Footer Search Bar Email Content Input
-
-  const FooterContentEmailInput = () => {
-    return (
-      <>
-        <Box
-          component={"div"}
-          sx={{
-            display: "flex",
-            gap: "10px",
-            justifyContent: "space-between",
-            flexWrap:"wrap"
-          }}
-        >
-          <SearchbarForFooter />
-          <PrimaryButton text={"subscribe"} />
-        </Box>
-      </>
-    );
-  };
-
-  return (
-    <Box sx={FooterStyles}>
-      <CTABanner CTAHeading={"Ready to Talk , Let's Talk Now"} />
-      <Grid container columnGap={3} sx={{padding:"5rem 0 9rem",borderBottom:"2px solid white",display:"flex",flexWrap:"wrap"}}>
-        <Grid item md={1}></Grid>
-        {headings.map((heading, index) => {
-          return (
-            <Grid
-              md={"2.5"}
-              xs={12}
-              sx={{ textAlign: "start", }}
-              item
-            >
-              <Typography variant="h6" sx={{ marginBottom: "2rem" }}>
-                {heading}
-              </Typography>
-              {index === 0 ? (
-                <Typography variant="p">
-                  Best Ecommerce Available For your needs
+                  <ShoppingBagOutlined
+                    sx={{ color: "white", fontSize: "40px" }}
+                  />
+                  <Typography
+                    component={"h5"}
+                    variant={"h5"}
+                    sx={{ color: "white", fontWeight: "bold" }}
+                  >
+                    ZBay
+                  </Typography>
+                </Link>
+                <Typography component={"p"} variant={"p"} color={"white"}>
+                  ZBay is a fashion e-commerce website website that provides
+                  high-quality products to our customers at affordable prices.
                 </Typography>
-              ) : index === 1 ? (
-                <FooterContentEmailInput />
-              ) : index === 2 ? (
-                <SocialMediaMenu />
-              ) : (
-                <Typography variant="p">
-                  +918770898508
+                <Box
+                  component={"div"}
+                  display={"flex"}
+                  flexDirection={"row"}
+                  gap={"8px"}
+                >
+                  <Box
+                    component={"div"}
+                    sx={{
+                      px: 1,
+                      py: 1,
+                      backgroundColor: "#161d2b",
+                      display: "flex",
+                      borderRadius: "8px",
+                      alignItems: "center",
+                      gap: "5px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <img
+                      alt="google-play"
+                      src={googlePlayIcon}
+                      height={20}
+                    ></img>
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      sx={{ color: "white" }}
+                    >
+                      <Typography
+                        component={"small"}
+                        variant={"small"}
+                        fontSize={"10px"}
+                      >
+                        Get it on
+                      </Typography>
+                      <Typography component={"span"} variant={"span"}>
+                        Google Play
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    component={"div"}
+                    sx={{
+                      px: 1,
+                      py: 1,
+                      backgroundColor: "#161d2b",
+                      display: "flex",
+                      borderRadius: "8px",
+                      alignItems: "center",
+                      gap: "5px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <img
+                      alt="google-play"
+                      src={appleStoreIcon}
+                      height={20}
+                    ></img>
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      sx={{ color: "white" }}
+                    >
+                      <Typography
+                        component={"small"}
+                        variant={"small"}
+                        fontSize={"10px"}
+                      >
+                        Get it on
+                      </Typography>
+                      <Typography component={"span"} variant={"span"}>
+                        App Store
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                md={3}
+                lg={3}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              >
+                <Typography
+                  component={"h5"}
+                  variant={"h5"}
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  About Us
                 </Typography>
-              )}
+                <Box
+                  component={"div"}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    color: "#AEB4BE",
+                  }}
+                >
+                  <Typography variant="span" component={"span"}>
+                    Careers
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Our Stores
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Our Cares
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Terms & Conditions
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Privacy Policy
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid
+                item
+                md={3}
+                lg={3}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              >
+                <Typography
+                  component={"h5"}
+                  variant={"h5"}
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Customer Care
+                </Typography>
+                <Box
+                  component={"div"}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    color: "#AEB4BE",
+                  }}
+                >
+                  <Typography variant="span" component={"span"}>
+                    Help Center
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    How to buy
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Track Your Order
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Corporate & Bulk Purchasing
+                  </Typography>
+                  <Typography variant="span" component={"span"}>
+                    Return & Refunds
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item md={3} lg={3} xs={12} sx={{display:"flex",flexDirection:"column",gap:"12px"}}>
+                <Typography
+                  component={"h5"}
+                  variant={"h5"}
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Contact Us
+                </Typography>
+                <Box component={"div"} sx={{ color: "#AEB4BE",display:"flex",flexDirection:"column",gap:"10px" }}>
+                  <Typography component={"p"} variant={"p"}>
+                    814-B , Vijay Nagar , Indore, Madhya Pradesh
+                  </Typography>
+                  <Typography component={"p"} variant={"p"}>
+                    Email:- Support@Zbay.com
+                  </Typography>
+                  <Typography component={"p"} variant={"p"}>
+                    Phone :- +918770898508{" "}
+                  </Typography>
+                  <Box component={"div"} display={"flex"} gap={"10px"} >
+                      <Avatar
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: "#161d2b", 
+                        }}
+                        component={"a"}
+                        href={"#"}
+                      >
+                        <Facebook>add_circle</Facebook>{" "}
+                      </Avatar>
+                      <Avatar
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: "#161d2b", // Replace with your desired background color
+                        }}
+                        component={"a"}
+                        href={"https://twitter.com/Prabadhya_U"}
+                        target={"_blank"}
+                      >
+                        <Twitter>add_circle</Twitter>{" "}
+                      </Avatar>
+                    <Box>
+                      <Avatar
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: "#161d2b",
+                        }}
+                        component={"a"}
+                        href={"https://www.linkedin.com/in/prabadhya-upadhyay-198a22218/"}
+                        target={"_blank"}
+                      >
+                        <LinkedIn>add_circle</LinkedIn>{" "}
+                      </Avatar>
+                    </Box>
+                    <Box>
+                      <Avatar
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: "#161d2b",
+                        }}
+                        component={"a"}
+                        href={"https://github.com/Rickey07"}
+                        target={"_blank"}
+                      >
+                        <GitHub>add_circle</GitHub>
+                      </Avatar>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
             </Grid>
-          );
-        })}
-        <Grid item md={1} xs={2}></Grid>
-      </Grid>
-      <Typography variant="h5" sx={{padding:"1rem"}}>
-          Copy Rights @2023 All Rights Reserved to Z-Bay.
-      </Typography>
-    </Box>
+          </Box>
+        </Container>
+      </Box>
+    </div>
   );
 };
 

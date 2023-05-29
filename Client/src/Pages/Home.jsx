@@ -9,7 +9,7 @@ import FeaturesContainer from "../Containers/FeaturesContainer";
 import MenFashion from "../assets/Images/MenFashion.jpeg";
 import WomenFashion from "../assets/Images/womenFashion.jpeg";
 import Banner from "../assets/Images/banner2.jpg";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -341,7 +341,7 @@ const Home = () => {
                   variant={"small"}
                   fontWeight={"light"}
                 >
-                  Starting at 400
+                  Starting at ₹400
                 </Typography>
                 <Box
                   component={"div"}
@@ -352,7 +352,6 @@ const Home = () => {
                   }}
                 ></Box>
                 <Typography component={"span"} variant={"span"}>
-                  {" "}
                   Shop Now
                 </Typography>
               </Box>
@@ -387,7 +386,7 @@ const Home = () => {
                   gap: "10px",
                 }}
               >
-                 <Typography
+                <Typography
                   component={"small"}
                   variant={"small"}
                   fontWeight={"light"}
@@ -400,6 +399,14 @@ const Home = () => {
                 <Typography component={"h3"} variant={"h3"} fontWeight={"bold"}>
                   Sale
                 </Typography>
+              </Box>
+              <Box
+                component={"div"}
+                sx={{ position: "absolute", right: "30px", bottom: 100 }}
+              >
+                <Button variant={"outlined"} sx={{ borderRadius: "8px" }}>
+                  Shop Now
+                </Button>
               </Box>
             </Box>
           </Grid>
@@ -440,7 +447,7 @@ const Home = () => {
                   variant={"small"}
                   fontWeight={"light"}
                 >
-                  Starting at 300
+                  Starting at ₹300
                 </Typography>
                 <Box
                   component={"div"}

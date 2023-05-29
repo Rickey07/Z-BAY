@@ -53,7 +53,7 @@ function App() {
     },
   });
 
-  const isAdmin = false;
+  const isAdmin = true;
 
   return (
     <div className="App">
