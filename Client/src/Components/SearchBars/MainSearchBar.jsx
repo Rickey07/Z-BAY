@@ -1,4 +1,4 @@
-import { MenuOpen } from "@mui/icons-material";
+import { MenuOpen,Menu } from "@mui/icons-material";
 import {
   Paper,
   Box,
@@ -52,7 +52,7 @@ const MainSearchBar = ({ onChange, searchValue, resultsFoundValue,handleMobileMe
               value={searchValue}
               // style={{border:"1px solid red"}}
             />
-            {mobile && <MenuOpen onClick={handleMobileMenu} sx={{ alignSelf: "flex-end" }} />}
+            {mobile && <Menu onClick={handleMobileMenu} sx={{ alignSelf: "flex-end",color:theme.palette.primary.main }} />}
           </Box>
           <Box>
             {searchValue !== "" && (

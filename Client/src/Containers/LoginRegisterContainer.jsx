@@ -165,19 +165,18 @@ const LoginRegisterContainer = () => {
     try {
       setLoading(true);
       const newRegisterData = { ...registerData };
+      const newLoginData = {...loginData}
       if (currentTab !== "Login") {
         delete newRegisterData["password"];
         newRegisterData["encry_password"] = registerData.password;
+        newRegisterData["email"] = registerData.email.toLowerCase();
+      } else {
+        newLoginData.email = loginData.email.toLowerCase()
       }
       const result =
         currentTab === "Login"
-          ? await LoginUser(loginData)
+          ? await LoginUser(newLoginData)
           : await registerUser(newRegisterData);
-      const alertSuccessMessage = {
-        visible: true,
-        message: result.message,
-        messageType: "success",
-      };
       if (result.success) {
        toast.success(result?.message)
         if (result?.userDetails?.token) {

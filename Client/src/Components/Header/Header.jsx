@@ -46,7 +46,11 @@ const Header = () => {
   // Methods
 
   const openSideCart = () => {
-    setIsCartOpen(true);
+    if(authState) {
+      setIsCartOpen(true);
+    } else {
+      navigate("/Login")
+    }
   };
 
   const closeSideCart = () => {

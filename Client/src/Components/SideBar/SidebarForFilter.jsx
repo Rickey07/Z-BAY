@@ -15,11 +15,14 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import fetchAllCategories from "../../redux/CategoriesSlice";
+import { useEffect } from "react";
 
 const SidebarForFilter = ({ onChange }) => {
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('md'))
+  const mobile = useMediaQuery(theme.breakpoints.down('md'));
+  const dispatch = useDispatch();
   const {categories,selectedCategory} = useSelector(
     (state) => state.category
   );
@@ -41,6 +44,12 @@ const SidebarForFilter = ({ onChange }) => {
     },
   };
 
+  useEffect(() => {
+    if(categories.length===0) {
+      dispatch(fetchAllCategories())
+    }
+  },[])
+
   return (
     <>
       <Paper
@@ -48,7 +57,7 @@ const SidebarForFilter = ({ onChange }) => {
         sx={sideBarFilterStyles.mainPaperBox}
         elevation={1}
       >
-        <Box component={"div"}>
+        <Box component={"div"} sx={{overflow:"scroll"}}>
           <Typography
             component={"h6"}
             variant="p"

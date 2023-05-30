@@ -21,13 +21,14 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import ProductButtton from "../Buttons/ProductButtton";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Shimmer from "../Shimmer/Shimmer";
 import { cartActions } from "../../redux/CartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { toast } from "react-toastify";
+import { useIsAuthenticated } from "react-auth-kit";
 
 const Product = ({
   rating,
@@ -41,13 +42,14 @@ const Product = ({
 }) => {
   const theme = useTheme();
 
-  const navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
+  const authState = isAuthenticated();
   // Styles
   const productStyles = {
     productImage: {
       height: "100%",
       width: "100%",
-      // objectFit:"cover",
+      objectFit:"contain",
       display: "block",
       margin: "0 auto",
     },
@@ -88,7 +90,7 @@ const Product = ({
     },
     mainProductContainer: {
       borderRadius: "8px",
-      minWidth: "fit-content",
+      minWidth:"fit-content",
       "&:hover .productActions": { display: "flex" },
     },
   };
@@ -113,7 +115,7 @@ const Product = ({
     image_url,
     total: 0,
   };
-
+  const navigate = useNavigate();
   // Redux Imports
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
@@ -124,8 +126,14 @@ const Product = ({
   // Methods
 
   const handleAdd = (product) => {
-    dispatch(cartActions.addToCart(product));
-    toast.success("Product added to cart")
+    if(authState) {
+      dispatch(cartActions.addToCart(product));
+      toast.success("Product added to cart")
+    } else {
+      toast.error("Please Login")
+      navigate("/Login")
+    }
+   
   };
 
   const handleRemove = (product) => {
@@ -227,6 +235,7 @@ const Product = ({
                 src={image_url}
                 style={productStyles?.productImage}
                 alt={"product"}
+                
               />
             </Box>
             <Box
@@ -254,7 +263,8 @@ const Product = ({
               <Rating name="read-only" value={rating} readOnly />
               <Typography
                 component={"h3"}
-                fontSize={"14px"}
+                fontSize={"16px"}
+                fontWeight={"bold"}
                 color={"rgb(210, 63, 87)"}
                 variant={"span"}
               >

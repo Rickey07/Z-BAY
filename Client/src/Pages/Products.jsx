@@ -100,7 +100,6 @@ const Products = () => {
         gap={"2rem"}
       >
         {/* Check if mobile Menu is open or not  */}
-        {/* {mobileMenu && mobile && ( */}
           <Drawer anchor="left" open={mobileMenu && mobile} onClose={handleClose} keepMounted>
             <SidebarForFilter onChange={onSideBarFiltersChange} />
           </Drawer>
@@ -125,10 +124,10 @@ const Products = () => {
 
               <Grid item md={10} xs={12}>
                 <Grid container spacing={mobile?3:6}>
-                  {(loading ? Array.from(new Array(6)) : dataToDisplay)?.map(
+                  {(loading ? Array.from(new Array(8)) : dataToDisplay)?.map(
                     (product) => {
                       return (
-                        <Grid item md={4} xs={12} key={product?.id}>
+                        <Grid item md={3} xs={12} key={product?.id}>
                           <Product {...product} isLoading={loading} />
                         </Grid>
                       );
