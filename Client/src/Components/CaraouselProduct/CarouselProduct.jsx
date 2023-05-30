@@ -2,18 +2,20 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const CarouselWrapper = ({ items, options,responsiveOptions }) => {
+const CarouselWrapper = ({ items, options,responsiveOptions,showDots,itemClass,autoPlay,showArrows }) => {
   const responsive = responsiveOptions && responsiveOptions
   return (
     <div>
       <Carousel
-        swipeable={true}
-        showDots={true}
+        swipeable={false}
+        showDots={showDots}
         renderDotsOutside={true}
-        arrows={true}
-        itemClass="carousel-item-padding-40-px"
+        arrows={showArrows}
+        autoPlay={autoPlay}
+        itemClass={itemClass}
         infinite={true}
         responsive={responsive}
+        
       >
         {items}
       </Carousel>

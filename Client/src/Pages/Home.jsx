@@ -302,16 +302,17 @@ const Home = () => {
       <Container fixed>
       <FeaturesContainer />
       </Container>
-      <Box component={"section"}>
+      <Container fixed>
+      <Box component={"section"} sx={{mt:4,mb:4}}>
         <Typography
           component={"h5"}
           variant={"h5"}
-          sx={{ fontWeight: "bold", textAlign: "center" }}
+          sx={{ fontWeight: "bold", textAlign: "center" ,mb:3}}
         >
           Exciting Offers
         </Typography>
         <Grid container spacing={3}>
-          <Grid item md={4}>
+          <Grid item md={4} xs={12}>
             <Box
               component={"div"}
               sx={{ position: "relative", height: "100%", width: "100%" }}
@@ -364,7 +365,7 @@ const Home = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={4} xs={12}>
             <Box
               component={"div"}
               sx={{ position: "relative", height: "100%", width: "100%" }}
@@ -386,7 +387,7 @@ const Home = () => {
                   color: "#fff",
                   position: "absolute",
                   left: "30px",
-                  bottom: "70px",
+                  bottom: 50,
                   display: "flex",
                   justifyContent: "center",
                   flexDirection: "column",
@@ -409,7 +410,7 @@ const Home = () => {
               </Box>
               <Box
                 component={"div"}
-                sx={{ position: "absolute", right: "30px", bottom: 100 }}
+                sx={{ position: "absolute", right:30, bottom: 80 }}
               >
                 <Button variant={"outlined"} sx={{ borderRadius: "8px" }}>
                   Shop Now
@@ -417,7 +418,7 @@ const Home = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={4} xs={12}>
             <Box
               component={"div"}
               sx={{ position: "relative", height: "100%", width: "100%" }}
@@ -473,6 +474,8 @@ const Home = () => {
           </Grid>
         </Grid>
       </Box>
+      </Container>
+      
     </div>
   );
 };

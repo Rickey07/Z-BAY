@@ -1,5 +1,11 @@
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { Grid, Hidden, Typography } from "@mui/material";
+import {
+  Grid,
+  Hidden,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CarouselWrapper from "../Components/CaraouselProduct/CarouselProduct";
 import MainLoader from "../Components/Loaders/MainLoader";
@@ -7,10 +13,10 @@ import Product from "../Components/Product/Product";
 import getAllProducts from "../helpers/APICalls/getAllProducts";
 
 const ProductsCarouselSlider = ({ slides }) => {
-  let box = document.querySelector(".product-container");
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
 
   // Methods
 
@@ -55,7 +61,7 @@ const ProductsCarouselSlider = ({ slides }) => {
       items: 1,
       slidesToSlide: 1, // optional, default to 1.
     },
-  }
+  };
 
   const items =
     products &&
@@ -65,7 +71,7 @@ const ProductsCarouselSlider = ({ slides }) => {
 
   return (
     <div style={CaraouselSliderStyles}>
-      <MainLoader visible={loading}/>
+      <MainLoader visible={loading} />
       <Typography
         component={"h3"}
         sx={{ marginTop: "3rem", marginBottom: "1.5rem" }}
@@ -75,11 +81,18 @@ const ProductsCarouselSlider = ({ slides }) => {
       >
         Trending Products
       </Typography>
-        {
-          <>
-              {products && <CarouselWrapper options={options} responsiveOptions={responsiveOptions} items={items} />}
-          </>
-        }
+      {
+        <>
+          {products && (
+            <CarouselWrapper
+              options={options}
+              responsiveOptions={responsiveOptions}
+              itemClass={!mobile && "carousel-item-padding-40-px"}
+              items={items}
+            />
+          )}
+        </>
+      }
     </div>
   );
 };

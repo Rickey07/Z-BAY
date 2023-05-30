@@ -1,11 +1,13 @@
 import React from "react";
-import { Box, Typography, Stack,Grid } from "@mui/material";
+import { Box, Typography, Stack,Grid,useTheme, useMediaQuery } from "@mui/material";
 import Category from "../Components/Category/Category";
 import { useSelector } from "react-redux";
 import CarouselWrapper from "../Components/CaraouselProduct/CarouselProduct";
 
 const CategoriesContainer = () => {
   const AllCategories = useSelector((state) => state.category.categories); 
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"))
   const items = AllCategories && AllCategories?.map((category) => {
     return <Category {...category} key={category?.id}/>
   })
@@ -32,7 +34,7 @@ const CategoriesContainer = () => {
         Browse All Products by Categories
       </Typography>
       {
-        items &&  <CarouselWrapper items={items} responsiveOptions={responsiveOptions}/>
+        items &&  <CarouselWrapper items={items} itemClass={!mobile&&"carousel-item-padding-40-px"} responsiveOptions={responsiveOptions}/>
       }
    
     </Box>

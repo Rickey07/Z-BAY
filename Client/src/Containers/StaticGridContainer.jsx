@@ -1,11 +1,12 @@
 import React from "react";
-import { Grid, Box, Paper, Typography, useTheme, Button } from "@mui/material";
+import { Grid, Box, Paper, Typography, useTheme, Button, useMediaQuery } from "@mui/material";
 import ShoppingBagImage from "../../src/assets/Images/ShoppingBagImage.png";
 import ShoesImage from '../assets/Images/ShoesImage.png'
 import CarouselWrapper from "../Components/CaraouselProduct/CarouselProduct";
 
 const StaticGridContainer = (props) => {
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"))
   const dummyData = ["Slide1", "Slide2"];
   const items = dummyData?.map((product,index) => {
     return (
@@ -18,7 +19,7 @@ const StaticGridContainer = (props) => {
           flexDirection={"column"}
           gap={4}
         >
-          <Typography component={"h1"} variant={"h1"}>
+          <Typography component={"h4"} variant={mobile?"h4":"h1"}>
             Fashionable Collection
           </Typography>
           <Typography component={"p"} variant={"p"}>
@@ -27,6 +28,7 @@ const StaticGridContainer = (props) => {
           <Button
             sx={{
               backgroundColor: "#101010",
+              width:mobile?"fit-content":"100%",  
               color: "white",
               "&:hover": { backgroundColor: "#101010" },
             }}
@@ -70,9 +72,7 @@ const StaticGridContainer = (props) => {
 
   return (
     <>
-      {/* <Box> */}
-      { items && <CarouselWrapper items={items} responsiveOptions={responsiveOptions}/>}
-      {/* </Box> */}
+      { items && <CarouselWrapper items={items} responsiveOptions={responsiveOptions} autoPlay={true} showArrows={false}/>}
     </>
   );
 };
