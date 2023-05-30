@@ -1,6 +1,5 @@
-import { useTheme } from "@emotion/react";
 import { LockRounded } from "@mui/icons-material";
-import { Avatar, Typography, Paper, Grid } from "@mui/material";
+import { Avatar, Typography, Paper, Grid,useTheme } from "@mui/material";
 import { Container, Box } from "@mui/system";
 import React from "react";
 import { useState } from "react";
@@ -56,6 +55,9 @@ const LoginRegisterContainer = () => {
     lastname: false,
   });
   const [loading, setLoading] = useState(false);
+
+  // Variables 
+  const testLoginData = {email:"test35@gmail.com",password:"Test@1234"}
 
   // Methods
 
@@ -161,17 +163,17 @@ const LoginRegisterContainer = () => {
   };
 
   // This method will submit the data
-  const handleSubmit = async () => {
+  const handleSubmit = async (loginType) => {
     try {
       setLoading(true);
       const newRegisterData = { ...registerData };
-      const newLoginData = {...loginData}
+      const newLoginData = loginType==="Guest"?{...testLoginData}:{...loginData}
       if (currentTab !== "Login") {
         delete newRegisterData["password"];
         newRegisterData["encry_password"] = registerData.password;
         newRegisterData["email"] = registerData.email.toLowerCase();
       } else {
-        newLoginData.email = loginData.email.toLowerCase()
+        newLoginData.email = newLoginData.email.toLowerCase()
       }
       const result =
         currentTab === "Login"
@@ -198,7 +200,6 @@ const LoginRegisterContainer = () => {
     } catch (error) {
       console.log(error);
     }
-    console.log(currentTab === "Login" ? loginData : registerData);
   };
 
   return (
@@ -221,10 +222,10 @@ const LoginRegisterContainer = () => {
           component={"div"}
           elevation={3}
         >
-          <Avatar sx={{ backgroundColor: theme?.mainTheme?.primaryColor }}>
+          <Avatar sx={{ backgroundColor: theme?.palette?.secondary?.contrastText }}>
             <LockRounded />
           </Avatar>
-          <Typography component={"h2"} variant={"h5"}>
+          <Typography component={"h2"} variant={"h5"} sx={{color:theme?.palette?.secondary?.contrastText}}>
             {currentTab === "Login" ? "Login" : "Register"}
           </Typography>
           <Box
@@ -233,7 +234,7 @@ const LoginRegisterContainer = () => {
               width: "100%",
               display: "flex",
               flexDirection: "column",
-              gap: "3rem",
+              gap: "1rem",
               marginTop: "2rem",
             }}
           >
@@ -261,7 +262,7 @@ const LoginRegisterContainer = () => {
               })
             ) : (
               // {Register Component}
-              <Grid container rowGap={2}>
+              <Grid container  spacing={2}>
                 {registerFieldsData.map((label, index) => {
                   return (
                     <Grid item md={index === 0 || index === 1 ? 6 : 12} xs={12}>
@@ -299,18 +300,30 @@ const LoginRegisterContainer = () => {
                 })}
               </Grid>
             )}
+           
 
             <PrimaryButton
               text={currentTab === "Login" ? "Login" : "Register"}
               buttonSize="Large"
               isLoading={loading}
-              handleClick={handleSubmit}
+              handleClick={() => handleSubmit}
             />
+             {
+              currentTab==="Login" && (
+                <PrimaryButton
+                text={"Continue as Guest"}
+                buttonSize="Large"
+                // buttonColor={theme.palette.secondary.main}
+                isLoading={loading}
+                handleClick={() => handleSubmit("Guest")}
+              />
+              )
+            }
           </Box>
           <Typography
             component={"a"}
             variant={"a"}
-            sx={{ alignSelf: "flex-end", gap: "5px", marginTop: "1rem" }}
+            sx={{ alignSelf: "flex-end", gap: "5px", marginTop: "1rem",textDecoration:"underline",cursor:"pointer" }}
             onClick={handleTab}
           >
             {currentTab === "Login"
