@@ -118,6 +118,12 @@ const cartSlice = createSlice({
     changeAddress(state,{payload}) {
       state.address = payload
     },
+    removeVoucher(state,{payload}) {
+      state.total = state.total + state.voucherApplied.discount
+      state.voucherApplied.discount = 0
+      localStorage.setItem("voucher",state.voucherApplied.discount)
+      localStorage.setItem("total",state.total)
+    },
     clearCart(state,{payload}) {
       state.cart = [];
       state.total = 0

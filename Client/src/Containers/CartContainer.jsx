@@ -35,7 +35,7 @@ const CartContainer = () => {
 
   // Methods
   const getActiveStep = (activeStep) => {
-    setActiveComponent(activeStep);
+      setActiveComponent(activeStep);
   };
 
   const [clientSecret, setClientSecret] = useState("");
@@ -61,9 +61,9 @@ const CartContainer = () => {
   };
 
   return (
-    <div>
+    <Box component={"div"} sx={{mb:1}}>
       <JourneyStepper getActiveStep={getActiveStep} steps={stepsData} />
-      <Grid container spacing={2}>
+      <Grid container spacing={2} marginTop={"1rem"}>
         <Grid item md={8} xs={12}>
           {activeComponent === "Cart" ? (
             cart.length !== 0 ? (
@@ -93,7 +93,7 @@ const CartContainer = () => {
           <CartInformationBox cart={cart} total={total} voucherApplied={voucherApplied}/>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

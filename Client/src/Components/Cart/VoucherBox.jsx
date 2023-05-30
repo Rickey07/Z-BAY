@@ -4,6 +4,7 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../redux/CartSlice";
 import { FixedVariables } from "../../Constants/Configurations/FixedVariables";
+import { Cancel } from "@mui/icons-material";
 
 const VoucherBox = () => {
   // States
@@ -22,9 +23,13 @@ const VoucherBox = () => {
   const applyVoucher = () => {
     dispatch(cartActions.applyVoucher(discountPercentage))
   }
+
+  const removeVoucher = () => {
+    dispatch(cartActions.removeVoucher())
+  }
   return (
     <div>
-      <Box>
+      <Box sx={{position:"relative"}}>
         <TextField
           variant="outlined"
           label={"Voucher"}
@@ -45,6 +50,8 @@ const VoucherBox = () => {
           disabled={voucherText !== name || voucherApplied?.discount !== 0}
           handleClick={applyVoucher}
         />
+      {  voucherApplied?.discount !== 0 &&
+        <Cancel sx={{position:"absolute",top:40,right:10,cursor:"pointer"}} onClick={removeVoucher}/>}
       </Box>
     </div>
   );

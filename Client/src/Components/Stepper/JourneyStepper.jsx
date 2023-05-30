@@ -2,29 +2,36 @@ import React from "react";
 import {
   Step,
   Stepper,
-  StepLabel,
-  StepButton,
-  StepConnector,
   Chip,
   ButtonBase,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const JourneyStepper = ({steps,getActiveStep}) => {
   const [activeStep, setActiveStep] = useState(0);
+  const { cart } = useSelector((state) => state.cart);
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"))
 
   //Methods
 
   const handleStepClick = (index) => {
-    setActiveStep(index);
-    getActiveStep(steps[index])
+    if(cart.length) {
+      setActiveStep(index);
+      getActiveStep(steps[index])
+    } else {
+      toast.warn("Please Add Products in cart First") 
+    }
+ 
   };
 
 
   return (
-    <div>
-      <Stepper activeStep={activeStep}>
+    <div >
+      <Stepper activeStep={activeStep} orientation={mobile?"vertical":"horizontal"}>
         {steps.map((step, index) => {
           const stepCount = index + 1;
           return (
