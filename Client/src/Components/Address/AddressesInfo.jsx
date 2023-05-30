@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, Box, Grid } from "@mui/material";
+import { Paper, Typography, Box, Grid, useTheme, useMediaQuery } from "@mui/material";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { useState, useEffect } from "react";
 import deleteAddress from "../../helpers/APICalls/deleteAddress";
@@ -35,6 +35,8 @@ const AddressesInfo = ({ getActiveStep }) => {
   const [addressUpdated, setAddressUpdated] = useState(false);
   const auth = useAuthUser();
   const { _id } = auth();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"))
 
   // Variables
   const proceedToPayemntButtonDisable = cart.length === 0;
@@ -104,9 +106,9 @@ const AddressesInfo = ({ getActiveStep }) => {
     <Paper component={"div"} elevation={2} sx={{ p: 3 }}>
       <Box
         component={"div"}
-        sx={{ display: "flex", justifyContent: "space-between" }}
+        sx={{ display: "flex", justifyContent: "space-between",flexDirection:mobile ? "column":"row",gap:"15px",mb:1 }}
       >
-        <Typography component={"span"} variant={"span"}>
+        <Typography component={"span"} variant={"span"} sx={{color:theme?.palette?.secondary?.contrastText,fontWeight:"bold"}}>
           Shipping Address
         </Typography>
         <PrimaryButton
@@ -116,7 +118,7 @@ const AddressesInfo = ({ getActiveStep }) => {
         />
       </Box>
       <Box component={"div"}>
-        <Typography component={"span"} variant={"span"}>
+        <Typography component={"span"} variant={"span"} sx={{color:theme?.palette?.secondary?.contrastText,fontWeight:"bold"}}>
           Select From Below Addresses or Add a new Address
         </Typography>
         <Box component={"div"} sx={{ mt: 2 }}>
@@ -140,10 +142,11 @@ const AddressesInfo = ({ getActiveStep }) => {
         </Box>
       </Box>
       {!isNewAddressFormVisible && (
-        <Box display={"flex"} gap={"20px"} marginTop={"10px"}>
+        <Box display={"flex"} flexDirection={mobile ?"column":"row"} gap={"20px"} marginTop={"10px"}>
           <PrimaryButton
             variant={"outlined"}
             color={"primary"}
+            buttonSize={"small"}
             fullWidth={true}
             text={"Back To Cart"}
           />

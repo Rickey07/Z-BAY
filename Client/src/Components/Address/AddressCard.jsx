@@ -9,11 +9,21 @@ const AddressCard = ({
   contactNo,
   selected,
   _id,
-  handleSelect
+  handleSelect,
 }) => {
   return (
     <div>
-      <Paper elevation={0} sx={{ p: 2, position: "relative",backgroundColor:"rgb(246, 249, 252)",cursor:"pointer",border:selected===_id?"1px solid red":""}} onClick={() => handleSelect(_id)}>
+      <Paper
+        elevation={1}
+        sx={{
+          p: 2,
+          position: "relative",
+          backgroundColor: "rgb(246, 249, 252)",
+          cursor: "pointer",
+          border: selected === _id ? "1px solid red" : "",
+        }}
+        onClick={() => handleSelect(_id)}
+      >
         <Box
           sx={{
             position: "absolute",
@@ -24,16 +34,16 @@ const AddressCard = ({
           }}
         >
           <IconButton size="small" onClick={() => handleEdit(_id)}>
-            <Edit fontSize="8px"/>
+            <Edit fontSize="8px" />
           </IconButton>
           <IconButton size="small" onClick={() => handleDelete(_id)}>
-            <Delete fontSize="8px"/>
+            <Delete fontSize="8px" />
           </IconButton>
         </Box>
-        <Typography variant="p" component={"p"} sx={{mt:1}}>
+        <Typography variant="p" component={"p"} sx={{ mt: 1 }}>
           {addressType}
         </Typography>
-        <Typography variant="span" component={"p"} fontSize={"14px"}  >
+        <Typography variant="span" component={"p"} fontSize={"14px"}>
           {addressLine1}
         </Typography>
         <Typography variant="span" component={"p"} fontSize={"14px"}>
