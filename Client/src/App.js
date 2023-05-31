@@ -7,6 +7,8 @@ import Header from "./Components/Header/Header";
 import Toast from "./Components/Toast/Toast";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import {ErrorBoundary} from 'react-error-boundary'
+import FallbackHeader from "./Components/Fallback/FallbackHeader";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -71,7 +73,9 @@ function App() {
       />
       <Router>
         <ThemeProvider theme={theme}>
-          <Header />
+          <ErrorBoundary fallback={<FallbackHeader/>}>
+              <Header />
+          </ErrorBoundary>
           {visible && (
             <Toast open={visible} message={message} messageType={messageType} />
           )}

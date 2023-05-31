@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@mui/styles": "^5.13.2",
+    "react-error-boundary": "^4.0.9"
+  }
+}

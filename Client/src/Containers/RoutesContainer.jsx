@@ -6,6 +6,8 @@ import Dashboard from "../Pages/Dashboard";
 import {RequireAuth} from 'react-auth-kit'
 import { useTheme , useMediaQuery } from "@mui/material";
 import BottomBar from "../Components/Appbars/BottomBar";
+import {ErrorBoundary} from 'react-error-boundary'
+import FallbackMain from "../Components/Fallback/FallbackMain";
  
 const RoutesContainer = () => {
   const theme = useTheme();
@@ -24,11 +26,11 @@ const RoutesContainer = () => {
   const routes = []
   Object.keys(routesMapper).map((pathUrl) => {
     let component = routesWithNoLogin.includes(pathUrl) ? (
-      routesMapper[pathUrl]
+     routesMapper[pathUrl]
     ) : (
-        <RequireAuth loginPath="/Login">{routesMapper[pathUrl]}</RequireAuth>
+       <RequireAuth loginPath="/Login">{routesMapper[pathUrl]}</RequireAuth> 
     )
-    routes.push(<Route path={pathUrl} element={component}/>)  
+    routes.push(<Route path={pathUrl} element={<ErrorBoundary fallback={<div><FallbackMain/></div>}>{component}</ErrorBoundary>}/>)  
   }) 
 
   // Fallback Route
