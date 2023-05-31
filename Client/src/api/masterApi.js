@@ -1,3 +1,5 @@
+import getCookieValue from "../helpers/Common/getCookieValue";
+
 const requestWithMultipartOptions = ["createProduct", "createCategory"];
 
 export default async function masterApi(
@@ -7,11 +9,13 @@ export default async function masterApi(
   anyId
 ) {
   try {
+    // Create URL For Request
     const url = createUrl(requestFor, anyId);
+    // Get Auth Token
+    const auth_token = getCookieValue("_auth");
     const header = {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE3MjZiMzAyZTIwZTEwN2UxMDE4M2MiLCJpYXQiOjE2Nzk1MDY4MDl9.OKdqdE_m0AfnG6_Djp0ninohuTLOcqzuZyeFFkiFSa0",
+      Authorization: `Bearer ${auth_token}`,
     };
     const options = {
       method: requestMethod,
@@ -22,6 +26,7 @@ export default async function masterApi(
       method: requestMethod,
       body: requestBody,
     };
+    // Check API call Type (GET Or OTHERS)
     const optionsForAPICall = requestWithMultipartOptions.includes(requestFor)
       ? optionsForMultipart
       : options;
@@ -37,6 +42,7 @@ export default async function masterApi(
 }
 
 function createUrl(requestFor, anyId) {
+  // Add Cases Here
   let newUrl = "http://localhost:5000/api";
   switch (requestFor) {
     case "getAllUsers":
@@ -62,16 +68,16 @@ function createUrl(requestFor, anyId) {
       break;
     case "loginUser":
       newUrl = newUrl + `/login`;
-      break
-    case  "registerUser":
+      break;
+    case "registerUser":
       newUrl = newUrl + `/register`;
-      break
+      break;
     case "userDetails":
       newUrl = newUrl + `/user/${anyId}`;
-      break
+      break;
     case "getAllProducts":
       newUrl = newUrl + `/product/all/products`;
-      break
+      break;
     case "getProduct":
       newUrl = newUrl + `/product/${anyId}`;
       break;
@@ -79,17 +85,17 @@ function createUrl(requestFor, anyId) {
       newUrl = newUrl + `/address/new`;
       break;
     case "allAddress":
-      newUrl = newUrl + `/address/all/${anyId}`
+      newUrl = newUrl + `/address/all/${anyId}`;
       break;
     case "updateAddress":
       newUrl = newUrl + `/address/edit`;
       break;
     case "deleteAddress":
-      newUrl = newUrl + '/address/delete';
+      newUrl = newUrl + "/address/delete";
       break;
     case "payment":
       newUrl = newUrl + `/checkout/create-payment-intent`;
-      break
+      break;
     case "newOrder":
       newUrl = newUrl + `/orders/new`;
       break;

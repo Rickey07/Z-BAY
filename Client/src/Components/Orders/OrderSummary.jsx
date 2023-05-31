@@ -1,5 +1,12 @@
 import { Download } from "@mui/icons-material";
-import { Box, Grid, Paper, Typography,useMediaQuery,useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
 import PrimaryButton from "../Buttons/PrimaryButton";
@@ -12,18 +19,17 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 const OrderSummary = ({ purchases }) => {
   const params = useParams();
   const { orderId } = params;
- 
+
   const productDetailsData =
     purchases && purchases?.find((product) => product.id === orderId);
   const { products, amount, address } = productDetailsData;
   return (
     <div>
-      {/* <MyBill/> */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          flexWrap:"wrap",
+          flexWrap: "wrap",
           alignItems: "center",
           mb: 3,
         }}
@@ -31,7 +37,7 @@ const OrderSummary = ({ purchases }) => {
         <Typography component={"h6"} sx={{ fontWeight: "bold" }}>
           Your Order Details
         </Typography>
-
+        {/* {Generate PDF Bill} */}
         <PDFDownloadLink
           document={
             <MyBill products={products} amount={amount} address={address} />
@@ -44,7 +50,7 @@ const OrderSummary = ({ purchases }) => {
       <Grid container spacing={2}>
         <Grid item md={8} xs={12}>
           <Paper component={"div"} elevation={1} sx={{ p: 3 }}>
-            <Typography component={"h4"} sx={{ mb: 1 }}>
+            <Typography component={"h4"} sx={{ mb: 1,fontWeight:"bold" }}>
               Your Purchases
             </Typography>
             <Box>
@@ -59,7 +65,7 @@ const OrderSummary = ({ purchases }) => {
                   );
                 })}
             </Box>
-            <Typography component={"h4"} sx={{ mt: 1, mb: 2 }}>
+            <Typography component={"h4"} sx={{ mt: 1, mb: 2,fontWeight:"bold" }}>
               Shipping Details
             </Typography>
             <Box

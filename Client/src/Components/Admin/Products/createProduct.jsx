@@ -168,7 +168,7 @@ const CreateProduct = () => {
 
   return (
     <Box component={"div"}>
-      <Paper elevation={0} style={{ padding: "48px", marginLeft: "8%" }}>
+      <Paper elevation={0} style={{margin:"1%" }}>
         <Box component={"div"}>
           <form encType="multipart/form-data">
             <Grid

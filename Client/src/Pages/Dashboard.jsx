@@ -14,9 +14,9 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React,{useEffect} from "react";
-import {useSelector} from 'react-redux'
-import {toast} from 'react-toastify'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
 import View from "../Components/Profile/View";
@@ -29,17 +29,19 @@ import MainLoader from "../Components/Loaders/MainLoader";
 import OrderSummary from "../Components/Orders/OrderSummary";
 
 const Dashboard = () => {
-  // Default Configurations
-  const Links = [
-    { text: "Orders", icon: <ShoppingBag />, url: "orders" },
-    { text: "Profile Info", icon: <People />, url: "profile" },
-    { text: "Addresses", icon: <LocationCity />, url: "address" },
-  ];
+ 
 
   // Router Import
   const location = useLocation();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
+
+   // Default Configurations
+   const Links = [
+    { text: "Orders", icon: <ShoppingBag sx={{color:theme.palette.secondary.dark}}/>, url: "orders" },
+    { text: "Profile Info", icon: <People sx={{color:theme.palette.secondary.dark}}/>, url: "profile" },
+    { text: "Addresses", icon: <LocationCity sx={{color:theme.palette.secondary.dark}}/>, url: "address" },
+  ];
 
   const sectionHeading = location.pathname.includes("orders")
     ? "My Orders"
@@ -48,19 +50,24 @@ const Dashboard = () => {
     : "My Addresses";
 
   // Redux Imports
-  const refreshUser = useSelector((state) => state.global.refereshUserDetails)
-  console.log("prabadhya",refreshUser)
+  const refreshUser = useSelector((state) => state.global.refereshUserDetails);
 
   // States
   const [isVisible, setIsVisible] = useState(false);
   const [newAddressChange, setNewAddressChange] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loader,setLoader] = useState(false);
-  const [userDetailsData,setUserDetailsData] = useState({purchases:"",firstname:"",lastname:"",email:"",addresses:""})
-  const {purchases,firstname,lastname,email,addresses} = userDetailsData
-  const userInfo = {orders:purchases.length,firstname,lastname,email}
+  const [loader, setLoader] = useState(false);
+  const [userDetailsData, setUserDetailsData] = useState({
+    purchases: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    addresses: "",
+  });
+  const { purchases, firstname, lastname, email, addresses } = userDetailsData;
+  const userInfo = { orders: purchases.length, firstname, lastname, email };
   const auth = useAuthUser();
-  const {_id} = auth();
+  const { _id } = auth();
 
   // Methods
 
@@ -76,8 +83,8 @@ const Dashboard = () => {
   };
 
   const closeMobileMenuDrawer = () => {
-    setMobileMenuOpen(false)
-  }
+    setMobileMenuOpen(false);
+  };
 
   const handleClose = () => {
     setIsVisible(false);
@@ -85,31 +92,34 @@ const Dashboard = () => {
 
   const getUserData = async () => {
     try {
-      setLoader(true)
+      setLoader(true);
       const result = await getUserDetails(_id);
-      if(result?.statusCode===200) {
-        setUserDetailsData(result?.user)
-        console.log(result?.user,"prabadhya")
+      if (result?.statusCode === 200) {
+        setUserDetailsData(result?.user);
+        console.log(result?.user, "prabadhya");
       } else {
-        toast.error("Some unknown Error Occured")
+        toast.error("Some unknown Error Occured");
       }
-      setLoader(false)
+      setLoader(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     getUserData();
-  },[refreshUser])
-
+  }, [refreshUser]);
 
   return (
     <div>
-      <MainLoader visible={loader}/>
+      <MainLoader visible={loader} />
       {mobile && mobileMenuOpen && (
-        <Drawer anchor="left" open={mobileMenuOpen} onClose={closeMobileMenuDrawer}>
-          <Box component={"div"} sx={{pl:4,marginTop:10,pr:4}}>
+        <Drawer
+          anchor="left"
+          open={mobileMenuOpen}
+          onClose={closeMobileMenuDrawer}
+        >
+          <Box component={"div"} sx={{ pl: 4, marginTop: 10, pr: 4 }}>
             <Paper component={"div"} elevation={0}>
               <Typography component={"span"} variant={"span"}>
                 Dashboard
@@ -123,7 +133,7 @@ const Dashboard = () => {
                         display: "flex",
                         justifyContent: "space-between",
                         textDecoration: "none",
-                        gap:"10px",
+                        gap: "10px",
                         marginTop: "15px",
                       }}
                       key={linkInstance.url}
@@ -150,21 +160,20 @@ const Dashboard = () => {
                           {linkInstance.text}
                         </Typography>
                       </Box>
-                      <Typography>5</Typography>
                     </Link>
                   );
                 })}
               </Box>
             </Paper>
           </Box>
-        </Drawer>
+        </Drawer> 
       )}
       <Grid container spacing={5}>
         {!mobile && (
           <Grid item md={2}>
             <Box component={"div"}>
               <Paper component={"div"} sx={{ p: 3 }} elevation={1}>
-                <Typography component={"span"} variant={"span"}>
+                <Typography component={"span"} variant={"span"} sx={{color:theme?.palette?.secondary?.contrastText}}>
                   Dashboard
                 </Typography>
                 <Box component={"div"}>
@@ -203,7 +212,6 @@ const Dashboard = () => {
                             {linkInstance.text}
                           </Typography>
                         </Box>
-                        <Typography>5</Typography>
                       </Link>
                     );
                   })}
@@ -246,12 +254,24 @@ const Dashboard = () => {
             )}
           </Box>
           <Routes>
-            <Route path="/orders" element={<OrderWrapper purchases={purchases}/>} >
-              <Route path=":orderId" element={<OrderSummary purchases={purchases}/>}/>
+            <Route
+              path="/orders"
+              element={<OrderWrapper purchases={purchases} />}
+            >
+              <Route
+                path=":orderId"
+                element={<OrderSummary purchases={purchases} />}
+              />
             </Route>
             <Route
               path="/profile"
-              element={<View isVisible={isVisible} handleClose={handleClose} {...userInfo}/>}
+              element={
+                <View
+                  isVisible={isVisible}
+                  handleClose={handleClose}
+                  {...userInfo}
+                />
+              }
             />
             <Route
               path="/address"

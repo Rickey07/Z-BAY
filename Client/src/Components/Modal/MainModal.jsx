@@ -7,8 +7,8 @@ const MainModal = ({ isVisible, handleClose, ModalBody }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     bgcolor: "background.paper",
+    width: "auto",
     boxShadow: 24,
     p: 4,
   };
@@ -16,6 +16,17 @@ const MainModal = ({ isVisible, handleClose, ModalBody }) => {
     <Modal
       open={isVisible}
       onClose={handleClose}
+      sx={{
+        position: "fixed",
+        zIndex: 1300,
+        right: 0,
+        bottom: 0,
+        top: 0,
+        left: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{
@@ -25,7 +36,16 @@ const MainModal = ({ isVisible, handleClose, ModalBody }) => {
       }}
     >
       <Fade in={isVisible}>
-        <Box sx={style}>{ModalBody}</Box>
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            position: "absolute",
+            p:4
+          }}
+        >
+          {ModalBody}
+        </Box>
       </Fade>
     </Modal>
   );

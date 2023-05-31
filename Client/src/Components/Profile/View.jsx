@@ -57,7 +57,7 @@ const View = ({ isVisible, handleClose,firstname,lastname,orders,email }) => {
           </Typography>
           <Typography
             component={"small"}
-            color={theme.mainTheme.smallTextColor}
+            color={theme.palette.secondary.contrastText}
             variant={"small"}
           >
             {text}
@@ -68,7 +68,7 @@ const View = ({ isVisible, handleClose,firstname,lastname,orders,email }) => {
   };
 
   return (
-    <div>
+    <div style={{minHeight:"500px"}}>
       <Grid container spacing={mobile?2:4}>
         <Grid item md={6} xs={12}>
           <Paper component={"div"} elevation={1} sx={{ p: 2 }}>

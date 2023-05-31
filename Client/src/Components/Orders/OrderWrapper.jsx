@@ -8,7 +8,6 @@ const OrderWrapper = ({purchases}) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
   const location = useLocation();
-  console.log(location.pathname)
 
   return (
     <div>

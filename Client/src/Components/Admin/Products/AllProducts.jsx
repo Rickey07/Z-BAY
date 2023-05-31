@@ -8,6 +8,8 @@ import {
   Chip,
   Switch,
   TextField,
+  Checkbox,
+  Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +22,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { deleteProduct } from "../../../helpers/APICalls/deleteProduct";
+import Delete from "@mui/icons-material/Delete";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import updateProduct from "../../../helpers/APICalls/updateProduct";
 import { toast } from "react-toastify";
 
@@ -34,25 +38,86 @@ const AllProducts = () => {
     "Featured",
     "Action",
   ];
-  const successAlertMessage = {
-    visible: true,
-    message: "Product Successfully Deleted!",
-    messageType: "success",
-  };
-  const failureAlertMessage = {
-    visible: true,
-    message: "OOPS! Not able to Delete Product",
-    messageType: "error",
-  };
 
   // Redux Imports
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
+  const [refreshData, setRefreshData] = useState(false);
+
+  const columns = [
+    { field: "id", hide: true, width: 225 },
+    {
+      field: "name",
+      headerName: "Product Name",
+      width: 400,
+      renderCell: (params) => (
+        <ProductTableCell
+          imagesrc={params?.row?.images[0]?.imageName}
+          name={params?.row?.name}
+        />
+      ),
+    },
+    {
+      field: "quantity",
+      headerName: "Quantity",
+      width: 100,
+    },
+    {
+      field: "discountedPrice",
+      headerName: "Discounted Price",
+      width: 120,
+    },
+    {
+      field: "saleprice",
+      headerName: "Actual Price",
+      width: 120,
+      editable:true
+    },
+    {
+      field: "featured",
+      headerName: "Featured",
+      width: 120,
+      renderCell: (params) => (
+        <Switch
+          checked={params?.row?.featured}
+          onChange={() => {
+            const mainData = { ...params?.row };
+            if (mainData["featured"] === true) {
+              mainData["featured"] = false;
+            } else {
+              mainData["featured"] = true;
+            }
+            onUpdate(mainData);
+          }}
+        />
+      ),
+    },
+    {
+      field: "category",
+      headerName: "Category Name",
+      width: 120,
+      renderCell: (params) => (
+        <Chip label={params?.row?.category?.category_name} />
+      ),
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Delete />}
+          onClick={(e) => onDelete(params?.id)}
+          label="Delete"
+        />,
+      ],
+    },
+  ];
 
   // Action Dispatch and API Calls and Effects
   useEffect(() => {
     dispatch(getAllProducts());
-  }, []);
+  }, [refreshData]);
 
   // Product Table Cell // InBuilt Components
 
@@ -79,98 +144,6 @@ const AllProducts = () => {
 
   // HOC
 
-  const TableDataRowForProducts = ({ data, onDelete, onUpdate }) => {
-    const [mainData, setMainData] = useState(data);
-    const [isEditable, setIsEditable] = useState(false);
-
-    const onEditField = () => {
-      setIsEditable(!isEditable);
-    };
-
-    const onEditFieldClose = (data) => {
-      setIsEditable(!isEditable);
-      onUpdate(mainData);
-    };
-
-    const onChange = (e) => {
-      setMainData({ ...mainData, [e.target.name]: e.target.value });
-    };
-    const DynamicTableCellContent = ({
-      data,
-      isEdit,
-      onChange,
-      targetName,
-    }) => {
-      return (
-        <>
-          {isEdit ? (
-            <TextField
-              hiddenLabel
-              id="filled-hidden-label-small"
-              value={data}
-              variant="filled"
-              size="small"
-              name={targetName}
-              onChange={onChange}
-            />
-          ) : (
-            data
-          )}
-        </>
-      );
-    };
-
-    return (
-      <>
-        <TableRow>
-          <ProductTableCell
-            imagesrc={data?.images[0]?.imageName}
-            name={data?.name}
-          />
-          <TableCell>
-            <Chip label={data?.category?.category_name} />
-          </TableCell>
-          <TableCell align={"left"}>
-            <DynamicTableCellContent
-              data={mainData?.discountPercentage}
-              targetName={"discountPercentage"}
-              onChange={onChange}
-              isEdit={isEditable}
-            />
-          </TableCell>
-          <TableCell align={"left"}>
-            <DynamicTableCellContent
-              data={mainData?.discountedPrice}
-              targetName={"discountedPrice"}
-              onChange={onChange}
-              isEdit={isEditable}
-            />
-            {!isEditable && "Inr"}
-          </TableCell>
-          <TableCell align={"center"}>
-            <DynamicTableCellContent
-              data={mainData?.quantity}
-              targetName={"quantity"}
-              onChange={onChange}
-              isEdit={isEditable}
-            />
-          </TableCell>
-          <TableCell align={"left"}>
-            <Switch defaultChecked={data?.featured} />
-          </TableCell>
-          <TableCell>
-            <IconButton onClick={!isEditable ? onEditField : onEditFieldClose}>
-              {!isEditable ? <EditIcon /> : <DoneIcon />}
-            </IconButton>
-            <IconButton onClick={() => onDelete(data?._id)}>
-              <DeleteIcon />
-            </IconButton>
-          </TableCell>
-        </TableRow>
-      </>
-    );
-  };
-
   // Methods
 
   // Delete Product API call and Reducer Call For Redux
@@ -178,29 +151,38 @@ const AllProducts = () => {
     const deletedProduct = await deleteProduct(id);
     if (deletedProduct.success) {
       dispatch(productActions.removeProduct(id));
-      toast.success("Deleted Successfully!")
+      toast.success("Deleted Successfully!");
     } else {
-      toast.error("Some Unknown Error Occured!")
+      toast.error("Some Unknown Error Occured!");
     }
   };
 
   const onUpdate = async (data) => {
     const updatedProduct = await updateProduct(data);
     if (updatedProduct.success) {
-      toast.success("Proouct has been updated Successfully!")
+      toast.success("Product has been updated Successfully!");
+      setRefreshData(!refreshData);
     } else {
-      toast.error("Some Unknown Error Occurred while Updating ")
+      toast.error("Some Unknown Error Occurred while Updating ");
     }
+  };
+  const handleCellEditStop = (params) => {
+    console.log(params)
+    const rowParams = params.api.getRowParams(params.id);
+    const editedCellValue = params.api.getValue(rowParams.id, params.field);
+    console.log(editedCellValue);
+    // Perform any desired actions with the edited value
   };
   return (
     <div>
-      <TableRb
-        tableHeaders={tableHeaders}
-        tableBodyData={products}
-        TableDataRow={TableDataRowForProducts}
-        onDelete={onDelete}
-        onUpdate={onUpdate}
-      />
+      {products && (
+        <DataGrid
+          showCellVerticalBorder={true}
+          rows={products}
+          columns={columns}
+          onCellEditStop={handleCellEditStop}
+        />
+      )}
     </div>
   );
 };

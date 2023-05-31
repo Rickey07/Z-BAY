@@ -73,9 +73,9 @@ function App() {
       />
       <Router>
         <ThemeProvider theme={theme}>
-          <ErrorBoundary fallback={<FallbackHeader/>}>
+          {/* <ErrorBoundary fallback={<FallbackHeader/>}> */}
               <Header />
-          </ErrorBoundary>
+          {/* </ErrorBoundary> */}
           {visible && (
             <Toast open={visible} message={message} messageType={messageType} />
           )}

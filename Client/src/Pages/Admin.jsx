@@ -14,8 +14,8 @@ const Admin = () => {
   return (
     <div>
         <AdminSideBar selectedLink={selectedLink} setSelectedLink={setSelectedLink}/>
-        <Box>
-          <Typography variant='h4' component={"h4"}>
+        <Box sx={{ml:28,minHeight:"500px",mr:5}}>
+          <Typography variant='h4' component={"h4"} sx={{mb:2}}>
             {selectedLink}
           </Typography>
           {componentToBeShown}

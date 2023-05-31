@@ -12,7 +12,8 @@ import {
   useTheme,
   Badge,
   MenuItem,
-  Menu as MenuBar
+  Menu as MenuBar,
+  Avatar,
 } from "@mui/material";
 import {
   Shop2Outlined,
@@ -22,11 +23,12 @@ import {
   Menu,
   Close,
   AccountCircle,
+  LogoutRounded,
 } from "@mui/icons-material";
 import SideBar from "../SideBar/SideBar";
 import { useSelector } from "react-redux";
 import SideBarForCart from "../SideBar/SideBarForCart";
-import { useIsAuthenticated,useSignOut } from "react-auth-kit";
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 const Header = () => {
   const theme = useTheme();
@@ -37,7 +39,6 @@ const Header = () => {
   const authState = isAuthenticated();
   const signOut = useSignOut();
   const navigate = useNavigate();
-;
   // States
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -46,10 +47,10 @@ const Header = () => {
   // Methods
 
   const openSideCart = () => {
-    if(authState) {
+    if (authState) {
       setIsCartOpen(true);
     } else {
-      navigate("/Login")
+      navigate("/Login");
     }
   };
 
@@ -63,11 +64,11 @@ const Header = () => {
 
   const handleLogout = () => {
     signOut();
-  }
+  };
 
   const handleNavigate = () => {
-    navigate("/dashboard/profile")
-  }
+    navigate("/dashboard/profile");
+  };
 
   // const handleChange = (event) => {
   //   setAuth(event.target.checked);
@@ -121,24 +122,10 @@ const Header = () => {
                   alignItems: "center",
                 }}
               >
-                {mobileMenu ? (
-                  <Close
-                    sx={{
-                      mr: 4,
-                      fontSize: FONT_SIZE_NAVBAR_ICONS,
-                      cursor: "pointer",
-                    }}
-                    onClick={handleOpen}
-                  />
-                ) : (
-                  <Menu
-                    sx={{
-                      mr: 4,
-                      fontSize: FONT_SIZE_NAVBAR_ICONS,
-                      cursor: "pointer",
-                    }}
-                    onClick={handleOpen}
-                  />
+                {authState && (
+                  <Avatar sx={{background:theme.palette.secondary.contrastText}} onClick={handleLogout}>
+                    <LogoutRounded color="secondary" />
+                  </Avatar>
                 )}
               </Box>
             ) : (
@@ -263,7 +250,6 @@ const Header = () => {
                       onClick={handleMenu}
                       color="primary"
                       sx={{
-                        
                         borderRadius: "50%",
                         border: 0,
                         backgroundColor: theme.palette.secondary.main,
@@ -284,7 +270,7 @@ const Header = () => {
                         horizontal: "right",
                       }}
                       open={Boolean(anchorEl)}
-                      sx={{zIndex:2000,mt:"45px"}}
+                      sx={{ zIndex: 2000, mt: "45px" }}
                       onClose={handleClose}
                     >
                       <MenuItem onClick={handleNavigate}>Profile</MenuItem>

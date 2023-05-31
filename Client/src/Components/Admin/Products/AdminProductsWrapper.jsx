@@ -18,10 +18,9 @@ const AdminProductsWrapper = () => {
     activeTab === "Create Product" ? <CreateProduct /> : <AllProducts/>
 
   return (
-    <Box component={"div"}>
+    <Box component={"div"} sx={{mb:2}}>
       <Paper
         elevation={0}
-        style={{ padding: "48px", marginLeft: "8%", border: "2px solid blue" }}
       >
         <NavTabs
           values={tabsNavigationValues}

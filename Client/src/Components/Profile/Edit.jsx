@@ -56,6 +56,7 @@ const Edit = ({ formValues,handleSubmit }) => {
               helperText={formik.touched.firstName && formik.errors.firstName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              fullWidth={true}
               value={firstname}
             />
           </Grid>
@@ -69,6 +70,7 @@ const Edit = ({ formValues,handleSubmit }) => {
               helperText={formik.touched.lastName && formik.errors.lastName}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              fullWidth={true}
               value={lastname}
             />
           </Grid>
@@ -83,6 +85,7 @@ const Edit = ({ formValues,handleSubmit }) => {
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               onBlur={formik.handleBlur}
+              fullWidth={true}
               onChange={formik.handleChange}
               value={email}
             />
@@ -96,6 +99,7 @@ const Edit = ({ formValues,handleSubmit }) => {
               error={formik.touched.phoneNo && Boolean(formik.errors.phoneNo)}
               helperText={formik.touched.phoneNo && formik.errors.phoneNo}
               onBlur={formik.handleBlur}
+              fullWidth={true}
               onChange={formik.handleChange}
               value={phoneNo}
             />

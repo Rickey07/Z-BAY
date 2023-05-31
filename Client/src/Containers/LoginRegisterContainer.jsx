@@ -306,7 +306,7 @@ const LoginRegisterContainer = () => {
               text={currentTab === "Login" ? "Login" : "Register"}
               buttonSize="Large"
               isLoading={loading}
-              handleClick={() => handleSubmit}
+              handleClick={() => handleSubmit()}
             />
              {
               currentTab==="Login" && (

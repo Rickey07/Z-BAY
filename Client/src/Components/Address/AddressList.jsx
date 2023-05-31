@@ -86,7 +86,7 @@ const AddressList = ({ isVisible, handleClose, setIsVisible,newAddressChange }) 
     }
   }
   return (
-    <div>
+    <div style={{minHeight:"500px"}}>
       <MainLoader visible={loader}/>
       {addresses &&
         addresses.map((address) => {

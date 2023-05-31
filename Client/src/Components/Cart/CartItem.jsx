@@ -143,7 +143,7 @@ const CartItem = ({ cartDetails, sideBar,hideButton }) => {
                 <Typography component={"small"} variant={"small"}>
                   ₹{cartDetails?.Price} X {cartDetails?.quantity}
                 </Typography>
-                <Typography component={"small"} variant={"small"}>
+                <Typography component={"p"} variant={"p"} sx={{fontWeight:"bold"}}>
                   ₹{cartDetails?.total}
                 </Typography>
                 {
