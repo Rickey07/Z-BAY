@@ -32,7 +32,7 @@ export default async function masterApi(
       : options;
     const response =
       (await requestMethod) === "GET"
-        ? fetch(url)
+        ? fetch(url,{headers:header})
         : fetch(url, optionsForAPICall);
     const resolvedPromise = (await response).json();
     return resolvedPromise;
@@ -102,6 +102,9 @@ function createUrl(requestFor, anyId) {
     case "updateUser":
       newUrl = newUrl + `/update/${anyId}`;
       break;
+    case "allOrders":
+      newUrl = newUrl + `/orders/all-orders`;
+      break
     default:
       break;
   }

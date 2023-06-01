@@ -16,8 +16,7 @@ const AdminCategoriesWrapper = () => {
   return <div>
      <Box component={"div"}>
       <Paper
-        elevation={0}
-        style={{ padding: "48px", marginLeft: "8%", border: "2px solid blue" }}
+        elevation={0} 
       >
         <NavTabs
           values={tabsNavigationValues}

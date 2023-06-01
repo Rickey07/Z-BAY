@@ -1,44 +1,25 @@
 import {
   TableCell,
-  TableRow,
   Box,
   Avatar,
   Typography,
-  IconButton,
   Chip,
   Switch,
-  TextField,
-  Checkbox,
-  Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productActions } from "../../../redux/ProductsSlice";
 import { globalActions } from "../../../redux/global";
 import getAllProducts from "../../../redux/ProductsSlice";
-import TableRb from "../../Tables/TableRb";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DoneIcon from "@mui/icons-material/Done";
 import { useState } from "react";
 import { deleteProduct } from "../../../helpers/APICalls/deleteProduct";
 import Delete from "@mui/icons-material/Delete";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import DataGridWrapper from "../../DataGrid/DataGridWrapper";
 import updateProduct from "../../../helpers/APICalls/updateProduct";
 import { toast } from "react-toastify";
 
 const AllProducts = () => {
-  // Custom Variables
-  const tableHeaders = [
-    "Name",
-    "Category",
-    "Discount%",
-    "Price",
-    "Stock",
-    "Featured",
-    "Action",
-  ];
-
   // Redux Imports
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
@@ -50,6 +31,7 @@ const AllProducts = () => {
       field: "name",
       headerName: "Product Name",
       width: 400,
+      editable:true,
       renderCell: (params) => (
         <ProductTableCell
           imagesrc={params?.row?.images[0]?.imageName}
@@ -61,11 +43,13 @@ const AllProducts = () => {
       field: "quantity",
       headerName: "Quantity",
       width: 100,
+      editable:true
     },
     {
       field: "discountedPrice",
       headerName: "Discounted Price",
       width: 120,
+      editable:true
     },
     {
       field: "saleprice",
@@ -167,22 +151,12 @@ const AllProducts = () => {
     }
   };
   const handleCellEditStop = (params) => {
-    console.log(params)
-    const rowParams = params.api.getRowParams(params.id);
-    const editedCellValue = params.api.getValue(rowParams.id, params.field);
-    console.log(editedCellValue);
-    // Perform any desired actions with the edited value
+     onUpdate(params)
   };
   return (
     <div>
       {products && (
-        <DataGrid
-          showCellVerticalBorder={true}
-          rows={products}
-          columns={columns}
-          onCellEditStop={handleCellEditStop}
-          processRowUpdate={handleCellEditStop}
-        />
+        <DataGridWrapper rows={products} columns={columns} processRowUpdate={handleCellEditStop}/>
       )}
     </div>
   );

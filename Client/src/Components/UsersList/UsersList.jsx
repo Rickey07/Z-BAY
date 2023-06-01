@@ -4,12 +4,9 @@ import masterApi from "../../api/masterApi";
 import { useEffect } from "react";
 import deleteUser from "../../helpers/APICalls/deleteUser";
 import {
-  DataGrid,
-  GridRowsProp,
-  GridColDef,
   GridActionsCellItem,
 } from "@mui/x-data-grid";
-import { Paper, Stack, Typography } from "@mui/material";
+import DataGridWrapper from  '../DataGrid/DataGridWrapper'
 import { Delete } from "@mui/icons-material";
 
 const UsersList = () => {
@@ -18,7 +15,6 @@ const UsersList = () => {
   const [isUserDeleted, setIsUserDeleted] = useState(false);
 
   const rows = useMemo(() => convertUsersListIntoRows(users), [users]);
-  console.log(rows);
 
   // const rows = [
   //   { id: 1, col1: 'Hello', lastName: 'World' },
@@ -96,21 +92,7 @@ const UsersList = () => {
     <>
       <div style={{ display: "block", margin: "auto" }}>
         {rows && (
-          <DataGrid
-            rowHeight={30}
-            rows={rows}
-            columns={columns}
-            showCellVerticalBorder={true}
-            showColumnVerticalBorder={true}
-            sx={{
-              boxShadow: 2,
-              border: 2,
-              borderColor: "secondary.light",
-              "& .MuiDataGrid-cell:hover": {
-                color: "primary.main",
-              },
-            }}
-          />
+          <DataGridWrapper rows={rows} columns={columns}/>
         )}
       </div>
     </>
