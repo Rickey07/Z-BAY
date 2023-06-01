@@ -1,9 +1,9 @@
 const Order = require("../models/order");
 const User = require("../models/user");
 
-exports.getAllOrders = async () => {
+exports.getAllOrders = async (req,res) => {
   try {
-    const allOrders = await Order.find({});
+    const allOrders = await Order.find({}).populate("user");
     return res.status(200).json({
       allOrders,
       success: true,

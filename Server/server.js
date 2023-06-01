@@ -14,7 +14,7 @@ const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
 const addressRoutes = require('./routes/address');
 const paymentRoutes = require('./routes/payment');
-
+const analyticsRoutes = require('./routes/analytics')
 
 
 
@@ -33,6 +33,7 @@ app.use("/api/product",productRoutes)
 app.use("/api/orders",orderRoutes)
 app.use("/api/address",addressRoutes)
 app.use("/api/checkout",paymentRoutes)
+app.use("/api/analytics",analyticsRoutes)
 
 
 

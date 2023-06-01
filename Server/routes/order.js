@@ -10,7 +10,7 @@ router.post('/new',updateProductStock,placeOrder);
 
 
 // Get All Orders
-router.get('/all-orders',isSignedIn,isAuthenticated,isAdmin,getAllOrders);
+router.get('/all-orders',isSignedIn,getAllOrders);
 
 // Update Order Status
 router.patch('/update/:orderId',isSignedIn,isAuthenticated,isAdmin,updateOrderStatus);
