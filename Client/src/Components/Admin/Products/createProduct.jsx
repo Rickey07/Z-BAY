@@ -32,6 +32,7 @@ const CreateProduct = () => {
     category: "",
     images: [],
     discountPercentage: "",
+    actualprice:""
   }
   const [productCreationState, setProductCreationState] = useState(intialProductState);
 
@@ -202,7 +203,7 @@ const CreateProduct = () => {
                     label="Age"
                     onChange={handleChange}
                   >
-                    {AllCategories?.categories?.map((category) => {
+                    {AllCategories?.map((category) => {
                       return (
                         <MenuItem key={category._id} value={category._id}>
                           {category.category_name}
@@ -259,13 +260,24 @@ const CreateProduct = () => {
                   fullWidth
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   variant="outlined"
                   label={"Sale Price"}
                   value={productCreationState.saleprice}
                   onChange={handleChange}
                   name={"saleprice"}
+                  style={{ borderRadius: "16px" }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  label={"Actual Price"}
+                  value={productCreationState.actualPrice}
+                  onChange={handleChange}
+                  name={"actualprice"}
                   style={{ borderRadius: "16px" }}
                   fullWidth
                 />
