@@ -181,6 +181,7 @@ const AllProducts = () => {
           rows={products}
           columns={columns}
           onCellEditStop={handleCellEditStop}
+          processRowUpdate={handleCellEditStop}
         />
       )}
     </div>
