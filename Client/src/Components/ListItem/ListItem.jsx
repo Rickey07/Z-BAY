@@ -4,9 +4,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from "@mui/material";
 
 const ListItemNav = ({ text, image, routeUrl, selectedLink, handleClick }) => {
+  const theme = useTheme();
   return (
     <>
       <ListItem
@@ -14,9 +16,9 @@ const ListItemNav = ({ text, image, routeUrl, selectedLink, handleClick }) => {
         onClick={() => handleClick(text)}
         defaultValue={text}
       >
-        <ListItemButton selected={selectedLink === text}>
-          <ListItemIcon>{image}</ListItemIcon>
-          <ListItemText>{text}</ListItemText>
+        <ListItemButton selected={selectedLink === text} sx={{backgroundColor:selectedLink === text && theme.palette.primary.main}}>
+          <ListItemIcon sx={{ color: selectedLink === text ? theme.palette.primary.main : "#AEB4BE" }}>{image}</ListItemIcon>
+          <ListItemText sx={{ color: selectedLink === text ? theme.palette.primary.main : "#AEB4BE" }}>{text}</ListItemText>
         </ListItemButton>
       </ListItem>
     </>

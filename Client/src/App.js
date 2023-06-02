@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import Footer from "./Components/Footer/Footer";
 import "./App.css";
@@ -55,7 +55,7 @@ function App() {
     },
   });
 
-  const isAdmin = true;
+  const isAdmin = true
 
   return (
     <div className="App">
@@ -81,7 +81,7 @@ function App() {
           )}
           <RoutesContainer />
 
-          {isAdmin && <Footer />}
+          {!isAdmin && <Footer />}
         </ThemeProvider>
       </Router>
     </div>

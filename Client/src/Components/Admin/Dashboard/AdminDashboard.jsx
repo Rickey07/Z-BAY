@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, MenuItem, Paper, Select, Typography } from "@mui/material";
 import DashboardCard from "./DashboardCard";
 import IntroCard from "./IntroCard";
 import React from "react";
@@ -12,6 +12,7 @@ const AdminDashboard = () => {
   const [statsData, setStatsData] = useState({});
   const [loading, setLoading] = useState(false);
   const { totalPayments, totalUser } = statsData;
+  const [viewType,setViewType] = useState("bar")
 
   useEffect(() => {
     getAnalyticsStats();
@@ -36,14 +37,30 @@ const AdminDashboard = () => {
           id: 1,
           label: "Sales",
           data: [15000, 18000, 21000, 24000, 22000, 25000],
+          barPercentage:0.4,
+          pointStyle:"circle"
         },
         {
           id: 2,
           label: "Expenses",
           data: [8000, 9000, 9500, 11000, 12000, 10000],
+          barPercentage:0.4,
+          pointStyle:"circle"
         },
       ],
     },
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio:false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    borderWidth:2,
+    borderRadius:10,
   };
 
   return (
@@ -92,13 +109,18 @@ const AdminDashboard = () => {
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid xs={12} sx={{ pl: 2 }}>
           <Paper elevation={0} sx={{ minHeight: "300px", p: 2 }}>
-            <Box component={"div"}>
+            <Box component={"div"} sx={{display:"flex",justifyContent:"space-between"}}>
               <Typography component={"h6"} variant={"h6"} color={"primary"}>
                 Sales & Expense
               </Typography>
+              <Select sx={{height:20}} value={viewType} onChange={(e) => setViewType(e.target.value)}>
+                <MenuItem value={"line"}>Line</MenuItem>
+                <MenuItem value={"bar"}>Bar</MenuItem>
+                <MenuItem value={"pie"}>Pie</MenuItem>
+              </Select>
             </Box>
-            <Box component={"div"}>
-              <ChartWrapper type={"bar"} data={analyticsData.data}/>
+            <Box component={"div"} sx={{minHeight:"300px"}}>
+              <ChartWrapper type={viewType} data={analyticsData.data} options={options}/>
             </Box>
           </Paper>
         </Grid>
