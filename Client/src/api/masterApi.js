@@ -105,6 +105,9 @@ function createUrl(requestFor, anyId) {
     case "allOrders":
       newUrl = newUrl + `/orders/all-orders`;
       break
+    case "analytics":
+      newUrl = newUrl + '/analytics';
+      break;
     default:
       break;
   }
