@@ -15,6 +15,10 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
+  actualprice:{
+    type:Number,
+    required:true
+  },
   discountPercentage: {
     type: String,
   },
