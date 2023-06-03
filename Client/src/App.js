@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter as Router, Routes, } from "react-router-dom";
+import { BrowserRouter as Router, Routes } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import Footer from "./Components/Footer/Footer";
 import "./App.css";
@@ -7,13 +7,13 @@ import Header from "./Components/Header/Header";
 import Toast from "./Components/Toast/Toast";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import {ErrorBoundary} from 'react-error-boundary'
+import { ErrorBoundary } from "react-error-boundary";
 import FallbackHeader from "./Components/Fallback/FallbackHeader";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const toastState = useSelector((state) => state?.global?.toastAlertState);
- 
+
   const { visible, message, messageType } = toastState;
   const theme = createTheme({
     mainTheme: {
@@ -55,7 +55,7 @@ function App() {
     },
   });
 
-  const isAdmin = true
+  const isAdmin = true;
 
   return (
     <div className="App">
@@ -74,14 +74,12 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           {/* <ErrorBoundary fallback={<FallbackHeader/>}> */}
-              <Header />
+          <Header />
           {/* </ErrorBoundary> */}
           {visible && (
             <Toast open={visible} message={message} messageType={messageType} />
           )}
           <RoutesContainer />
-
-          {!isAdmin && <Footer />}
         </ThemeProvider>
       </Router>
     </div>

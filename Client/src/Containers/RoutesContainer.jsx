@@ -7,12 +7,15 @@ import {RequireAuth} from 'react-auth-kit'
 import { useTheme , useMediaQuery } from "@mui/material";
 import BottomBar from "../Components/Appbars/BottomBar";
 import {ErrorBoundary} from 'react-error-boundary'
+import Footer from "../Components/Footer/Footer";
 import FallbackMain from "../Components/Fallback/FallbackMain";
  
 const RoutesContainer = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("md"))
   const routesWithNoLogin = ["/","/Login","/products"]
+  const location = useLocation()
+  const isAdmin = location.pathname === "/admin"
 
   const routesMapper = {
     "/":<Home/>,
@@ -52,6 +55,7 @@ const RoutesContainer = () => {
           {routes}
         </Routes>
       </div>
+      {!isAdmin && <Footer />}
     </>
   );
 };
