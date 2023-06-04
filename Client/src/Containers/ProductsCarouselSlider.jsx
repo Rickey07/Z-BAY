@@ -1,7 +1,4 @@
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import {
-  Grid,
-  Hidden,
   Typography,
   useMediaQuery,
   useTheme,

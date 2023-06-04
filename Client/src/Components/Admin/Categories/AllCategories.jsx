@@ -6,18 +6,24 @@ import deleteCategory from "../../../helpers/APICalls/deleteCategory";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import DataGridWrapper from "../../DataGrid/DataGridWrapper";
+import MainLoader from '../../../Components/Loaders/MainLoader'
 import { GridActionsCellItem } from "@mui/x-data-grid";
+import { useState } from "react";
 
 const AllCategories = () => {
   // Redux Imports
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
+  const [loading,setLoading] = useState(false)
 
   // Effects
   useEffect(() => {
-    dispatch(fetchAllCategories());
+    if(categories.length === 0) {
+      setLoading(true)
+      dispatch(fetchAllCategories());
+    }
+    setLoading(false)
   }, []);
-  console.log(categories);
 
   // HOC
 
@@ -58,9 +64,9 @@ const AllCategories = () => {
     },
   ];
 
-  const onUpdate = () => {};
   return (
     <div>
+      <MainLoader visible={loading}/>
       <DataGridWrapper rows={categories} columns={columns} />
     </div>
   );

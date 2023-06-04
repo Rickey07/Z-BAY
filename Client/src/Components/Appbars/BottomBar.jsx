@@ -11,20 +11,13 @@ import { useSelector } from "react-redux";
 
 const BottomBar = () => {
   const theme = useTheme();
+  const {cart} = useSelector((state) => state.cart)
   const locationPath = useLocation().pathname;
-  const everyLinkStyle = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textDecoration: "none",
-    color: theme.palette.secondary.dark,
-  };
   const links = [
     { path: "/", text: "Home", icon: <HomeOutlined /> },
     { path: "/Products", text: "Products", icon: <Inventory /> },
-    { path: "/Cart", text: "Cart", icon: <ShoppingBag /> },
-    { path: "/dashboard", text: "Profile", icon: <Person /> },
+    { path: "/Cart", text: "Cart", icon: <Badge color="primary" badgeContent={cart.length}> <ShoppingBag /> </Badge>},
+    { path: "/dashboard/profile", text: "Profile", icon: <Person /> },
   ];
 
   const linksToBeShown = links.map((link) => {  
@@ -47,7 +40,6 @@ const BottomBar = () => {
     );
   });
 
-  const { cart } = useSelector((state) => state.cart);
   return (
     <div>
       <Box
@@ -64,24 +56,6 @@ const BottomBar = () => {
           boxShadow: "0px 1px 4px 3px rgba(0, 0, 0, 0.1)",
         }}
       >
-        {/* <Link to={"/"} style={everyLinkStyle}>
-          <HomeOutlined />
-          Home
-        </Link>
-        <Link to={"/Products"} style={everyLinkStyle}>
-          <Inventory />
-          Products
-        </Link>
-        <Link to={"/Cart"} style={everyLinkStyle}>
-          <Badge badgeContent={cart.length} color={"primary"}>
-            <ShoppingBag />
-          </Badge>
-          Cart
-        </Link>
-        <Link to={"/Profile"} style={everyLinkStyle}>
-          <Person />
-          Account
-        </Link> */}
         {linksToBeShown}
       </Box>
     </div>

@@ -43,7 +43,7 @@ export default async function masterApi(
 
 function createUrl(requestFor, anyId) {
   // Add Cases Here
-  let newUrl = "http://localhost:5000/api";
+  let newUrl = `${process.env.REACT_APP_API_BASE_URL}/api`;
   switch (requestFor) {
     case "getAllUsers":
       newUrl = newUrl + `/getAll/${anyId}`;

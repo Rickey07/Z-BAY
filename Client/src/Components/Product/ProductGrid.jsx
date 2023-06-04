@@ -15,7 +15,7 @@ const ProductGrid = ({ imagesArray, handleClick, currentImage }) => {
       cursor:"pointer"
     },
   };
-  const image_url = "http://localhost:5000/uploads/";
+  const image_url = `${process.env.REACT_APP_API_BASE_URL}/uploads/`;
   return (
     <Box display={"flex"} gap={"10px"}>
       {imagesArray &&

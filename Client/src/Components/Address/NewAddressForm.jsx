@@ -30,7 +30,7 @@ const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedA
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const result = await newAddressRequest(values);
+       await newAddressRequest(values);
       } catch (error) {
         alert(error)
       }
@@ -62,7 +62,6 @@ const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedA
       data["userId"] = _id;
       const dataForUpdates = {id:currentSelectedAddress,updatedDetails:data}
       const result = forUpdate ? await updateAddress(dataForUpdates) :  await newAddress(data);
-      console.log(result);
       if (result.success) {
         alert("Address has been created Successfully");
         fireAPIonAddressActions()

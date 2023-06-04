@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import StaticGridContainer from "../Containers/StaticGridContainer";
-import Category from "../Components/Category/Category";
 import CategoriesContainer from "../Containers/CategoriesContainer";
 import { useDispatch } from "react-redux";
 import fetchAllCategories from "../redux/CategoriesSlice";
@@ -10,10 +9,12 @@ import MenFashion from "../assets/Images/MenFashion.jpeg";
 import WomenFashion from "../assets/Images/womenFashion.jpeg";
 import Banner from "../assets/Images/banner2.jpg";
 import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const theme = useTheme()
+  const navigate = useNavigate();
 
   // Action Dispatch and API Calls and Effects
   useEffect(() => {
@@ -359,9 +360,9 @@ const Home = () => {
                     width: "50px",
                   }}
                 ></Box>
-                <Typography component={"span"} variant={"span"}>
+                <Link to={"/Products"} style={{color:"#fff",textDecoration:"none"}} component={"span"} variant={"span"}>
                   Shop Now
-                </Typography>
+                </Link>
               </Box>
             </Box>
           </Grid>
@@ -412,7 +413,7 @@ const Home = () => {
                 component={"div"}
                 sx={{ position: "absolute", right:30, bottom: 80 }}
               >
-                <Button variant={"outlined"} sx={{ borderRadius: "8px" }}>
+                <Button variant={"outlined"} sx={{ borderRadius: "8px" }} onClick={() => navigate('/Products')}>
                   Shop Now
                 </Button>
               </Box>
@@ -465,10 +466,9 @@ const Home = () => {
                     width: "50px",
                   }}
                 ></Box>
-                <Typography component={"span"} variant={"span"}>
-                  {" "}
+                <Link to={"/Products"} style={{color:"#fff",textDecoration:"none"}} component={"span"} variant={"span"}>
                   Shop Now
-                </Typography>
+                </Link>
               </Box>
             </Box>
           </Grid>

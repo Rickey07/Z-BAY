@@ -1,10 +1,9 @@
-import { Add, Cancel, Close, ShoppingBasket } from '@mui/icons-material';
-import { Avatar, Box, Divider, Drawer, IconButton, Typography, useTheme } from '@mui/material';
+import { Cancel, ShoppingBasket } from '@mui/icons-material';
+import { Box, Divider, Drawer, IconButton, Typography,  } from '@mui/material';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom'
 import CartItem from '../Cart/CartItem';
-import { cartActions } from '../../redux/CartSlice';
 import PrimaryButton from '../Buttons/PrimaryButton';
 
 const SideBarForCart = ({isOpen,handleClose}) => {
@@ -43,10 +42,8 @@ const SideBarForCart = ({isOpen,handleClose}) => {
     // Redux Imports and other Imports
     const {cart,total} = useSelector((state) => state.cart);
     const navigate = useNavigate()
-    const theme = useTheme();
 
     // Variables
-    const totalOfCart = 50
     const textForCheckout = total!=="FALSE" ? `₹${total && total} Checkout Now` : "Your Cart is Empty"
 
     // Methods
@@ -76,7 +73,7 @@ const SideBarForCart = ({isOpen,handleClose}) => {
             })}
             </Box>
         <Box display={"flex"} sx={{pr:1,pl:1,pt:2,pb:2}} gap={1} flexDirection={"column"}>
-            <PrimaryButton variant={"contained"} size={"large"} color={"primary"} text={textForCheckout}/>
+            <PrimaryButton variant={"contained"} size={"large"} color={"primary"} handleClick={handleClick} text={textForCheckout}/>
             <PrimaryButton variant={"outlined"} size={"large"} handleClick={handleClick}  text={"view Cart"} />
         </Box>
         </Box>

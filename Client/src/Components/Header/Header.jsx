@@ -17,11 +17,8 @@ import {
 } from "@mui/material";
 import {
   Shop2Outlined,
-  FavoriteBorder,
   ShoppingCart,
   Inventory2,
-  Menu,
-  Close,
   AccountCircle,
   LogoutRounded,
 } from "@mui/icons-material";
@@ -75,7 +72,6 @@ const Header = () => {
   // };
 
   const handleMenu = (event) => {
-    console.log(event.currentTarget, "prabadhya");
     setAnchorEl(event.currentTarget);
   };
 
@@ -163,35 +159,6 @@ const Header = () => {
                     />
                   </IconButton>
                 </Link>
-                <Link
-                  to={"/Wishlist"}
-                  style={{ textDecoration: "none", color: "#fff" }}
-                >
-                  <IconButton
-                    color="primary"
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      p: "10px",
-                      borderRadius: "50%",
-                      border: 0,
-                      mr: 4,
-                      backgroundColor: theme.palette.secondary.main,
-                    }}
-                    size={"small"}
-                  >
-                    <FavoriteBorder
-                      sx={{
-                        fontSize: FONT_SIZE_NAVBAR_ICONS,
-                        cursor: "pointer",
-                      }}
-                    />
-                  </IconButton>
-                </Link>
-                {/* <Link
-                  to={"/Cart"}
-                  style={{ textDecoration: "none", color: "#fff" }}
-                > */}
                 <Badge
                   badgeContent={cart?.length}
                   color={"primary"}

@@ -2,7 +2,6 @@ import React from "react";
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
   Box,
@@ -15,14 +14,11 @@ import {
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import fetchAllCategories from "../../redux/CategoriesSlice";
-import { useEffect } from "react";
+import {  useSelector } from "react-redux";
 
 const SidebarForFilter = ({ onChange }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('md'));
-  const dispatch = useDispatch();
   const {categories,selectedCategory} = useSelector(
     (state) => state.category
   );
@@ -44,11 +40,7 @@ const SidebarForFilter = ({ onChange }) => {
     },
   };
 
-  useEffect(() => {
-    if(categories.length===0) {
-      dispatch(fetchAllCategories())
-    }
-  },[])
+
 
   return (
     <>
@@ -70,7 +62,7 @@ const SidebarForFilter = ({ onChange }) => {
               return (
                 <FormControlLabel
                   key={category?._id}
-                  control={<Checkbox defaultChecked={(category?.category_name === selectedCategory[0]) || (category?.category_name === "Shirts")}/>}
+                  control={<Checkbox defaultChecked={(category?.category_name === selectedCategory[0])}/>}
                   style={sideBarFilterStyles.sideBarFilterSubItem}
                   label={category?.category_name}
                   value={category?.category_name}

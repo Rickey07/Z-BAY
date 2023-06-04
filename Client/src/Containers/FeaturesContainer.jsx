@@ -1,8 +1,5 @@
-import { Typography, Grid, Box, Card, Paper,useTheme, useMediaQuery } from "@mui/material";
+import { Typography, Box, Paper,useTheme, useMediaQuery } from "@mui/material";
 import React from "react";
-import payment from "../assets/Images/payment.jpg";
-import delivery from "../assets/Images/delivery.jpg";
-import wishlist from "../assets/Images/wishlist.jpg"; 
 import { LocalShippingOutlined,SavingsOutlined,Timer,Payments } from "@mui/icons-material";
 
 const FeaturesContainer = () => {
@@ -13,7 +10,7 @@ const FeaturesContainer = () => {
     <>
       <Typography
         component={"h3"}
-        variant={"h4"}
+        variant={"h5"}
         sx={{
           textAlign: "center",
           marginBottom: "2rem",

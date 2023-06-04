@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import UserListItem from "./userListComponents/UserListItem";
 import masterApi from "../../api/masterApi";
 import { useEffect } from "react";
 import deleteUser from "../../helpers/APICalls/deleteUser";
@@ -8,6 +7,7 @@ import {
 } from "@mui/x-data-grid";
 import DataGridWrapper from  '../DataGrid/DataGridWrapper'
 import { Delete } from "@mui/icons-material";
+import MainLoader from '../Loaders/MainLoader'
 
 const UsersList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +67,6 @@ const UsersList = () => {
         "641726b302e20e107e10183c"
       );
       if (result.success) {
-        console.log(result?.users, "Prabadhya");
         setUsers(result?.users);
       }
       setIsLoading(false);
@@ -91,6 +90,7 @@ const UsersList = () => {
   return (
     <>
       <div style={{ display: "block", margin: "auto" }}>
+        <MainLoader visible={isLoading}/>
         {rows && (
           <DataGridWrapper rows={rows} columns={columns}/>
         )}

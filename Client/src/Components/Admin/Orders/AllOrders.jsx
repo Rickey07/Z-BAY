@@ -1,12 +1,13 @@
-import { DataGrid } from "@mui/x-data-grid";
 import React, { useState,useEffect,useMemo } from "react";
 import { toast } from "react-toastify";
 import DataGridWrapper from "../../DataGrid/DataGridWrapper";
+import MainLoader from '../../Loaders/MainLoader'
 import formatDate from "../../../helpers/Common/DateFormatter";
 import getAllOrders from "../../../helpers/APICalls/getAllOrders";
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [loading,setLoading] = useState(false)
   const cachedOrders = useMemo(
     () =>
       orders?.map((order) => {
@@ -20,7 +21,6 @@ const AllOrders = () => {
       }),
     [orders]
   );
-  console.log(cachedOrders, "Hello");
 
   useEffect(() => {
     getOrders();
@@ -29,13 +29,14 @@ const AllOrders = () => {
   // Fetching Function
 
   async function getOrders() {
+    setLoading(true)
     const orders = await getAllOrders();
-    console.log(orders, "mainOrders");
     if (orders?.success) {
       setOrders(orders?.allOrders);
     } else {
       toast.error("Error while fetching orders");
     }
+    setLoading(false)
   }
 
   const columns = [
@@ -77,6 +78,7 @@ const AllOrders = () => {
 
   return (
     <div>
+      <MainLoader visible={loading}/>
       {cachedOrders && (
         <DataGridWrapper rows={cachedOrders} columns={columns}/>
       )}

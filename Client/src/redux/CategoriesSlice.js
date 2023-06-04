@@ -24,8 +24,10 @@ const categoriesSlice = createSlice({
     },
     extraReducers:{
         [fetchAllCategories.fulfilled]:(state,{payload}) => {
-            console.log(payload)
             state.categories = payload.categories
+            if(payload.categories.length) {
+                state.selectedCategory = [payload.categories[0]?.category_name]
+            }
         }
     }
 })

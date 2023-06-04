@@ -2,7 +2,6 @@ import {
   LocationCity,
   People,
   ShoppingBag,
-  ThreeDRotation,
   MenuOpen,
 } from "@mui/icons-material";
 import {
@@ -64,7 +63,7 @@ const Dashboard = () => {
     email: "",
     addresses: "",
   });
-  const { purchases, firstname, lastname, email, addresses } = userDetailsData;
+  const { purchases, firstname, lastname, email } = userDetailsData;
   const userInfo = { orders: purchases.length, firstname, lastname, email };
   const auth = useAuthUser();
   const { _id } = auth();
@@ -96,7 +95,6 @@ const Dashboard = () => {
       const result = await getUserDetails(_id);
       if (result?.statusCode === 200) {
         setUserDetailsData(result?.user);
-        console.log(result?.user, "prabadhya");
       } else {
         toast.error("Some unknown Error Occured");
       }

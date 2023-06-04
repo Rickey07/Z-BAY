@@ -22,7 +22,6 @@ const OrderItem = ({
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
   const formattedDate = formatDate(createdAt)
 
-  console.log(createdAt,"prabadhya")
 
   return (
     <div>

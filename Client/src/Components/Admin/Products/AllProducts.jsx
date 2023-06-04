@@ -9,14 +9,14 @@ import {
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { productActions } from "../../../redux/ProductsSlice";
-import { globalActions } from "../../../redux/global";
 import getAllProducts from "../../../redux/ProductsSlice";
 import { useState } from "react";
 import { deleteProduct } from "../../../helpers/APICalls/deleteProduct";
 import Delete from "@mui/icons-material/Delete";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 import DataGridWrapper from "../../DataGrid/DataGridWrapper";
 import updateProduct from "../../../helpers/APICalls/updateProduct";
+import MainLoader from '../../Loaders/MainLoader'
 import { toast } from "react-toastify";
 
 const AllProducts = () => {
@@ -24,6 +24,7 @@ const AllProducts = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
   const [refreshData, setRefreshData] = useState(false);
+  const [loading,setLoading] = useState(false)
 
   const columns = [
     { field: "id", hide: true, width: 225 },
@@ -100,13 +101,15 @@ const AllProducts = () => {
 
   // Action Dispatch and API Calls and Effects
   useEffect(() => {
+    setLoading(true)
     dispatch(getAllProducts());
+    setLoading(false)
   }, [refreshData]);
 
   // Product Table Cell // InBuilt Components
 
   const ProductTableCell = ({ imagesrc, name }) => {
-    const uploadurl = `http://localhost:5000/uploads/${imagesrc}`;
+    const uploadurl = `${process.env.REACT_APP_API_BASE_URL}/uploads/${imagesrc}`;
     return (
       <>
         <TableCell>
@@ -155,6 +158,7 @@ const AllProducts = () => {
   };
   return (
     <div>
+      <MainLoader visible={loading}/>
       {products && (
         <DataGridWrapper rows={products} columns={columns} processRowUpdate={handleCellEditStop}/>
       )}

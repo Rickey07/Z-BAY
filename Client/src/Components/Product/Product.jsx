@@ -1,32 +1,22 @@
-import { useTheme } from "@emotion/react";
 import {
-  Card,
-  CardMedia,
-  CardContent,
   Typography,
   Box,
-  Grid,
   Rating,
-  IconButton,
   Paper,
   Button,
 } from "@mui/material";
 import React from "react";
 import {
   FavoriteBorderRounded,
-  Favorite,
   Visibility,
   Add,
   Remove,
   ShoppingBag,
 } from "@mui/icons-material";
-import ProductButtton from "../Buttons/ProductButtton";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate, } from "react-router-dom";
 import Shimmer from "../Shimmer/Shimmer";
 import { cartActions } from "../../redux/CartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import PrimaryButton from "../Buttons/PrimaryButton";
 import { toast } from "react-toastify";
 import { useIsAuthenticated } from "react-auth-kit";
 
@@ -40,7 +30,6 @@ const Product = ({
   id,
   forCarousel,
 }) => {
-  const theme = useTheme();
 
   const isAuthenticated = useIsAuthenticated();
   const authState = isAuthenticated();
@@ -104,7 +93,7 @@ const Product = ({
 
   // Variables
   const image_url =
-    images && "http://localhost:5000/uploads/" + images[0]?.imageName;
+    images && `${process.env.REACT_APP_API_BASE_URL}/uploads/` + images[0]?.imageName;
 
   // These Product will be updated in cart
   const productForUpdation = {

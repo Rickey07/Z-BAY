@@ -1,12 +1,12 @@
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { categoryActions } from "../../redux/CategoriesSlice";
 
 const Category = ({ category_name, categoryImage }) => {
-  const image_url = "http://localhost:5000/" + categoryImage;
+  const image_url = `${process.env.REACT_APP_API_BASE_URL}/` + categoryImage;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

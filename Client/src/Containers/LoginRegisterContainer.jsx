@@ -1,9 +1,8 @@
 import { LockRounded } from "@mui/icons-material";
-import { Avatar, Typography, Paper, Grid,useTheme } from "@mui/material";
+import { Avatar, Typography, Paper, Grid, useTheme } from "@mui/material";
 import { Container, Box } from "@mui/system";
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
 import ColorTabs from "../Components/Buttons/Tabs";
 import SearchbarForFooter from "../Components/SearchBars/SearchbarForFooter";
@@ -11,7 +10,6 @@ import { validateEmail } from "../Constants/Validators/emailValidator";
 import { passwordValidator } from "../Constants/Validators/passwordValidator";
 import LoginUser from "../helpers/APICalls/loginUser";
 import registerUser from "../helpers/APICalls/registerUser";
-import { globalActions } from "../redux/global";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -35,8 +33,6 @@ const LoginRegisterContainer = () => {
     { label: "Password", name: "password" },
   ];
 
-  // Redux Imports
-  const dispatch = useDispatch();
 
   // States
 
@@ -56,8 +52,8 @@ const LoginRegisterContainer = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // Variables 
-  const testLoginData = {email:"test35@gmail.com",password:"Test@1234"}
+  // Variables
+  const testLoginData = { email: "test35@gmail.com", password: "Test@1234" };
 
   // Methods
 
@@ -167,20 +163,24 @@ const LoginRegisterContainer = () => {
     try {
       setLoading(true);
       const newRegisterData = { ...registerData };
-      const newLoginData = loginType==="Guest"?{...testLoginData}:{...loginData}
+      const newLoginData =
+        loginType === "Guest" ? { ...testLoginData } : { ...loginData };
       if (currentTab !== "Login") {
         delete newRegisterData["password"];
         newRegisterData["encry_password"] = registerData.password;
         newRegisterData["email"] = registerData.email.toLowerCase();
       } else {
-        newLoginData.email = newLoginData.email.toLowerCase()
+        newLoginData.email = newLoginData.email.toLowerCase();
       }
       const result =
         currentTab === "Login"
           ? await LoginUser(newLoginData)
           : await registerUser(newRegisterData);
       if (result.success) {
-       toast.success(result?.message)
+        if (result?.message.includes("registered")) {
+          setCurrentTab("Login");
+          toast.success("Registered Successfully Now Please Login");
+        }
         if (result?.userDetails?.token) {
           if (
             signIn({
@@ -190,11 +190,17 @@ const LoginRegisterContainer = () => {
               authState: result?.userDetails,
             })
           ) {
-            navigate("/cart");
+            if (result?.userDetails?.role === 0) {
+              navigate("/cart");
+              toast.success("Login Success! Explore the world of Z-Bay");
+            } else {
+              navigate("/admin");
+              toast.success("Welcome back Admin");
+            }
           }
         }
       } else {
-        toast.error(result.message)
+        toast.error(result.message);
       }
       setLoading(false);
     } catch (error) {
@@ -222,10 +228,16 @@ const LoginRegisterContainer = () => {
           component={"div"}
           elevation={3}
         >
-          <Avatar sx={{ backgroundColor: theme?.palette?.secondary?.contrastText }}>
+          <Avatar
+            sx={{ backgroundColor: theme?.palette?.secondary?.contrastText }}
+          >
             <LockRounded />
           </Avatar>
-          <Typography component={"h2"} variant={"h5"} sx={{color:theme?.palette?.secondary?.contrastText}}>
+          <Typography
+            component={"h2"}
+            variant={"h5"}
+            sx={{ color: theme?.palette?.secondary?.contrastText }}
+          >
             {currentTab === "Login" ? "Login" : "Register"}
           </Typography>
           <Box
@@ -262,10 +274,10 @@ const LoginRegisterContainer = () => {
               })
             ) : (
               // {Register Component}
-              <Grid container  spacing={2}>
+              <Grid container spacing={2}>
                 {registerFieldsData.map((label, index) => {
                   return (
-                    <Grid item md={index === 0 || index === 1 ? 6 : 12} xs={12}>
+                    <Grid item md={index === 0 || index === 1 ? 6 : 12} xs={12} key={label.label + index}>
                       <SearchbarForFooter
                         required={true}
                         key={label.label + index}
@@ -275,9 +287,9 @@ const LoginRegisterContainer = () => {
                             ? "Invalid Email Address"
                             : label.name === "password"
                             ? "Password should include 1 small case,1 capital letter,number and special character"
-                            : label.name === "firstname" ||
-                              label.name === "lastname"
-                            ? "These Fields Cannot be empty"
+                            : (label.name === "firstname" ||
+                              label.name === "lastname")
+                            ? "First Name and Last Name should be of at least 6 characters"
                             : ""
                         }
                         error={
@@ -300,7 +312,6 @@ const LoginRegisterContainer = () => {
                 })}
               </Grid>
             )}
-           
 
             <PrimaryButton
               text={currentTab === "Login" ? "Login" : "Register"}
@@ -308,22 +319,26 @@ const LoginRegisterContainer = () => {
               isLoading={loading}
               handleClick={() => handleSubmit()}
             />
-             {
-              currentTab==="Login" && (
-                <PrimaryButton
+            {currentTab === "Login" && (
+              <PrimaryButton
                 text={"Continue as Guest"}
                 buttonSize="Large"
                 // buttonColor={theme.palette.secondary.main}
                 isLoading={loading}
                 handleClick={() => handleSubmit("Guest")}
               />
-              )
-            }
+            )}
           </Box>
           <Typography
             component={"a"}
             variant={"a"}
-            sx={{ alignSelf: "flex-end", gap: "5px", marginTop: "1rem",textDecoration:"underline",cursor:"pointer" }}
+            sx={{
+              alignSelf: "flex-end",
+              gap: "5px",
+              marginTop: "1rem",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
             onClick={handleTab}
           >
             {currentTab === "Login"

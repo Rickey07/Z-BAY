@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import {
   Inventory2,
-  Shop2Outlined,
   FavoriteBorder,
   ShoppingCart,
 } from "@mui/icons-material";

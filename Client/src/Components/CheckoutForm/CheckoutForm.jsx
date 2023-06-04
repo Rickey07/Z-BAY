@@ -21,7 +21,6 @@ export default function CheckoutForm() {
   const auth = useAuthUser();
   const { _id } = auth()
   
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,7 +78,6 @@ export default function CheckoutForm() {
         user:_id
       }
     }
-    console.log(dataForNewOrder)
     const result = await placeOrder(dataForNewOrder)
     if(result?.statusCode === 200) {
       dispatch(cartActions.clearCart());

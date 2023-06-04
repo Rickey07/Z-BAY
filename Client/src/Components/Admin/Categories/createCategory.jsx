@@ -67,7 +67,6 @@ const CreateCategory = () => {
       console.log(error);
       setIsLoading(false);
     }
-    console.log(categoryCreationState, categoryImage);
   };
 
   const openUploadBar = (e) => {

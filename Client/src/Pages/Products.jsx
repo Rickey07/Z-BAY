@@ -1,14 +1,15 @@
 import React from "react";
 import Product from "../Components/Product/Product.jsx";
-import { Box, Grid, Drawer, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Grid, Drawer, useTheme, useMediaQuery,Typography } from "@mui/material";
 import SidebarForFilter from "../Components/SideBar/SidebarForFilter.jsx";
 import MainSearchBar from "../Components/SearchBars/MainSearchBar.jsx";
 import { useState, useEffect } from "react";
 import getAllProducts from "../helpers/APICalls/getAllProducts.js";
+import fetchAllCategories from "../redux/CategoriesSlice.js";
 import { filterProducts } from "../helpers/Products/filterProducts.js";
 import { useSearchParams } from "react-router-dom";
 import SingleProduct from "../Components/Product/SingleProduct.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Products = () => {
   // Responsiveness
@@ -17,10 +18,11 @@ const Products = () => {
 
   // Redux Imports
   const {selectedCategory,categories} = useSelector((state) => state.category);
+  const dispatch = useDispatch();
   // States
   const [filters, setFilters] = useState({
     product_name: "",
-    categories: selectedCategory.length ? selectedCategory : ["Shirts"],  
+    categories: selectedCategory, 
     rating: "",
     sort_by: "asc",
   });
@@ -36,7 +38,13 @@ const Products = () => {
     if (!search) {
       fetchAllProducts();
     }
-  }, []);
+  }, [categories]);
+
+  useEffect(() => {
+    if(categories.length===0) {
+      dispatch(fetchAllCategories())
+    }
+  },[])
 
   useEffect(() => {
     if (!search) {
@@ -79,7 +87,6 @@ const Products = () => {
     } else {
       setFilters({ ...filters, [e.target.name]: e.target.value });
     }
-    console.log(filters);
   };
 
   const openMobileMenu = () => {
@@ -92,13 +99,14 @@ const Products = () => {
 
   return (
     <>
-      <div>Products</div>
+   
       <Box
         display={"flex"}
         sx={{p:mobile?1:3}}
         flexDirection={"column"}
         gap={"2rem"}
       >
+        <Typography component={"h6"} variant={"h6"}>Products</Typography>
         {/* Check if mobile Menu is open or not  */}
           <Drawer anchor="left" open={mobileMenu && mobile} onClose={handleClose} keepMounted>
             <SidebarForFilter onChange={onSideBarFiltersChange} />
@@ -128,7 +136,7 @@ const Products = () => {
                     (product) => {
                       return (
                         <Grid item md={3} xs={12} key={product?.id}>
-                          <Product {...product} isLoading={loading} />
+                          <Product key={product?.id} {...product} isLoading={loading} />
                         </Grid>
                       );
                     }

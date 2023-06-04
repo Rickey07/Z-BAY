@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  ImageList,
-  ImageListItem,
   Rating,
   Typography,
   Button,
@@ -12,7 +10,6 @@ import Shimmer from "../Shimmer/Shimmer";
 import masterApi from "../../api/masterApi";
 import { cartActions } from "../../redux/CartSlice";
 import ProductGrid from "./ProductGrid";
-import ActionButton from "../Buttons/ActionButton";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -94,13 +91,12 @@ const SingleProduct = ({ searchId }) => {
 
   // States
   const [product, setProduct] = useState({});
-  const { images, id,category } = product;
-  console.log(images,category);
+  const { images, id } = product;
   const [currentMainProductImage, setcurrentMainProductImage] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Variables From State
-  const image_url = "http://localhost:5000/uploads/";
+  const image_url = `${process.env.REACT_APP_API_BASE_URL}/uploads/`;
   const productForUpdation = {
     name: product?.name,
     Price: product?.Price,
@@ -123,7 +119,6 @@ const SingleProduct = ({ searchId }) => {
       if (result?.id) {
         setProduct(result);
         setcurrentMainProductImage(image_url + result?.images[0]?.imageName);
-        console.log(image_url + result?.images[0]?.imageName);
       }
       setLoading(false);
     } catch (error) {
@@ -131,11 +126,9 @@ const SingleProduct = ({ searchId }) => {
     }
   }
   const handleCurrentImage = (image) => {
-    console.log(image);
     setcurrentMainProductImage(image);
   };
   const handleAdd = () => {
-    console.log(productForUpdation,"prabadhya")
     dispatch(cartActions?.addToCart(productForUpdation))
   };
 

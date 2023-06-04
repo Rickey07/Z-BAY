@@ -88,7 +88,7 @@ const CartItem = ({ cartDetails, sideBar,hideButton }) => {
                 color={"secondary"}
                 onClick={handleDecrease}
               >
-                <Remove />
+                <Remove sx={{color:theme.palette.secondary.contrastText}}/>
               </IconButton>
             </Box>
             <Box component={"div"}>
