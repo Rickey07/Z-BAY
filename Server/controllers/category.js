@@ -4,8 +4,6 @@ const { isSignedIn, isAdmin, isAuthenticated } = require("../Middlewares/auth");
 
 // Create Category
 exports.createCategory = async (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
   try {
     const category = new Category({
       category_name:req.body.category_name,

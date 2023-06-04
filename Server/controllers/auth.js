@@ -52,10 +52,7 @@ exports.signIn = async (req, res) => {
   }
   try {
     const { email, password } = req.body;
-    console.log(req.body)
-    console.log(email);
     const user = await User.findOne({email: email})
-    console.log(user);
     // Check if the User Exits with given Email Id or Not
     if (!user) {
       return res.status(400).json({
@@ -80,7 +77,6 @@ exports.signIn = async (req, res) => {
       process.env.JWT_SECRET,
       {algorithm:"HS256"},
     );
-    console.log(token);
 
     // Put Token In Cookie
     res.cookie("token", token, { expire: new Date() + 9999 });

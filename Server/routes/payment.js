@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router()
 // This is your test secret API key.
-const stripe = require("stripe")('sk_test_51N29xiSA1qv2UQ4Xub6wgogRNju4IqnUHxrrxYhxwAI4xjAOktpGwPCbY6dIjdOTkFOklLv21iuIozPlctPfX4V200nMaWHVIn');
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 
 const calculateOrderAmount = (items) => {

@@ -7,7 +7,6 @@ exports.createAddress = async (req, res) => {
     const isAddressPresent = await Address.find({
       addressType: req.body.addressType,
     });
-    console.log(isAddressPresent)
     if (Object.keys(isAddressPresent).length > 0) {
       return res
         .status(400)
@@ -31,7 +30,6 @@ exports.updateAddress = async (req, res) => {
       req.body.updatedDetails,
       { new: true }
     );
-    console.log(updatedAddress)
     return res
       .status(200)
       .json({
@@ -66,7 +64,6 @@ exports.getAddress = async (req, res) => {
 exports.getAllAddress = async (req, res) => {
   try {
     const allAddress = await Address.find({userId:req.params.userId});
-    console.log(allAddress);
     return res
       .status(200)
       .json({

@@ -8,7 +8,6 @@ exports.isSignedIn = expressJwt.expressjwt({
 
 exports.isAuthenticated  = (req,res,next) => {
     // Check if the User ID and Auth ID are same.
-    console.log(req.user._id,"User Req",req.auth._id,"USer Auth")
     let checker =  req.user &&  req.auth && req.user._id === req.auth._id;
     if(!checker) {
         return res.status(403).json({

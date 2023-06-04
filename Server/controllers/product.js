@@ -106,7 +106,6 @@ exports.updateProduct = async (req,res) => {
 exports.deleteProduct = async (req,res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.body._id);
-    console.log(deletedProduct)
     return res.status(200).json({
       message:"Product has been deleted Successfully",
       statusCode:200,
