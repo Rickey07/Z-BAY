@@ -3,15 +3,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import RoutesContainer from "./Containers/RoutesContainer";
 import "./App.css";
 import Header from "./Components/Header/Header";
-import Toast from "./Components/Toast/Toast";
-import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const toastState = useSelector((state) => state?.global?.toastAlertState);
 
-  const { visible, message, messageType } = toastState;
   const theme = createTheme({
     mainTheme: {
       primaryColor: "#A232F0",
@@ -69,9 +65,6 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <Header />
-          {visible && (
-            <Toast open={visible} message={message} messageType={messageType} />
-          )}
           <RoutesContainer />
         </ThemeProvider>
       </Router>
