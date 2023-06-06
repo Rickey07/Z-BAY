@@ -9,8 +9,7 @@ const addressSchema = new Schema({
         type:String
     },
     addressType:{
-        type:String,
-        unique:true
+        type:String
     },
     addressLine1:{
         type:String

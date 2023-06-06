@@ -7,12 +7,13 @@ exports.createAddress = async (req, res) => {
     const isAddressPresent = await Address.find({
       addressType: req.body.addressType,
     });
-    if (Object.keys(isAddressPresent).length > 0) {
+    if (Object.keys(isAddressPresent).length > 0 && req?.body?.userId === isAddressPresent[0]?.userId?.toString()) {
       return res
         .status(400)
         .json({ message: "The Address Already Exists", success: false });
     } else {
-      const newAddress = await new Address(req.body).save();
+      const newAddress = new Address(req.body);
+      const updatedAddress = await newAddress.save();
       const address = await User.findByIdAndUpdate(req.body.userId,{$push:{addresses:newAddress?._id}},{new:true});
       return res
         .status(200)
