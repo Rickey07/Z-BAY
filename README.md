@@ -1,8 +1,14 @@
 🛍️ ZBay Awesome E-Commerce Project 🌟
+
+
 Welcome to My Z-Bay e-commerce project! This is a README.md file to guide you through our project and get you started.
+
+
 
 📜 Description
 Our e-commerce project is a cutting-edge online platform that allows users to browse and purchase a wide range of products from various categories. It provides an immersive shopping experience with secure payments, detailed product information, and a user-friendly interface.
+
+
 
 🚀 Features
 ✨ Easy-to-use and intuitive user interface
