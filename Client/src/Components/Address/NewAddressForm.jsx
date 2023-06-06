@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import newAddress from "../../helpers/APICalls/newAddress";
 import updateAddress from "../../helpers/APICalls/updateAddress";
+import { toast } from "react-toastify";
 
 const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedAddress , fireAPIonAddressActions}) => {
   // Validation Schema
@@ -63,8 +64,10 @@ const NewAddressForm = ({ handleCancel ,formValues, forUpdate , currentSelectedA
       const dataForUpdates = {id:currentSelectedAddress,updatedDetails:data}
       const result = forUpdate ? await updateAddress(dataForUpdates) :  await newAddress(data);
       if (result.success) {
-        alert("Address has been created Successfully");
+        toast.success("Operation Successfull")
         fireAPIonAddressActions()
+      } else {
+        toast.error(result?.message)
       }
       setLoading(false);
     } catch (error) {

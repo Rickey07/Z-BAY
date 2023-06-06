@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
-
+  const [buttonEnabled,setButtonEnabled] = useState(false)
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const auth = useAuthUser();
@@ -116,8 +116,14 @@ export default function CheckoutForm() {
         id="link-authentication-element"
         onChange={(e) => setEmail(e.target.value)}
       /> */}
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <Button disabled={isLoading || !stripe || !elements} color={"primary"} sx={{mt:1}} fullWidth id="submit">
+      <PaymentElement id="payment-element" options={paymentElementOptions} onChange={(e) => {
+        if(e.complete) {
+          setButtonEnabled(true)
+        } else {
+          setButtonEnabled(false)
+        }
+      }}/>
+      <Button disabled={isLoading || !stripe || !elements || !buttonEnabled} color={"primary"} sx={{mt:1,backgroundColor:buttonEnabled && "#d23f57",color:"#fff"}} fullWidth type="submit" id="submit">
         {/* <span id="button-text"> */}
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         {/* </span> */}

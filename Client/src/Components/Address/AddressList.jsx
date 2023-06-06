@@ -48,6 +48,8 @@ const AddressList = ({ isVisible, handleClose, setIsVisible,newAddressChange }) 
       const result = await deleteAddress({ id: id });
       if (result?.success) {
         fireAPIonAddressActions();
+      } else {
+        toast.error("Some Error Occured")
       }
     } catch (error) {
       alert(error);
