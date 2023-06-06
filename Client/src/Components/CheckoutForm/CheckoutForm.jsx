@@ -86,7 +86,7 @@ export default function CheckoutForm() {
         elements,
         confirmParams: {
           // Make sure to change this to your payment completion page
-          return_url: "http://localhost:3000/dashboard",
+          return_url: `${process.env.REACT_APP_API_BASE_URL}/dashboard/orders`,
         },
       });
       // This point will only be reached if there is an immediate error when
