@@ -1,4 +1,4 @@
-# 🛍️ Awesome E-Commerce Project 🌟
+# 🛍️ Z-BAY Awesome E-Commerce Project 🌟
 
 Welcome to our awesome e-commerce project! This is a README.md file to guide you through our project and get you started.
 
@@ -9,27 +9,32 @@ Our e-commerce project is a cutting-edge online platform that allows users to br
 ## 🚀 Features
 
 ✨ Easy-to-use and intuitive user interface
+
 ✨ Secure and seamless payment processing
+
 ✨ Product search and filtering options
+
 ✨ User authentication and registration
+
 ✨ Cart management and order tracking
-✨ Product reviews and ratings
-✨ Wishlist functionality
+
 ✨ Responsive design for mobile and desktop devices
+
 ✨ Admin panel for managing products and orders
-✨ Newsletter subscription
+
+✨ PDF Bill download
 
 ## ⚙️ Installation
 
 To run this project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the project directory: `cd your-repo`
+1. Clone the repository: `git clone https://github.com/Rickey07/ZBay.git`
+2. Navigate to the project directory: `cd ./Server`  and `cd ./Client `
 3. Install the dependencies: `npm install`
 4. Set up the environment variables:
    - Rename `.env.example` to `.env`
    - Provide the necessary values for the variables
-5. Start the development server: `npm start`
+5. Start the development server: `npm start for client` and `nodemon index.js for server`
 6. Open your browser and visit: `http://localhost:3000`
 
 ## 🛠️ Tech Stack
@@ -39,17 +44,12 @@ Our project is built using the following technologies:
 - Frontend: React.js, Redux, HTML, CSS
 - Backend: Node.js, Express.js, MongoDB
 - Payment Processing: Stripe API
-- Deployment: Heroku
+- Deployment: Vercel and railaways
 
-## 📷 Screenshots
-
-![Screenshot 1](/screenshots/screenshot1.png)
-![Screenshot 2](/screenshots/screenshot2.png)
-![Screenshot 3](/screenshots/screenshot3.png)
 
 ## 📹 Demo Video
 
-[![Demo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID_HERE)
+[![Demo Video]](https://www.youtube.com/watch?v=5llTXiyvyUc)
 
 
 ## 🤝 Contributing
