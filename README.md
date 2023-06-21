@@ -50,6 +50,9 @@ Our project is built using the following technologies:
 ## 📹 Demo Video
 
 [![Demo Video]](https://www.youtube.com/watch?v=5llTXiyvyUc)
+## 📹 Demo Video
+
+[![Demo Video]](https://www.youtube.com/watch?v=5llTXiyvyUc)
 
 
 ## 🤝 Contributing
